@@ -35,29 +35,19 @@ export type TopicContext = {
 type Props = {
   selection: InfoSelection;
   onClose: () => void;
-  /**
-   * Optional topic context. When set on an empire / route selection, the
-   * popover renders a "What Heimler covers in this topic" section with the
-   * topic summary, clickable feature cards (pin emoji on map + read
-   * explanation), and clickable mention chips (read glossary definition).
-   */
-  topicContext?: TopicContext;
 };
 
-export default function InfoPopover({ selection, onClose, topicContext }: Props) {
+export default function InfoPopover({ selection, onClose }: Props) {
   return (
     <div
       role="dialog"
       aria-modal="false"
       className="surface p-5 pointer-events-auto"
       style={{
-        width: 380,
-        minWidth: 280,
+        width: 360,
         maxWidth: "92vw",
         maxHeight: "80vh",
         overflow: "auto",
-        // User can drag the bottom-right corner to resize horizontally + vertically.
-        resize: "horizontal",
       }}
     >
       <div className="flex items-start justify-between gap-2 mb-1">
@@ -75,86 +65,6 @@ export default function InfoPopover({ selection, onClose, topicContext }: Props)
       </div>
 
       <Body selection={selection} />
-
-      {topicContext &&
-        (selection.kind === "empire" ||
-          selection.kind === "route" ||
-          selection.kind === "country") && (
-          <TopicCoverage ctx={topicContext} />
-        )}
-    </div>
-  );
-}
-
-function TopicCoverage({ ctx }: { ctx: TopicContext }) {
-  const accent = ctx.unit.accent;
-  const features = ctx.topic.features ?? [];
-
-  return (
-    <div
-      className="mt-4 p-3 rounded space-y-3"
-      style={{
-        borderTop: `1px solid color-mix(in oklch, ${accent} 30%, transparent)`,
-        background: `color-mix(in oklch, ${accent} 8%, transparent)`,
-      }}
-    >
-      <div>
-        <div className="eyebrow mb-1" style={{ color: accent }}>
-          What Heimler covers · {ctx.topic.code}
-        </div>
-        <p className="t-12 prose-cap" style={{ color: "var(--text-muted)" }}>
-          {ctx.topic.summary}
-        </p>
-      </div>
-
-      {features.length > 0 && (
-        <div>
-          <div className="eyebrow mb-1.5" style={{ color: "var(--text-dim)" }}>
-            Highlights — click to drop on the map
-          </div>
-          <ul className="grid grid-cols-2 gap-1.5">
-            {features.map((f) => {
-              const isActive = f.pinned || ctx.activeFeatureIds.has(f.id);
-              return (
-                <li key={f.id}>
-                  <button
-                    onClick={() => ctx.onSelectFeature(f.id)}
-                    className="w-full text-left flex items-center gap-2 px-2 py-1.5 rounded transition hover:brightness-125"
-                    style={{
-                      background: isActive
-                        ? `color-mix(in oklch, ${accent} 22%, transparent)`
-                        : "var(--bg-elev)",
-                      border: isActive
-                        ? `1px solid ${accent}`
-                        : "1px solid var(--border-soft)",
-                    }}
-                    title={f.explanation}
-                  >
-                    <span
-                      aria-hidden
-                      className="flex-shrink-0"
-                      style={{
-                        fontSize: 16,
-                        lineHeight: 1,
-                        opacity: isActive ? 1 : 0.6,
-                      }}
-                    >
-                      {f.emoji}
-                    </span>
-                    <span
-                      className="t-12 truncate"
-                      style={{ color: isActive ? "var(--text)" : "var(--text-muted)" }}
-                    >
-                      {f.label}
-                    </span>
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      )}
-
     </div>
   );
 }

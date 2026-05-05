@@ -8,7 +8,7 @@ import { empires, type Empire } from "@/lib/data/empires";
 import { pois as allPois } from "@/lib/data/pois";
 import InfoPopover, { type InfoSelection } from "@/components/InfoPopover";
 import type { TradeRoute } from "@/lib/types";
-import type { FeatureMarker } from "@/components/Globe";
+import type { FeatureMarker, FeaturePath } from "@/components/Globe";
 import type { HeimlerTopic, HeimlerUnit, TopicFeature } from "@/lib/data/heimlerUnits";
 import { findGlossary } from "@/lib/data/glossary";
 
@@ -110,6 +110,24 @@ export default function HeimlerTopicView({ unit, topic: rawTopic, onBack }: Prop
   const visibleRoutes = useMemo<TradeRoute[]>(
     () => tradeRoutes.filter((r) => routeIds.includes(r.id)),
     [routeIds]
+  );
+
+  // Feature polylines (Grand Canal etc.) — pinned ones always draw,
+  // click-to-show ones draw once the user activates them.
+  const featurePaths = useMemo<FeaturePath[]>(
+    () =>
+      features
+        .filter((f) => Array.isArray(f.path) && f.path.length >= 2)
+        .filter((f) => f.pinned || activeFeatureIds.has(f.id))
+        .map((f) => ({
+          id: f.id,
+          label: f.label,
+          color: unit.accent,
+          points: (f.path ?? []).map(
+            (pt) => [pt.lat, pt.lng] as [number, number]
+          ),
+        })),
+    [features, unit.accent, activeFeatureIds]
   );
 
   // Pinned features and any the user has clicked → drop emoji on the globe.
@@ -240,6 +258,7 @@ export default function HeimlerTopicView({ unit, topic: rawTopic, onBack }: Prop
           autoRotate={false}
           focus={focus}
           features={featureMarkers}
+          featurePaths={featurePaths}
           onSelectCountry={selectCountry}
           onSelectRoute={selectRoute}
           onSelectEvent={() => {}}
@@ -255,18 +274,6 @@ export default function HeimlerTopicView({ unit, topic: rawTopic, onBack }: Prop
             <InfoPopover
               selection={selection}
               onClose={() => setSelection(null)}
-              topicContext={
-                (selection.kind === "empire" && empireIds.includes(selection.empire.id)) ||
-                (selection.kind === "route" && routeIds.includes(selection.route.id))
-                  ? {
-                      unit,
-                      topic,
-                      activeFeatureIds,
-                      onSelectFeature: selectFeature,
-                      onSelectMention: selectMention,
-                    }
-                  : undefined
-              }
             />
           </div>
         )}

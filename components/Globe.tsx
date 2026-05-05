@@ -44,6 +44,14 @@ export type FeatureMarker = {
   color?: string;
 };
 
+export type FeaturePath = {
+  id: string;
+  label: string;
+  color: string;
+  /** [lat, lng] pairs along the line. */
+  points: [number, number][];
+};
+
 type GlobeProps = {
   routes: TradeRoute[];
   /** ISO A3 → fill color for empire-controlled countries. */
@@ -62,6 +70,8 @@ type GlobeProps = {
   showAllPois?: boolean;
   /** Feature markers (emoji + label) for "cool stuff" mentioned in the topic. */
   features?: FeatureMarker[];
+  /** Feature lines / paths drawn on the surface (Grand Canal, Inca roads, etc.). */
+  featurePaths?: FeaturePath[];
   onSelectCountry: (code: string, name: string) => void;
   onSelectRoute: (route: TradeRoute) => void;
   onSelectEvent: (eventId: string) => void;
@@ -95,6 +105,7 @@ export default function Globe({
   focus,
   showAllPois = false,
   features = [],
+  featurePaths = [],
   onSelectCountry,
   onSelectRoute,
   onSelectEvent,
@@ -368,8 +379,25 @@ export default function Globe({
         labelsData={[]}
         pointsData={[]}
         ringsData={[]}
-        pathsData={[]}
         customLayerData={[]}
+
+        // Feature paths — multi-segment lines on the globe surface (Grand Canal, etc.)
+        pathsData={featurePaths}
+        pathPoints={(p: object) => (p as FeaturePath).points}
+        pathPointLat={(pt: unknown) => (pt as [number, number])[0]}
+        pathPointLng={(pt: unknown) => (pt as [number, number])[1]}
+        pathColor={(p: object) => {
+          const fp = p as FeaturePath;
+          return [fp.color, fp.color];
+        }}
+        pathStroke={2}
+        pathDashLength={0.6}
+        pathDashGap={0.0}
+        pathPointAlt={0.005}
+        pathLabel={(p: object) => {
+          const fp = p as FeaturePath;
+          return `<div style="background:${TOOLTIP_BG};padding:6px 12px;border-radius:8px;border:1px solid ${fp.color};color:${TOOLTIP_TEXT};font:600 13px ui-serif,Georgia,serif">${fp.label}</div>`;
+        }}
 
         htmlElementsData={htmlElements}
         htmlLat="lat"

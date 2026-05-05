@@ -28,6 +28,12 @@ export type TopicFeature = {
   /** When set, a marker is placed on the globe. */
   lat?: number;
   lng?: number;
+  /**
+   * Optional polyline traced on the globe — for things that span across
+   * geography (Grand Canal, Inca road network, Trans-Siberian Railway, etc.).
+   * Drawn as a line from waypoint to waypoint.
+   */
+  path?: { lat: number; lng: number }[];
   /** Click to read this in the popover. */
   explanation: string;
   /**
@@ -125,9 +131,23 @@ const rawUnits: RawUnit[] = [
             label: "Grand Canal",
             emoji: "🛶",
             category: "structure",
-            lat: 32.4,
-            lng: 119.4,
+            lat: 33.6,
+            lng: 119.0,
             pinned: true,
+            // Beijing → Tianjin → Linqing → Jining → Xuzhou → Huai'an → Yangzhou
+            // → Zhenjiang → Suzhou → Hangzhou. ~1,100 miles.
+            path: [
+              { lat: 39.9, lng: 116.4 },
+              { lat: 39.13, lng: 117.2 },
+              { lat: 36.84, lng: 116.0 },
+              { lat: 35.42, lng: 116.6 },
+              { lat: 34.27, lng: 117.18 },
+              { lat: 33.6, lng: 119.0 },
+              { lat: 32.39, lng: 119.41 },
+              { lat: 32.21, lng: 119.45 },
+              { lat: 31.3, lng: 120.6 },
+              { lat: 30.27, lng: 120.16 },
+            ],
             explanation:
               "1,100-mile waterway linking the Yellow River and the Yangzi. Originally Sui-era; the Yuan extended it north to Beijing. It moved tribute grain, troops, and merchants — the spinal cord of imperial China's economy.",
           },
