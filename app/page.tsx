@@ -3,13 +3,38 @@
 import { useState } from "react";
 import HeimlerHome from "@/components/HeimlerHome";
 import HeimlerUnitView from "@/components/HeimlerTopicView";
+import HeimlerRegionView from "@/components/HeimlerRegionView";
 import type { HeimlerUnit } from "@/lib/data/heimlerUnits";
+import type { Region } from "@/lib/types";
+
+type View =
+  | { kind: "home" }
+  | { kind: "unit"; unit: HeimlerUnit }
+  | { kind: "region"; region: Region };
 
 export default function Page() {
-  const [unit, setUnit] = useState<HeimlerUnit | null>(null);
+  const [view, setView] = useState<View>({ kind: "home" });
 
-  if (unit) {
-    return <HeimlerUnitView unit={unit} onBack={() => setUnit(null)} />;
+  if (view.kind === "unit") {
+    return (
+      <HeimlerUnitView
+        unit={view.unit}
+        onBack={() => setView({ kind: "home" })}
+      />
+    );
   }
-  return <HeimlerHome onSelectUnit={setUnit} />;
+  if (view.kind === "region") {
+    return (
+      <HeimlerRegionView
+        region={view.region}
+        onBack={() => setView({ kind: "home" })}
+      />
+    );
+  }
+  return (
+    <HeimlerHome
+      onSelectUnit={(unit) => setView({ kind: "unit", unit })}
+      onSelectRegion={(region) => setView({ kind: "region", region })}
+    />
+  );
 }

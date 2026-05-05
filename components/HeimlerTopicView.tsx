@@ -8,7 +8,7 @@ import { tradeRoutes } from "@/lib/data/tradeRoutes";
 import { empires, type Empire } from "@/lib/data/empires";
 import InfoPopover, { type InfoSelection } from "@/components/InfoPopover";
 import type { TradeRoute, HistoricalEvent, Region } from "@/lib/types";
-import type { FeaturePath, EventPin } from "@/components/Globe";
+import type { EventPin } from "@/components/Globe";
 import type { HeimlerUnit } from "@/lib/data/heimlerUnits";
 
 const Globe = dynamic(() => import("@/components/Globe"), {
@@ -156,17 +156,27 @@ export default function HeimlerUnitView({ unit, onBack }: Props) {
   );
 
   // When the active event has a journey path (Mansa Musa hajj, da Gama,
-  // Magellan, etc.), draw it on the globe as a polyline.
-  const eventFeaturePaths = useMemo<FeaturePath[]>(() => {
+  // Magellan, etc.), draw it on the globe as elevated animated arcs.
+  const eventJourneyRoutes = useMemo<TradeRoute[]>(() => {
     if (!activeEvent?.highlight?.path) return [];
     const pts = activeEvent.highlight.path;
     if (pts.length < 2) return [];
+    const color = activeEvent.highlight.color ?? unit.accent;
     return [
       {
-        id: `event-path-${activeEvent.id}`,
-        label: activeEvent.title,
-        color: activeEvent.highlight.color ?? unit.accent,
-        points: pts.map((p) => [p.lat, p.lng] as [number, number]),
+        id: `event-journey-${activeEvent.id}`,
+        name: activeEvent.title,
+        path: pts,
+        color,
+        // Required-by-type fields we don't actually use for this synthetic route.
+        periodIds: [],
+        goods: [],
+        ideas: [],
+        regionIds: [],
+        description: activeEvent.description,
+        mode: "sea",
+        yearStart: activeEvent.year,
+        yearEnd: activeEvent.endYear ?? activeEvent.year,
       },
     ];
   }, [activeEvent, unit.accent]);
@@ -288,12 +298,12 @@ export default function HeimlerUnitView({ unit, onBack }: Props) {
       <main className="flex-1 relative">
         <Globe
           routes={visibleRoutes}
+          journeyRoutes={eventJourneyRoutes}
           countryColors={countryColors}
           countryLabels={countryLabels}
           events={[]}
           pois={[]}
           eventPins={eventPins}
-          featurePaths={eventFeaturePaths}
           autoRotate={false}
           focus={focus}
           onSelectCountry={selectCountry}

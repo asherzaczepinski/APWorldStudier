@@ -54,6 +54,12 @@ export type FeaturePath = {
 
 type GlobeProps = {
   routes: TradeRoute[];
+  /**
+   * Like `routes` but rendered without a network pin — used for ad-hoc event
+   * journeys (Mansa Musa hajj, da Gama, etc.) where we want the elevated arc
+   * line but not the labeled pill.
+   */
+  journeyRoutes?: TradeRoute[];
   /** ISO A3 → fill color for empire-controlled countries. */
   countryColors: Map<string, string>;
   /** ISO A3 → empire name to show on hover. Hovers on un-mapped countries show nothing. */
@@ -104,6 +110,7 @@ function midpoint(path: { lat: number; lng: number }[]): { lat: number; lng: num
 
 export default function Globe({
   routes,
+  journeyRoutes = [],
   countryColors,
   countryLabels,
   events,
@@ -204,8 +211,22 @@ export default function Globe({
         });
       }
     }
+    for (const r of journeyRoutes) {
+      for (let i = 0; i < r.path.length - 1; i++) {
+        const a = r.path[i];
+        const b = r.path[i + 1];
+        out.push({
+          startLat: a.lat,
+          startLng: a.lng,
+          endLat: b.lat,
+          endLng: b.lng,
+          color: r.color,
+          route: r,
+        });
+      }
+    }
     return out;
-  }, [routes]);
+  }, [routes, journeyRoutes]);
 
   // HTML markers: one pin per network + every event marker + visible POIs + event-attached pins + feature emojis
   type HtmlMarker =
