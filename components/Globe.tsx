@@ -375,7 +375,7 @@ export default function Globe({
           }
           // Short hex (#rrggbb) → append alpha. Anything else (rgba, color-mix,
           // 8-char hex) → assume the caller already chose its own opacity.
-          if (/^#[0-9a-fA-F]{6}$/.test(c)) return c + "cc";
+          if (/^#[0-9a-fA-F]{6}$/.test(c)) return c + "f5";
           return c;
         }}
         polygonSideColor={() => POLY_SIDE}
@@ -432,10 +432,11 @@ export default function Globe({
           const fp = p as FeaturePath;
           return [fp.color, fp.color];
         }}
-        pathStroke={2}
-        pathDashLength={0.6}
-        pathDashGap={0.0}
-        pathPointAlt={0.005}
+        pathStroke={3.2}
+        pathDashLength={0.5}
+        pathDashGap={0.06}
+        pathDashAnimateTime={3500}
+        pathPointAlt={0.012}
         pathLabel={(p: object) => {
           const fp = p as FeaturePath;
           return `<div style="background:${TOOLTIP_BG};padding:6px 12px;border-radius:8px;border:1px solid ${fp.color};color:${TOOLTIP_TEXT};font:600 13px ui-serif,Georgia,serif">${fp.label}</div>`;

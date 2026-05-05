@@ -376,7 +376,11 @@ const rawUnits: RawUnit[] = [
         highlightAllCountries: true,
         year: 1325,
         empireIds: ["delhi", "mali", "aztec", "inca", "maya"],
-        eventIds: ["delhi-sultanate", "mansa-musa", "black-death"],
+        eventIds: [
+          "mongol-rise", "delhi-sultanate", "sundiata-mali", "marco-polo",
+          "kilwa-swahili", "tenochtitlan-founded", "mansa-musa", "ibn-battuta",
+          "black-death", "malacca-founded", "zheng-he", "inca-founding",
+        ],
         poiIds: [
           "beijing", "delhi", "baghdad", "cairo", "tenochtitlan", "cuzco", "timbuktu",
           "great-zimbabwe", "kilwa", "rome", "venice", "paris",
@@ -515,7 +519,11 @@ const rawUnits: RawUnit[] = [
         year: 1325,
         empireIds: ["mongol", "yuan", "mali"],
         routeIds: ["silk-road", "indian-ocean", "trans-saharan", "trans-saharan-2"],
-        eventIds: ["mongol-rise", "zheng-he", "mansa-musa", "black-death"],
+        eventIds: [
+          "mongol-rise", "delhi-sultanate", "sundiata-mali", "marco-polo",
+          "kilwa-swahili", "mansa-musa", "ibn-battuta", "black-death",
+          "malacca-founded", "zheng-he",
+        ],
         poiIds: ["beijing", "samarkand", "kashgar", "calicut", "malacca", "kilwa", "timbuktu", "cairo", "venice"],
         mentions: [
           "Silk Roads", "Indian Ocean trade", "trans-Saharan trade",
@@ -606,7 +614,11 @@ const rawUnits: RawUnit[] = [
         highlightAllCountries: true,
         year: 1600,
         empireIds: ["ottoman", "safavid", "mughal", "ming", "qing", "russian-empire"],
-        eventIds: ["constantinople-1453", "mughal-1526", "qing-1644"],
+        eventIds: [
+          "constantinople-1453", "safavid-1501", "chaldiran-1514", "suleiman",
+          "mughal-1526", "akbar", "lepanto-1571", "qing-1644", "aurangzeb",
+          "tokugawa-sakoku",
+        ],
         poiIds: ["constantinople", "isfahan", "delhi", "beijing", "moscow", "wittenberg", "vatican"],
         mentions: [
           "gunpowder empires", "Ottomans", "Safavids", "Mughals", "Ming/Qing", "Russia",
@@ -930,7 +942,11 @@ const rawUnits: RawUnit[] = [
         year: 1600,
         empireIds: ["spanish-empire", "portuguese-empire", "british-empire", "french-empire"],
         routeIds: ["atlantic-slave", "columbian-exchange-east", "columbian-exchange-west"],
-        eventIds: ["columbus-1492", "tordesillas", "cortes-aztec", "pizarro-inca", "voc-1602", "potosi-1545"],
+        eventIds: [
+          "columbus-1492", "tordesillas", "da-gama-1498", "magellan-1519",
+          "cortes-aztec", "pizarro-inca", "potosi-1545", "atlantic-slave-trade",
+          "spanish-armada", "voc-1602", "thirteen-colonies",
+        ],
         poiIds: ["lisbon", "seville", "amsterdam", "potosi", "mexico-city", "manila", "goa", "macau", "batavia", "havana"],
         mentions: [
           "Portuguese trading-post empire", "Spanish viceroyalties",
@@ -1109,7 +1125,12 @@ const rawUnits: RawUnit[] = [
           "What's new (urbanization, factory labor, mass politics) vs. what persists (rural agriculture, gender hierarchies, religious authority in many places).",
         year: 1880,
         empireIds: ["british-empire", "russian-empire"],
-        eventIds: ["industrial-rev", "meiji", "american-rev", "french-rev", "haitian-rev"],
+        eventIds: [
+          "seven-years", "american-rev", "french-rev", "haitian-rev",
+          "mexican-indep", "simon-bolivar", "latin-am-indep", "napoleonic-wars",
+          "congress-vienna", "industrial-rev", "abolition-1833", "tanzimat",
+          "meiji",
+        ],
         poiIds: ["london", "paris", "berlin", "tokyo", "washington"],
         mentions: [
           "Enlightenment ideas spread", "Atlantic Revolutions",
@@ -1271,7 +1292,11 @@ const rawUnits: RawUnit[] = [
         year: 1880,
         empireIds: ["british-empire", "french-empire", "qing"],
         routeIds: ["british-empire", "indentured"],
-        eventIds: ["industrial-rev", "scramble-africa", "opium-wars", "1857-rebellion"],
+        eventIds: [
+          "plassey", "industrial-rev", "opium-wars", "taiping",
+          "1857-rebellion", "meiji", "suez-canal", "berlin-conference",
+          "scramble-africa", "adwa", "us-empire", "boxer-rebellion",
+        ],
         poiIds: ["london", "berlin", "kolkata", "shanghai", "suez", "cairo"],
         mentions: [
           "industry → demand for raw materials + markets",
@@ -1500,6 +1525,11 @@ const rawUnits: RawUnit[] = [
         isUnitSummary: true,
         highlightAllCountries: true,
         year: 1920,
+        eventIds: [
+          "mexican-rev", "wwi", "russian-rev", "versailles-1919",
+          "great-depression", "wwii", "holocaust", "atomic-bombs",
+          "indian-indep",
+        ],
       },
     ],
   },
@@ -1697,6 +1727,12 @@ const rawUnits: RawUnit[] = [
         isUnitSummary: true,
         highlightAllCountries: true,
         year: 1965,
+        eventIds: [
+          "indian-indep", "berlin-airlift", "prc-1949", "korean-war",
+          "decolonization", "bandung", "non-aligned", "cold-war-alliances",
+          "cuban-missile", "berlin-wall", "cultural-rev", "vietnam-war",
+          "iranian-rev", "tiananmen", "apartheid-end", "ussr-collapse",
+        ],
       },
     ],
   },
@@ -1891,6 +1927,10 @@ const rawUnits: RawUnit[] = [
         isUnitSummary: true,
         highlightAllCountries: true,
         year: 2000,
+        eventIds: [
+          "deng-reform", "ussr-collapse", "eu-1993", "rwandan-genocide",
+          "wto-1995", "9-11", "arab-spring", "paris-agreement",
+        ],
       },
     ],
   },

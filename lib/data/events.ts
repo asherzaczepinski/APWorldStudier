@@ -77,8 +77,26 @@ export const events: HistoricalEvent[] = [
       "Made Mali appear on European maps for the first time (1375 Catalan Atlas).",
     ],
     highlight: {
-      countryCodes: ["MLI", "MRT", "SEN", "GMB", "BFA", "NER", "DZA", "LBY", "EGY", "SAU"],
-      focus: { lat: 22, lng: 0, altitude: 2.1 },
+      countryCodes: ["MLI", "EGY", "SAU"],
+      color: "#eab308",
+      focus: { lat: 20, lng: 10, altitude: 2.4 },
+      pins: [
+        { lat: 13.21, lng: -8.29, label: "Niani (Mali capital)", color: "#eab308" },
+        { lat: 16.78, lng: -3.00, label: "Timbuktu", color: "#eab308" },
+        { lat: 32.89, lng: 13.18, label: "Tripoli", color: "#eab308" },
+        { lat: 30.05, lng: 31.24, label: "Cairo (1324)", color: "#eab308" },
+        { lat: 24.47, lng: 39.61, label: "Medina", color: "#eab308" },
+        { lat: 21.42, lng: 39.83, label: "Mecca", color: "#eab308" },
+      ],
+      path: [
+        { lat: 13.21, lng: -8.29 },
+        { lat: 16.78, lng: -3.00 },
+        { lat: 18.74, lng: 7.39 },
+        { lat: 32.89, lng: 13.18 },
+        { lat: 30.05, lng: 31.24 },
+        { lat: 24.47, lng: 39.61 },
+        { lat: 21.42, lng: 39.83 },
+      ],
     },
   },
   {
@@ -120,7 +138,35 @@ export const events: HistoricalEvent[] = [
       "Fleets reached Hormuz, the Swahili coast, and brought a giraffe to Beijing.",
       "After 1433, Confucian officials shut the program down — China turned inward.",
     ],
-    highlight: { routeId: "indian-ocean", focus: { lat: 5, lng: 80, altitude: 2.2 } },
+    highlight: {
+      countryCodes: ["CHN", "VNM", "IDN", "IND", "LKA", "IRN", "SOM", "KEN"],
+      color: "#ef4444",
+      routeId: "indian-ocean",
+      focus: { lat: 5, lng: 75, altitude: 2.6 },
+      pins: [
+        { lat: 32.06, lng: 118.79, label: "Nanjing (start)", color: "#ef4444" },
+        { lat: 10.78, lng: 106.70, label: "Champa (Vietnam)", color: "#ef4444" },
+        { lat: -7.25, lng: 112.75, label: "Java", color: "#ef4444" },
+        { lat: 11.26, lng: 75.78, label: "Calicut", color: "#ef4444" },
+        { lat: 27.18, lng: 56.27, label: "Hormuz", color: "#ef4444" },
+        { lat: 12.77, lng: 45.04, label: "Aden", color: "#ef4444" },
+        { lat: 2.04, lng: 45.34, label: "Mogadishu", color: "#ef4444" },
+        { lat: -3.22, lng: 40.12, label: "Malindi (giraffe!)", color: "#ef4444" },
+      ],
+      path: [
+        { lat: 32.06, lng: 118.79 },
+        { lat: 22.30, lng: 114.17 },
+        { lat: 10.78, lng: 106.70 },
+        { lat: -7.25, lng: 112.75 },
+        { lat: 5.42, lng: 100.33 },
+        { lat: 6.93, lng: 79.85 },
+        { lat: 11.26, lng: 75.78 },
+        { lat: 27.18, lng: 56.27 },
+        { lat: 12.77, lng: 45.04 },
+        { lat: 2.04, lng: 45.34 },
+        { lat: -3.22, lng: 40.12 },
+      ],
+    },
   },
 
   // ---------- Period 2: 1450–1750 ----------
@@ -156,7 +202,23 @@ export const events: HistoricalEvent[] = [
       "Encomienda labor system imposed on indigenous Caribs and Taínos.",
       "Smallpox + measles wipe out ~90% of indigenous populations within a century.",
     ],
-    highlight: { countryCodes: ["ESP","CUB","HTI","DOM","BHS","JAM"], focus: { lat: 22, lng: -50, altitude: 1.8 } },
+    highlight: {
+      countryCodes: ["ESP", "BHS", "CUB", "HTI", "DOM"],
+      color: "#22c55e",
+      focus: { lat: 22, lng: -45, altitude: 2.4 },
+      pins: [
+        { lat: 37.23, lng: -6.92, label: "Palos (Aug 1492)", color: "#22c55e" },
+        { lat: 28.10, lng: -15.41, label: "Canary Islands", color: "#22c55e" },
+        { lat: 25.07, lng: -77.34, label: "San Salvador (Oct 1492)", color: "#22c55e" },
+        { lat: 19.00, lng: -72.00, label: "Hispaniola", color: "#22c55e" },
+      ],
+      path: [
+        { lat: 37.23, lng: -6.92 },
+        { lat: 28.10, lng: -15.41 },
+        { lat: 25.07, lng: -77.34 },
+        { lat: 19.00, lng: -72.00 },
+      ],
+    },
   },
   {
     id: "tordesillas",
@@ -294,9 +356,11 @@ export const events: HistoricalEvent[] = [
       "By 1775 ~2.5 million colonists; ~20% were enslaved Africans, mostly in the South.",
     ],
     highlight: {
-      countryCodes: ["USA"],
+      // No country fill — modern USA is way bigger than the actual colonial
+      // strip. Pins + coastline path show the real footprint.
+      countryCodes: [],
       color: "#3b82f6",
-      focus: { lat: 38, lng: -76, altitude: 1.5 },
+      focus: { lat: 38, lng: -73, altitude: 1.5 },
       pins: [
         { lat: 37.21, lng: -76.78, label: "Jamestown 1607",  color: "#3b82f6" },
         { lat: 41.96, lng: -70.66, label: "Plymouth 1620",   color: "#3b82f6" },
@@ -307,6 +371,21 @@ export const events: HistoricalEvent[] = [
         { lat: 39.95, lng: -75.16, label: "Philadelphia 1682", color: "#3b82f6" },
         { lat: 32.78, lng: -79.93, label: "Charleston 1670", color: "#3b82f6" },
         { lat: 32.08, lng: -81.09, label: "Savannah 1733",   color: "#3b82f6" },
+      ],
+      // Coastal path roughly tracing the Atlantic colonial seaboard, north to south.
+      path: [
+        { lat: 44.81, lng: -68.78 },
+        { lat: 43.66, lng: -70.26 },
+        { lat: 42.36, lng: -71.06 },
+        { lat: 41.83, lng: -71.41 },
+        { lat: 40.71, lng: -74.00 },
+        { lat: 39.95, lng: -75.16 },
+        { lat: 38.97, lng: -76.50 },
+        { lat: 36.85, lng: -76.30 },
+        { lat: 34.23, lng: -77.95 },
+        { lat: 32.78, lng: -79.93 },
+        { lat: 32.08, lng: -81.09 },
+        { lat: 30.33, lng: -81.66 },
       ],
     },
   },
@@ -889,6 +968,937 @@ export const events: HistoricalEvent[] = [
       "US withdrew from Afghanistan in 2021 — Taliban returned to power.",
     ],
     highlight: { countryCodes: ["USA","AFG","IRQ","PAK","SAU"], focus: { lat: 30, lng: 50, altitude: 2.2 } },
+  },
+
+  // ---------- Unit 1–2 (p1) additions ----------
+  {
+    id: "sundiata-mali",
+    year: 1235,
+    endYear: 1670,
+    periodId: "p1",
+    regionIds: ["wafrica"],
+    title: "Sundiata founds the Mali Empire",
+    description:
+      "Sundiata Keita defeats the Sosso at Kirina and unifies the Mande peoples, founding Mali on the trans-Saharan gold–salt trade.",
+    significance:
+      "Mali becomes the wealthiest state in the medieval world, dominating trans-Saharan commerce and Islamic scholarship at Timbuktu.",
+    facts: [
+      "Epic of Sundiata preserved by jeli (griot) oral tradition.",
+      "Capital at Niani; controlled gold fields of Bambuk and Bure.",
+      "Mansa Musa (r. 1312–37) was Sundiata's grand-nephew.",
+    ],
+    highlight: { countryCodes: ["MLI", "SEN", "GMB", "GIN", "MRT", "BFA"], focus: { lat: 14, lng: -5, altitude: 2.0 } },
+  },
+  {
+    id: "marco-polo",
+    year: 1271,
+    endYear: 1295,
+    periodId: "p1",
+    regionIds: ["italy", "persia", "china"],
+    title: "Marco Polo's travels",
+    description:
+      "The Venetian merchant travels overland to Kublai Khan's Yuan court and serves him for 17 years before returning to dictate Il Milione.",
+    significance:
+      "Pax Mongolica makes the journey safe — his book seeds European appetite for Asian goods that drives later voyages.",
+    facts: [
+      "Paid in Mongol paper money; described coal, asbestos, and 'black stones' that burn.",
+      "His book inspires Columbus (who carried an annotated copy in 1492).",
+    ],
+    highlight: {
+      countryCodes: ["ITA", "TUR", "IRN", "AFG", "CHN", "MNG"],
+      color: "#a855f7",
+      focus: { lat: 42, lng: 70, altitude: 2.5 },
+      pins: [
+        { lat: 45.44, lng: 12.32, label: "Venice (1271)", color: "#a855f7" },
+        { lat: 36.20, lng: 36.16, label: "Acre", color: "#a855f7" },
+        { lat: 32.66, lng: 51.67, label: "Isfahan", color: "#a855f7" },
+        { lat: 36.71, lng: 67.12, label: "Balkh", color: "#a855f7" },
+        { lat: 39.63, lng: 75.99, label: "Kashgar", color: "#a855f7" },
+        { lat: 39.91, lng: 116.40, label: "Khanbaliq (Beijing)", color: "#a855f7" },
+      ],
+      path: [
+        { lat: 45.44, lng: 12.32 },
+        { lat: 36.20, lng: 36.16 },
+        { lat: 35.69, lng: 51.39 },
+        { lat: 32.66, lng: 51.67 },
+        { lat: 36.71, lng: 67.12 },
+        { lat: 39.63, lng: 75.99 },
+        { lat: 41.83, lng: 95.18 },
+        { lat: 39.91, lng: 116.40 },
+      ],
+    },
+  },
+  {
+    id: "tenochtitlan-founded",
+    year: 1325,
+    periodId: "p1",
+    regionIds: ["mesoamerica"],
+    title: "Aztecs found Tenochtitlán",
+    description:
+      "The Mexica build their island capital on Lake Texcoco after seeing the prophesied eagle on a cactus.",
+    significance:
+      "Becomes the largest city in the Americas (~200k); seat of the Triple Alliance until Cortés (1521).",
+    facts: [
+      "Engineered chinampas (floating gardens) supported huge population.",
+      "Triple Alliance with Texcoco and Tlacopan formed 1428.",
+      "Ruled via tribute, not direct administration — fueled later defections.",
+    ],
+    highlight: { countryCodes: ["MEX"], focus: { lat: 19.4, lng: -99.1, altitude: 1.4 } },
+  },
+  {
+    id: "ibn-battuta",
+    year: 1325,
+    endYear: 1354,
+    periodId: "p1",
+    regionIds: ["egypt", "ottoman", "india", "china", "wafrica", "eafrica"],
+    title: "Ibn Battuta's travels",
+    description:
+      "The Moroccan jurist journeys ~75,000 miles across Dar al-Islam — Mecca, Cairo, Delhi, Quanzhou, Kilwa, and Mali.",
+    significance:
+      "Eyewitness to the depth of cosmopolitan Islamic networks before the Black Death; his Rihla is a foundational world history source.",
+    facts: [
+      "Served as a qadi (Islamic judge) under Muhammad bin Tughluq in Delhi.",
+      "Visited Mansa Musa's successor Mansa Sulayman in Mali.",
+      "Returned to Fez in 1354 — dictated the Rihla to a court scribe.",
+    ],
+    highlight: {
+      countryCodes: ["MAR", "EGY", "SAU", "IND", "CHN", "MLI", "TZA"],
+      color: "#06b6d4",
+      focus: { lat: 18, lng: 55, altitude: 2.8 },
+      pins: [
+        { lat: 35.78, lng: -5.81, label: "Tangier (1325 start)", color: "#06b6d4" },
+        { lat: 30.05, lng: 31.24, label: "Cairo", color: "#06b6d4" },
+        { lat: 21.42, lng: 39.83, label: "Mecca", color: "#06b6d4" },
+        { lat: -8.96, lng: 39.65, label: "Kilwa", color: "#06b6d4" },
+        { lat: 28.61, lng: 77.21, label: "Delhi", color: "#06b6d4" },
+        { lat: 24.87, lng: 118.66, label: "Quanzhou", color: "#06b6d4" },
+        { lat: 16.78, lng: -3.00, label: "Timbuktu (1352)", color: "#06b6d4" },
+      ],
+      path: [
+        { lat: 35.78, lng: -5.81 },
+        { lat: 36.80, lng: 10.18 },
+        { lat: 31.20, lng: 29.92 },
+        { lat: 30.05, lng: 31.24 },
+        { lat: 21.42, lng: 39.83 },
+        { lat: 33.31, lng: 44.36 },
+        { lat: 32.66, lng: 51.67 },
+        { lat: 28.61, lng: 77.21 },
+        { lat: 11.26, lng: 75.78 },
+        { lat: 24.87, lng: 118.66 },
+        { lat: -6.81, lng: 39.27 },
+        { lat: -8.96, lng: 39.65 },
+        { lat: 16.78, lng: -3.00 },
+        { lat: 33.97, lng: -4.99 },
+      ],
+    },
+  },
+  {
+    id: "malacca-founded",
+    year: 1400,
+    endYear: 1511,
+    periodId: "p1",
+    regionIds: ["seasia"],
+    title: "Sultanate of Malacca founded",
+    description:
+      "Parameswara establishes Malacca on the strait between Sumatra and the Malay Peninsula; converts to Islam and becomes a Ming tributary.",
+    significance:
+      "Malacca becomes the great Indian Ocean entrepôt — Muslim trade hub spreading Islam across maritime Southeast Asia until Portuguese conquest 1511.",
+    facts: [
+      "Strait of Malacca handled all India ↔ China sea traffic.",
+      "Tributary to Ming under Zheng He's protection.",
+      "Fell to Afonso de Albuquerque's Portuguese in 1511.",
+    ],
+    highlight: { countryCodes: ["MYS", "IDN", "SGP"], focus: { lat: 2.2, lng: 102.2, altitude: 1.8 } },
+  },
+  {
+    id: "kilwa-swahili",
+    year: 1300,
+    endYear: 1505,
+    periodId: "p1",
+    regionIds: ["eafrica"],
+    title: "Kilwa and the Swahili city-states",
+    description:
+      "Kilwa, Mombasa, Mogadishu, and Sofala thrive on Indian Ocean trade — gold from Great Zimbabwe, ivory, slaves traded for Chinese porcelain and Indian cloth.",
+    significance:
+      "Swahili culture (Bantu + Arab + Persian) spreads Islam down the East African coast; sacked by Portuguese under Almeida in 1505.",
+    facts: [
+      "Husuni Kubwa palace at Kilwa — largest stone building in sub-Saharan Africa.",
+      "Ibn Battuta called Kilwa 'one of the most beautiful cities in the world' (1331).",
+      "Swahili language is Bantu grammar with heavy Arabic loanwords.",
+    ],
+    highlight: { countryCodes: ["TZA", "KEN", "MOZ", "SOM", "ZWE"], focus: { lat: -8, lng: 39, altitude: 1.9 } },
+  },
+  {
+    id: "inca-founding",
+    year: 1438,
+    endYear: 1533,
+    periodId: "p1",
+    regionIds: ["andes"],
+    title: "Pachacuti expands the Inca Empire",
+    description:
+      "Pachacuti reorganizes a small Cuzco kingdom into Tawantinsuyu — the largest pre-Columbian empire — through conquest and the mit'a labor system.",
+    significance:
+      "Built ~25,000 miles of Andean roads, terrace agriculture, and quipu accounting — administered without writing or wheeled vehicles.",
+    facts: [
+      "Capital at Cuzco; ceremonial center at Machu Picchu (built ~1450).",
+      "Mit'a: rotational labor obligation later reused by the Spanish at Potosí.",
+      "Sapa Inca venerated as son of the sun god Inti.",
+    ],
+    highlight: { countryCodes: ["PER", "BOL", "ECU", "CHL", "ARG", "COL"], focus: { lat: -13, lng: -72, altitude: 2.0 } },
+  },
+
+  // ---------- Unit 3 (p2) — land-based empires ----------
+  {
+    id: "safavid-1501",
+    year: 1501,
+    endYear: 1736,
+    periodId: "p2",
+    regionIds: ["persia"],
+    title: "Safavid Empire founded",
+    description:
+      "Shah Ismail I conquers Tabriz and proclaims Twelver Shia Islam the state religion — forcibly converting Sunni Persia.",
+    significance:
+      "Creates the Sunni–Shia geopolitical fault line that still defines the Middle East. Buffer between Ottoman and Mughal empires.",
+    facts: [
+      "Qizilbash Turkmen cavalry as military backbone.",
+      "Shah Abbas I (r. 1588–1629) made Isfahan a global art capital.",
+      "Fell to Afghan Hotaki invasion in 1722.",
+    ],
+    highlight: { countryCodes: ["IRN", "IRQ", "AZE", "ARM", "AFG", "TKM"], focus: { lat: 32, lng: 53, altitude: 1.8 } },
+  },
+  {
+    id: "chaldiran-1514",
+    year: 1514,
+    periodId: "p2",
+    regionIds: ["ottoman", "persia"],
+    title: "Battle of Chaldiran",
+    description:
+      "Selim I's Ottoman musketeers and artillery devastate Shah Ismail's Qizilbash cavalry in eastern Anatolia.",
+    significance:
+      "Cements Ottoman gunpowder supremacy and sets the long Sunni–Shia frontier; Selim seizes the Mamluk caliphate three years later.",
+    facts: [
+      "Janissaries armed with arquebuses; Safavids had almost no firearms.",
+      "Loss convinced Safavids to adopt gunpowder weapons themselves.",
+    ],
+    highlight: { countryCodes: ["TUR", "IRN", "IRQ", "AZE"], focus: { lat: 39, lng: 44, altitude: 1.7 } },
+  },
+  {
+    id: "suleiman",
+    year: 1520,
+    endYear: 1566,
+    periodId: "p2",
+    regionIds: ["ottoman", "wnerope"],
+    title: "Suleiman the Magnificent",
+    description:
+      "Ottoman sultan presides over the empire's golden age — codifies kanun law, captures Belgrade and Rhodes, besieges Vienna (1529).",
+    significance:
+      "Ottoman Empire reaches greatest extent and cultural peak; rivals Habsburg Spain as the dominant Mediterranean power.",
+    facts: [
+      "Allied with France against the Habsburgs (1536 Capitulations).",
+      "Sinan, his court architect, designed the Süleymaniye Mosque.",
+      "Failed siege of Vienna 1529 — Ottoman high-water mark in Europe.",
+    ],
+    highlight: {
+      countryCodes: ["TUR", "GRC", "BGR", "ROU", "SRB", "BIH", "HUN", "EGY", "SYR", "IRQ", "JOR", "ISR", "SAU", "DZA", "TUN", "LBY"],
+      focus: { lat: 38, lng: 30, altitude: 2.2 },
+    },
+  },
+  {
+    id: "akbar",
+    year: 1556,
+    endYear: 1605,
+    periodId: "p2",
+    regionIds: ["india"],
+    title: "Akbar's reign",
+    description:
+      "Third Mughal emperor builds a syncretic regime — abolishes jizya on non-Muslims, marries Rajput princesses, founds din-i ilahi.",
+    significance:
+      "Stabilizes Mughal rule by integrating Hindu elites; sets the template for Mughal art, architecture, and revenue (zabt) administration.",
+    facts: [
+      "Built Fatehpur Sikri as a planned capital (later abandoned).",
+      "Held interfaith debates with Jesuits, Jains, Hindus, and Zoroastrians.",
+      "Mansabdari system tied military rank to revenue grants (jagirs).",
+    ],
+    highlight: { countryCodes: ["IND", "PAK", "BGD", "AFG"], focus: { lat: 27, lng: 78, altitude: 1.9 } },
+  },
+  {
+    id: "lepanto-1571",
+    year: 1571,
+    periodId: "p2",
+    regionIds: ["italy", "ottoman", "iberia"],
+    title: "Battle of Lepanto",
+    description:
+      "Holy League galleys (Spain, Venice, the Papacy) crush the Ottoman fleet off Greece — first major Christian naval victory over the Ottomans.",
+    significance:
+      "Halts Ottoman naval expansion in the Mediterranean, though Constantinople rebuilt the fleet within a year.",
+    facts: [
+      "Don John of Austria commanded the Holy League.",
+      "~30,000 Ottoman casualties; ~7,500 Christian.",
+      "Cervantes (Don Quixote) lost the use of his left hand at Lepanto.",
+    ],
+    highlight: { countryCodes: ["GRC", "TUR", "ITA", "ESP"], focus: { lat: 38, lng: 21, altitude: 1.7 } },
+  },
+  {
+    id: "aurangzeb",
+    year: 1658,
+    endYear: 1707,
+    periodId: "p2",
+    regionIds: ["india"],
+    title: "Aurangzeb's reign",
+    description:
+      "Last 'great' Mughal — expands the empire to its greatest territorial extent but reimposes jizya, destroys Hindu temples, and wages costly Deccan wars.",
+    significance:
+      "His religious intolerance and military overreach drain the treasury; after his death the empire fractures, opening India to Mughal successor states and the British EIC.",
+    facts: [
+      "Imprisoned his father Shah Jahan in Agra Fort.",
+      "Executed the ninth Sikh guru Tegh Bahadur (1675).",
+      "27-year Deccan campaign vs. the Marathas under Shivaji bled the treasury.",
+    ],
+    highlight: { countryCodes: ["IND", "PAK", "BGD", "AFG"], focus: { lat: 22, lng: 78, altitude: 1.9 } },
+  },
+
+  // ---------- Unit 4 (p2) — maritime empires ----------
+  {
+    id: "da-gama-1498",
+    year: 1498,
+    periodId: "p2",
+    regionIds: ["iberia", "eafrica", "india"],
+    title: "Vasco da Gama reaches India",
+    description:
+      "Portuguese mariner rounds the Cape of Good Hope and lands at Calicut — the first all-water route from Europe to India.",
+    significance:
+      "Breaks the Venetian–Mamluk monopoly on the spice trade; Portugal builds a string of fortified factories from Mozambique to Macau.",
+    facts: [
+      "Used a Gujarati pilot, Ibn Majid (per some accounts), across the Indian Ocean.",
+      "Returned with cargo worth 60× the cost of the voyage.",
+      "Portuguese cartaz licensing system extorted Indian Ocean shippers.",
+    ],
+    highlight: {
+      countryCodes: ["PRT", "ZAF", "MOZ", "KEN", "IND"],
+      color: "#3b82f6",
+      focus: { lat: 0, lng: 50, altitude: 2.7 },
+      pins: [
+        { lat: 38.71, lng: -9.14, label: "Lisbon (Jul 1497)", color: "#3b82f6" },
+        { lat: -34.36, lng: 18.47, label: "Cape of Good Hope", color: "#3b82f6" },
+        { lat: -3.22, lng: 40.12, label: "Malindi", color: "#3b82f6" },
+        { lat: 11.26, lng: 75.78, label: "Calicut (May 1498)", color: "#3b82f6" },
+      ],
+      path: [
+        { lat: 38.71, lng: -9.14 },
+        { lat: 14.92, lng: -23.50 },
+        { lat: -23.55, lng: -16.00 },
+        { lat: -34.36, lng: 18.47 },
+        { lat: -25.96, lng: 32.58 },
+        { lat: -3.22, lng: 40.12 },
+        { lat: 11.26, lng: 75.78 },
+      ],
+    },
+  },
+  {
+    id: "magellan-1519",
+    year: 1519,
+    endYear: 1522,
+    periodId: "p2",
+    regionIds: ["iberia", "andes", "seasia"],
+    title: "Magellan's circumnavigation",
+    description:
+      "Castilian-funded Portuguese captain crosses the Atlantic, threads the strait at South America's tip, and crosses the Pacific. He dies in the Philippines; Elcano completes the circuit.",
+    significance:
+      "Proves the world is one ocean and gives Spain its claim to the Philippines — basis of the later Manila galleon trade.",
+    facts: [
+      "5 ships and 270 men set out; 1 ship and 18 men returned.",
+      "Killed at Mactan by Datu Lapu-Lapu (1521).",
+      "First crossing of the Pacific — took 99 days, scurvy decimated the crew.",
+    ],
+    highlight: {
+      countryCodes: ["ESP", "BRA", "ARG", "CHL", "PHL", "IDN"],
+      color: "#a855f7",
+      focus: { lat: -5, lng: -90, altitude: 3.2 },
+      pins: [
+        { lat: 36.79, lng: -6.35, label: "Sanlúcar (Sep 1519)", color: "#a855f7" },
+        { lat: -22.91, lng: -43.20, label: "Rio de Janeiro", color: "#a855f7" },
+        { lat: -53.50, lng: -70.92, label: "Strait of Magellan", color: "#a855f7" },
+        { lat: 13.49, lng: 144.78, label: "Guam", color: "#a855f7" },
+        { lat: 10.31, lng: 123.99, label: "Mactan (Magellan †1521)", color: "#a855f7" },
+        { lat: -34.36, lng: 18.47, label: "Cape of Good Hope", color: "#a855f7" },
+      ],
+      path: [
+        { lat: 36.79, lng: -6.35 },
+        { lat: 14.92, lng: -23.50 },
+        { lat: -22.91, lng: -43.20 },
+        { lat: -53.50, lng: -70.92 },
+        { lat: -25.00, lng: -120.00 },
+        { lat: 0.00, lng: 160.00 },
+        { lat: 13.49, lng: 144.78 },
+        { lat: 10.31, lng: 123.99 },
+        { lat: -8.65, lng: 115.21 },
+        { lat: -34.36, lng: 18.47 },
+        { lat: 14.92, lng: -23.50 },
+        { lat: 36.79, lng: -6.35 },
+      ],
+    },
+  },
+  {
+    id: "atlantic-slave-trade",
+    year: 1500,
+    endYear: 1888,
+    periodId: "p2",
+    regionIds: ["wafrica", "brazil", "caribbean", "northam"],
+    title: "Atlantic slave trade",
+    description:
+      "European traders ship ~12.5 million enslaved Africans across the Middle Passage — primarily to Brazilian and Caribbean sugar plantations.",
+    significance:
+      "Demographic catastrophe for West/Central Africa, racialized chattel slavery in the Americas, and the labor base for Atlantic plantation capitalism.",
+    facts: [
+      "~10.7 million survived the Middle Passage; ~1.8 million died en route.",
+      "Brazil received ~5 million; the Caribbean ~4 million; British North America ~400,000.",
+      "Britain abolished the trade 1807; Brazil ended slavery last (1888).",
+    ],
+    highlight: {
+      splits: [
+        { label: "Sources (West/Central Africa)", color: "#a855f7", countryCodes: ["SEN", "GMB", "GIN", "GHA", "TGO", "BEN", "NGA", "CMR", "GAB", "COG", "AGO"] },
+        { label: "Destinations (Americas)", color: "#f97316", countryCodes: ["BRA", "CUB", "HTI", "DOM", "JAM", "USA", "PRI", "TTO"] },
+      ],
+      focus: { lat: 5, lng: -20, altitude: 2.6 },
+    },
+  },
+  {
+    id: "spanish-armada",
+    year: 1588,
+    periodId: "p2",
+    regionIds: ["iberia", "wnerope"],
+    title: "Spanish Armada defeated",
+    description:
+      "Philip II's invasion fleet is dispersed by English fireships and Atlantic storms off the British Isles.",
+    significance:
+      "Marks the relative decline of Habsburg sea power and the rise of English/Dutch Atlantic ambitions — joint-stock companies follow within decades.",
+    facts: [
+      "130 ships, ~30,000 men set out; ~half made it home.",
+      "Storms ('Protestant wind') killed more men than English cannon.",
+      "Drake's 1577–80 circumnavigation already showed Spain's vulnerability.",
+    ],
+    highlight: { countryCodes: ["ESP", "GBR", "IRL", "NLD"], focus: { lat: 50, lng: -8, altitude: 1.9 } },
+  },
+
+  // ---------- Unit 5 (p3) — revolutions ----------
+  {
+    id: "napoleonic-wars",
+    year: 1803,
+    endYear: 1815,
+    periodId: "p3",
+    regionIds: ["wnerope", "iberia", "italy", "russia", "ottoman"],
+    title: "Napoleonic Wars",
+    description:
+      "Napoleon Bonaparte builds a French continental empire, exporting the Civil Code and metric system before defeat at Leipzig (1813) and Waterloo (1815).",
+    significance:
+      "Spreads Enlightenment legal codes across Europe, stokes nationalism, and destabilizes Spanish America — opening the door to Latin American independence.",
+    facts: [
+      "Continental System (1806) tried to embargo Britain — backfired.",
+      "Russian campaign (1812): 600,000 invaded, ~100,000 returned.",
+      "Defeat at Waterloo by Wellington & Blücher (1815).",
+    ],
+    highlight: {
+      countryCodes: ["FRA", "ESP", "PRT", "ITA", "DEU", "NLD", "BEL", "AUT", "POL", "RUS", "GBR"],
+      focus: { lat: 48, lng: 12, altitude: 2.1 },
+    },
+  },
+  {
+    id: "congress-vienna",
+    year: 1815,
+    periodId: "p3",
+    regionIds: ["wnerope", "italy"],
+    title: "Congress of Vienna",
+    description:
+      "Metternich, Castlereagh, Talleyrand, and Tsar Alexander I redraw post-Napoleonic Europe around legitimacy, balance of power, and conservative restoration.",
+    significance:
+      "Inaugurates the Concert of Europe — no general European war for 99 years (until 1914).",
+    facts: [
+      "Restored Bourbons in France, Spain, and Naples.",
+      "Created the German Confederation (39 states).",
+      "Holy Alliance (Russia, Austria, Prussia) suppressed liberal revolutions.",
+    ],
+    highlight: { countryCodes: ["AUT", "FRA", "DEU", "RUS", "GBR", "ITA", "POL"], focus: { lat: 48, lng: 16, altitude: 2.0 } },
+  },
+  {
+    id: "mexican-indep",
+    year: 1810,
+    endYear: 1821,
+    periodId: "p3",
+    regionIds: ["mesoamerica"],
+    title: "Mexican War of Independence",
+    description:
+      "Hidalgo's Grito de Dolores (1810) launches an indigenous-mestizo revolt; criollo Iturbide finally negotiates independence in 1821.",
+    significance:
+      "Largest peninsular colony breaks free; demonstrates how Napoleonic invasion of Spain (1808) cracked the Atlantic empire.",
+    facts: [
+      "Hidalgo and Morelos executed (1811, 1815) before independence achieved.",
+      "Plan of Iguala (1821): independence, Catholicism, racial equality among Spaniards/criollos.",
+      "Iturbide briefly crowned Emperor Agustín I (1822–23).",
+    ],
+    highlight: { countryCodes: ["MEX", "GTM", "ESP"], focus: { lat: 22, lng: -100, altitude: 1.7 } },
+  },
+  {
+    id: "simon-bolivar",
+    year: 1819,
+    endYear: 1825,
+    periodId: "p3",
+    regionIds: ["andes", "caribbean"],
+    title: "Bolívar liberates South America",
+    description:
+      "Simón Bolívar wins the wars of Spanish American independence — Boyacá (1819), Carabobo (1821), Ayacucho (1824) — creating Gran Colombia and Bolivia.",
+    significance:
+      "Five new republics emerge from Spanish America; Bolívar's dream of a united Latin America fails as Gran Colombia fragments by 1831.",
+    facts: [
+      "Crossed the Andes from Venezuela to surprise Spanish at Boyacá.",
+      "Haiti's Pétion gave him refuge and arms in exchange for an abolition pledge.",
+      "Died disillusioned in 1830: 'América is ungovernable.'",
+    ],
+    highlight: {
+      countryCodes: ["VEN", "COL", "ECU", "PER", "BOL", "PAN"],
+      color: "#22c55e",
+      focus: { lat: -2, lng: -73, altitude: 2.3 },
+      pins: [
+        { lat: 10.49, lng: -66.88, label: "Caracas (Bolívar's birth)", color: "#22c55e" },
+        { lat: 5.76, lng: -72.60, label: "Boyacá 1819", color: "#22c55e" },
+        { lat: 4.71, lng: -74.07, label: "Bogotá", color: "#22c55e" },
+        { lat: 10.16, lng: -67.99, label: "Carabobo 1821", color: "#22c55e" },
+        { lat: -0.18, lng: -78.47, label: "Quito 1822", color: "#22c55e" },
+        { lat: -13.16, lng: -74.22, label: "Ayacucho 1824", color: "#22c55e" },
+        { lat: -16.50, lng: -68.15, label: "La Paz (Bolivia 1825)", color: "#22c55e" },
+      ],
+      path: [
+        { lat: 10.49, lng: -66.88 },
+        { lat: 10.16, lng: -67.99 },
+        { lat: 5.76, lng: -72.60 },
+        { lat: 4.71, lng: -74.07 },
+        { lat: -0.18, lng: -78.47 },
+        { lat: -12.05, lng: -77.04 },
+        { lat: -13.16, lng: -74.22 },
+        { lat: -16.50, lng: -68.15 },
+      ],
+    },
+  },
+  {
+    id: "abolition-1833",
+    year: 1833,
+    endYear: 1888,
+    periodId: "p3",
+    regionIds: ["wnerope", "northam", "caribbean", "brazil"],
+    title: "Abolition of slavery in the Atlantic",
+    description:
+      "Britain abolishes slavery throughout the empire (1833); the US (1865, 13th Amendment); Cuba (1886); Brazil (1888) — last in the Americas.",
+    significance:
+      "Plantations transition to indentured labor (Indian, Chinese 'coolies') — reshapes global migration patterns through the late 19th century.",
+    facts: [
+      "British paid £20m compensation to slaveowners — not the enslaved.",
+      "US Civil War (1861–65) cost ~750,000 lives.",
+      "Brazil's Lei Áurea (Golden Law) signed by Princess Isabel.",
+    ],
+    highlight: {
+      countryCodes: ["GBR", "USA", "BRA", "CUB", "JAM", "TTO", "HTI", "ZAF"],
+      focus: { lat: 10, lng: -40, altitude: 2.6 },
+    },
+  },
+  {
+    id: "tanzimat",
+    year: 1839,
+    endYear: 1876,
+    periodId: "p3",
+    regionIds: ["ottoman"],
+    title: "Tanzimat reforms",
+    description:
+      "Ottoman state launches top-down modernization — equal citizenship for non-Muslims, modern army, secular schools, decimal currency, telegraph network.",
+    significance:
+      "Classic example of a defensive industrialization / westernization program — partial success, generates Young Ottoman backlash and 1876 constitution.",
+    facts: [
+      "Hatt-i Şerif of Gülhane (1839) launched the program.",
+      "Ended legal distinction (millet) between Muslims and non-Muslims.",
+      "Constitution of 1876 suspended by Abdülhamid II two years later.",
+    ],
+    highlight: {
+      countryCodes: ["TUR", "SYR", "IRQ", "JOR", "ISR", "PSE", "LBN", "EGY", "GRC", "BGR", "ALB", "BIH", "SRB"],
+      focus: { lat: 39, lng: 35, altitude: 2.0 },
+    },
+  },
+
+  // ---------- Unit 6 (p3) — imperialism ----------
+  {
+    id: "plassey",
+    year: 1757,
+    periodId: "p3",
+    regionIds: ["india", "wnerope"],
+    title: "Battle of Plassey",
+    description:
+      "Robert Clive's East India Company forces defeat the Nawab of Bengal Siraj-ud-Daulah after bribing his commander Mir Jafar to defect.",
+    significance:
+      "Hands Bengal — the richest province of the Mughal world — to the EIC. Beginning of British territorial empire in India and the model of company rule.",
+    facts: [
+      "Roughly 3,000 EIC troops vs. 50,000 Bengali — outcome decided by treachery.",
+      "Bengal famine of 1770 killed ~10 million under EIC mismanagement.",
+      "EIC ruled India directly until the 1857 Rebellion, then the Crown took over.",
+    ],
+    highlight: { countryCodes: ["IND", "BGD", "GBR"], focus: { lat: 23, lng: 88, altitude: 1.7 } },
+  },
+  {
+    id: "suez-canal",
+    year: 1869,
+    periodId: "p3",
+    regionIds: ["egypt", "wnerope", "india"],
+    title: "Suez Canal opens",
+    description:
+      "Ferdinand de Lesseps's 100-mile canal links the Mediterranean and the Red Sea, slashing the Europe–India voyage by ~7,000 miles.",
+    significance:
+      "Indispensable to British India; Britain buys the Khedive's shares in 1875 and occupies Egypt in 1882 to secure it.",
+    facts: [
+      "Built largely by forced Egyptian corvée labor — ~120,000 deaths.",
+      "Verdi composed Aida for the canal's opening ceremonies.",
+      "Nationalized by Nasser in 1956 → triggered the Suez Crisis.",
+    ],
+    highlight: { countryCodes: ["EGY", "GBR", "FRA", "IND", "ISR"], focus: { lat: 30, lng: 32, altitude: 1.6 } },
+  },
+  {
+    id: "berlin-conference",
+    year: 1884,
+    endYear: 1885,
+    periodId: "p3",
+    regionIds: ["wafrica", "eafrica", "wnerope"],
+    title: "Berlin Conference",
+    description:
+      "Bismarck convenes 14 European powers (no Africans) to set rules for the partition of Africa — 'effective occupation' to claim territory.",
+    significance:
+      "Codifies the Scramble for Africa; by 1914 only Ethiopia and Liberia remain independent. Borders drawn at the conference still cause conflict today.",
+    facts: [
+      "Leopold II of Belgium got the Congo Free State as personal property.",
+      "Congo Free State atrocities killed ~10 million by 1908.",
+      "No African leaders invited — borders ignored ethnic, linguistic lines.",
+    ],
+    highlight: {
+      splits: [
+        { label: "British Africa", color: "#dc2626", countryCodes: ["EGY", "SDN", "KEN", "UGA", "TZA", "ZAF", "ZWE", "ZMB", "BWA", "GHA", "NGA", "SLE"] },
+        { label: "French Africa", color: "#3b82f6", countryCodes: ["MAR", "DZA", "TUN", "MLI", "SEN", "GIN", "BFA", "CIV", "NER", "TCD", "CAF", "COG", "GAB", "MDG", "DJI"] },
+        { label: "Belgian / Portuguese / German / Italian", color: "#a855f7", countryCodes: ["COD", "AGO", "MOZ", "GNB", "CPV", "STP", "CMR", "TGO", "NAM", "RWA", "BDI", "LBY", "ERI", "SOM"] },
+      ],
+      focus: { lat: 0, lng: 20, altitude: 2.4 },
+    },
+  },
+  {
+    id: "adwa",
+    year: 1896,
+    periodId: "p3",
+    regionIds: ["eafrica", "italy"],
+    title: "Battle of Adwa",
+    description:
+      "Emperor Menelik II's Ethiopian army crushes Italian invaders at Adwa — the only major African military defeat of a European colonial power in the Scramble.",
+    significance:
+      "Preserves Ethiopian independence (until 1936) and becomes a global symbol of anti-colonial resistance — inspiring Pan-Africanism.",
+    facts: [
+      "Empress Taytu Betul commanded a flank in person.",
+      "Ethiopia had bought modern Russian and French rifles in advance.",
+      "Italy got revenge under Mussolini in 1935 — briefly occupied Ethiopia.",
+    ],
+    highlight: { countryCodes: ["ETH", "ERI", "ITA"], focus: { lat: 14, lng: 39, altitude: 1.7 } },
+  },
+  {
+    id: "boxer-rebellion",
+    year: 1899,
+    endYear: 1901,
+    periodId: "p3",
+    regionIds: ["china"],
+    title: "Boxer Rebellion",
+    description:
+      "Society of Righteous and Harmonious Fists, with Empress Dowager Cixi's tacit support, attacks foreign legations in Beijing.",
+    significance:
+      "Eight-Nation Alliance (Britain, US, Germany, France, Russia, Japan, Italy, Austria-Hungary) crushes the rising. Boxer Protocol (1901) imposes a crippling indemnity, accelerating the Qing collapse.",
+    facts: [
+      "55-day siege of Beijing's foreign legation quarter.",
+      "Boxers practiced martial arts and believed they were bullet-proof.",
+      "$330m indemnity — US later refunded part of it as scholarships (Tsinghua).",
+    ],
+    highlight: { countryCodes: ["CHN", "JPN", "RUS", "GBR", "FRA", "DEU", "USA", "ITA"], focus: { lat: 39, lng: 116, altitude: 1.6 } },
+  },
+
+  // ---------- Unit 7 (p4) — global conflict ----------
+  {
+    id: "mexican-rev",
+    year: 1910,
+    endYear: 1920,
+    periodId: "p4",
+    regionIds: ["mesoamerica"],
+    title: "Mexican Revolution",
+    description:
+      "Madero, Zapata, Villa, and Carranza overthrow Porfirio Díaz in a decade-long peasant-and-elite revolt — produces the 1917 Constitution.",
+    significance:
+      "First social revolution of the 20th century; land reform, anti-clericalism, and labor rights enshrined in Latin America's most progressive constitution of its day.",
+    facts: [
+      "~1 million dead; ~10% of Mexicans fled north to the US.",
+      "Zapata's slogan: 'Tierra y Libertad.'",
+      "1917 Constitution restored ejido communal land tenure.",
+    ],
+    highlight: { countryCodes: ["MEX", "USA"], focus: { lat: 23, lng: -102, altitude: 1.8 } },
+  },
+  {
+    id: "versailles-1919",
+    year: 1919,
+    periodId: "p4",
+    regionIds: ["wnerope", "ottoman"],
+    title: "Treaty of Versailles",
+    description:
+      "Allied 'Big Four' impose harsh terms on Germany — war guilt clause, 132 billion gold marks reparations, demilitarization, lost colonies and territory.",
+    significance:
+      "Founds the League of Nations and the mandate system; punitive economics fuel German revanchism that Hitler exploits in the 1930s.",
+    facts: [
+      "Wilson's 14 Points largely abandoned at the negotiating table.",
+      "US Senate rejected the treaty — US never joined the League.",
+      "Mandate system carved up the Ottoman Middle East (Britain → Iraq, Palestine; France → Syria, Lebanon).",
+    ],
+    highlight: {
+      countryCodes: ["FRA", "GBR", "USA", "ITA", "DEU", "AUT", "HUN", "POL", "TUR", "SYR", "IRQ", "ISR", "JOR", "LBN"],
+      focus: { lat: 48, lng: 15, altitude: 2.3 },
+    },
+  },
+  {
+    id: "holocaust",
+    year: 1941,
+    endYear: 1945,
+    periodId: "p4",
+    regionIds: ["wnerope", "russia"],
+    title: "The Holocaust",
+    description:
+      "Nazi Germany and collaborators systematically murder six million Jews and millions of Roma, Slavs, disabled, and political prisoners.",
+    significance:
+      "Defining genocide of the 20th century; drives the founding of the State of Israel (1948), the Genocide Convention (1948), and the Universal Declaration of Human Rights.",
+    facts: [
+      "Wannsee Conference (Jan 1942) coordinated the 'Final Solution.'",
+      "Auschwitz-Birkenau alone killed ~1.1 million.",
+      "Einsatzgruppen mass shootings on the Eastern Front killed ~1.5 million Jews.",
+    ],
+    highlight: {
+      countryCodes: ["DEU", "POL", "AUT", "CZE", "HUN", "ROU", "BLR", "UKR", "LTU", "LVA", "EST", "FRA", "NLD", "BEL"],
+      focus: { lat: 51, lng: 18, altitude: 2.0 },
+    },
+  },
+  {
+    id: "atomic-bombs",
+    year: 1945,
+    periodId: "p4",
+    regionIds: ["japan", "northam"],
+    title: "Atomic bombs on Hiroshima and Nagasaki",
+    description:
+      "US drops 'Little Boy' on Hiroshima (Aug 6) and 'Fat Man' on Nagasaki (Aug 9); Japan surrenders Aug 15.",
+    significance:
+      "First and only military use of nuclear weapons. Opens the nuclear age and reshapes Cold War strategy around mutually assured destruction.",
+    facts: [
+      "Combined immediate deaths ~110,000; long-term radiation deaths ~120,000+.",
+      "Manhattan Project cost ~$2 billion (1945 dollars), employed 130,000 people.",
+      "USSR detonates its first atomic bomb in 1949 — race begins.",
+    ],
+    highlight: { countryCodes: ["JPN", "USA"], focus: { lat: 33.6, lng: 132.8, altitude: 1.6 } },
+  },
+
+  // ---------- Unit 8 (p4) — Cold War ----------
+  {
+    id: "berlin-airlift",
+    year: 1948,
+    endYear: 1949,
+    periodId: "p4",
+    regionIds: ["wnerope", "russia", "northam"],
+    title: "Berlin Airlift",
+    description:
+      "Soviet blockade of West Berlin (Jun 1948) is broken by 11 months of US/UK/French cargo flights — ~2.3 million tons of supplies.",
+    significance:
+      "First major Cold War confrontation; spurs the creation of NATO (Apr 1949), the Federal Republic of Germany (May 1949), and East Germany (Oct 1949).",
+    facts: [
+      "Up to 1,500 flights/day at the peak.",
+      "'Operation Vittles' — 'Candy Bomber' Gail Halvorsen dropped sweets to children.",
+      "Stalin lifted the blockade May 1949 without concessions.",
+    ],
+    highlight: {
+      countryCodes: ["DEU"],
+      color: "#3b82f6",
+      focus: { lat: 51, lng: 11, altitude: 1.4 },
+      pins: [
+        { lat: 50.04, lng: 8.56, label: "Frankfurt (Rhein-Main)", color: "#3b82f6" },
+        { lat: 52.40, lng: 9.28, label: "Wunstorf", color: "#3b82f6" },
+        { lat: 52.46, lng: 13.40, label: "Tempelhof, Berlin", color: "#3b82f6" },
+        { lat: 52.55, lng: 13.29, label: "Tegel, Berlin", color: "#3b82f6" },
+      ],
+      path: [
+        { lat: 50.04, lng: 8.56 },
+        { lat: 52.46, lng: 13.40 },
+        { lat: 52.40, lng: 9.28 },
+        { lat: 52.55, lng: 13.29 },
+      ],
+    },
+  },
+  {
+    id: "bandung",
+    year: 1955,
+    periodId: "p4",
+    regionIds: ["seasia", "india", "china"],
+    title: "Bandung Conference",
+    description:
+      "Sukarno hosts 29 newly independent African and Asian states in Bandung, Indonesia — Nehru, Zhou Enlai, Nasser, and Sukarno articulate Third World solidarity and non-alignment.",
+    significance:
+      "Direct precursor to the 1961 Non-Aligned Movement; first major postcolonial diplomatic gathering outside Western institutions.",
+    facts: [
+      "Ten Principles of peaceful coexistence and decolonization.",
+      "Brought together leaders from Ghana, Egypt, Yugoslavia, India, Indonesia, China.",
+      "Set the stage for the New International Economic Order push (1970s).",
+    ],
+    highlight: {
+      countryCodes: ["IDN", "IND", "CHN", "EGY", "GHA", "VNM", "PAK", "IRN", "JPN", "PHL"],
+      focus: { lat: 5, lng: 90, altitude: 2.5 },
+    },
+  },
+  {
+    id: "cultural-rev",
+    year: 1966,
+    endYear: 1976,
+    periodId: "p4",
+    regionIds: ["china"],
+    title: "Mao's Cultural Revolution",
+    description:
+      "Mao mobilizes Red Guards to purge 'capitalist roaders' and the 'Four Olds' — leads to mass struggle sessions, school shutdowns, and persecution of intellectuals.",
+    significance:
+      "Tens of millions sent down to the countryside; China's economic and cultural development paralyzed for a decade. Ends only with Mao's death (1976) and Deng's rise.",
+    facts: [
+      "Estimated 1–2 million deaths; tens of millions persecuted.",
+      "Little Red Book (Mao's quotations) printed in over a billion copies.",
+      "Targeted Liu Shaoqi, Deng Xiaoping, and the broader CCP elite.",
+    ],
+    highlight: { countryCodes: ["CHN"], focus: { lat: 35, lng: 105, altitude: 1.8 } },
+  },
+  {
+    id: "iranian-rev",
+    year: 1979,
+    periodId: "p4",
+    regionIds: ["persia"],
+    title: "Iranian Revolution",
+    description:
+      "Mass strikes and protests overthrow the US-backed Shah Mohammad Reza Pahlavi; Ayatollah Khomeini returns from exile to found the Islamic Republic.",
+    significance:
+      "First successful 20th-century revolution led by Islamists; reshapes Middle East politics and triggers the Iran–Iraq War (1980–88) and the US hostage crisis.",
+    facts: [
+      "US embassy hostage crisis: 52 Americans held 444 days.",
+      "1979 also: Soviet invasion of Afghanistan, Saudi Grand Mosque seizure.",
+      "Created velayat-e faqih — clerical guardianship of the state.",
+    ],
+    highlight: { countryCodes: ["IRN", "USA", "IRQ"], focus: { lat: 32, lng: 53, altitude: 1.7 } },
+  },
+  {
+    id: "tiananmen",
+    year: 1989,
+    periodId: "p4",
+    regionIds: ["china"],
+    title: "Tiananmen Square protests",
+    description:
+      "Student-led democracy protests fill Beijing's Tiananmen Square for seven weeks; PLA tanks crush the movement on June 4.",
+    significance:
+      "Deng's CCP shows it will not follow Gorbachev's path. Reform continues economically; political liberalization is foreclosed for a generation.",
+    facts: [
+      "Death toll estimates range from hundreds to several thousand.",
+      "Tank Man photo became one of the most iconic images of the 20th century.",
+      "Topic remains heavily censored within the PRC.",
+    ],
+    highlight: { countryCodes: ["CHN"], focus: { lat: 39.9, lng: 116.4, altitude: 1.5 } },
+  },
+  {
+    id: "apartheid-end",
+    year: 1990,
+    endYear: 1994,
+    periodId: "p4",
+    regionIds: ["eafrica"],
+    title: "End of apartheid in South Africa",
+    description:
+      "F. W. de Klerk frees Mandela (1990), legalizes the ANC, and negotiates a transition; Mandela is elected president in 1994 in South Africa's first multiracial vote.",
+    significance:
+      "Closes the last formal white-minority regime in Africa; Truth and Reconciliation Commission becomes a global model for transitional justice.",
+    facts: [
+      "Mandela imprisoned 27 years (1962–1990).",
+      "International boycott + Cold War's end made apartheid unsustainable.",
+      "Mandela and de Klerk shared the 1993 Nobel Peace Prize.",
+    ],
+    highlight: { countryCodes: ["ZAF", "NAM", "ZWE", "BWA"], focus: { lat: -26, lng: 25, altitude: 2.0 } },
+  },
+
+  // ---------- Unit 9 (p4) — globalization ----------
+  {
+    id: "eu-1993",
+    year: 1993,
+    periodId: "p4",
+    regionIds: ["wnerope"],
+    title: "European Union founded (Maastricht)",
+    description:
+      "The Maastricht Treaty turns the European Community into the European Union — single market, common foreign policy, and the path to the euro (introduced 1999/2002).",
+    significance:
+      "Largest peacetime political-economic integration in history. Eastward enlargement (2004, 2007) absorbs ex-Warsaw Pact states.",
+    facts: [
+      "12 founding members; 27 today (after Brexit, 2020).",
+      "Schengen Area abolishes most internal border checks.",
+      "Euro replaces 12 national currencies in 2002.",
+    ],
+    highlight: {
+      countryCodes: ["DEU", "FRA", "ITA", "ESP", "PRT", "NLD", "BEL", "LUX", "IRL", "DNK", "GRC", "AUT", "SWE", "FIN", "POL", "CZE", "SVK", "HUN", "ROU", "BGR", "HRV", "SVN", "EST", "LVA", "LTU", "MLT", "CYP"],
+      focus: { lat: 50, lng: 10, altitude: 2.2 },
+    },
+  },
+  {
+    id: "rwandan-genocide",
+    year: 1994,
+    periodId: "p4",
+    regionIds: ["eafrica"],
+    title: "Rwandan Genocide",
+    description:
+      "Hutu extremists massacre ~800,000 Tutsis and moderate Hutus in 100 days following the assassination of President Habyarimana.",
+    significance:
+      "Worst genocide since the Holocaust — international community (UN, US, France) failed to intervene. Drives later 'Responsibility to Protect' doctrine (2005).",
+    facts: [
+      "Radio RTLM broadcast incitement and lists of victims.",
+      "RPF under Paul Kagame ended the genocide militarily.",
+      "Triggered the Second Congo War (1998–2003), Africa's deadliest.",
+    ],
+    highlight: { countryCodes: ["RWA", "BDI", "COD", "UGA", "TZA"], focus: { lat: -2, lng: 30, altitude: 1.7 } },
+  },
+  {
+    id: "arab-spring",
+    year: 2010,
+    endYear: 2012,
+    periodId: "p4",
+    regionIds: ["egypt", "ottoman"],
+    title: "Arab Spring",
+    description:
+      "Mohamed Bouazizi's self-immolation (Tunisia, Dec 2010) sparks pro-democracy uprisings across Tunisia, Egypt, Libya, Syria, Yemen, Bahrain.",
+    significance:
+      "Fall of Ben Ali, Mubarak, Gaddafi, and Saleh; Syria descends into civil war that draws in Russia, Iran, the US, and ISIS. Decade of regional upheaval.",
+    facts: [
+      "Tunisia is the only durable democratic transition (until 2021).",
+      "Egypt: Mubarak out 2011 → Morsi elected → Sisi coup 2013.",
+      "Syria's war has killed 500,000+ and displaced 13+ million.",
+    ],
+    highlight: {
+      countryCodes: ["TUN", "EGY", "LBY", "SYR", "YEM", "BHR", "JOR", "MAR"],
+      focus: { lat: 28, lng: 25, altitude: 2.3 },
+    },
+  },
+  {
+    id: "paris-agreement",
+    year: 2015,
+    periodId: "p4",
+    regionIds: ["wnerope", "northam", "china", "india"],
+    title: "Paris Climate Agreement",
+    description:
+      "196 parties to the UNFCCC commit to limiting global warming to well below 2°C (target 1.5°C) through nationally determined contributions.",
+    significance:
+      "First universal climate accord; shifts climate policy from top-down targets to bottom-up pledges. Implementation (and US withdrawal/return) remains contested.",
+    facts: [
+      "Replaces the Kyoto Protocol (1997).",
+      "US withdrew under Trump (2020), rejoined under Biden (2021).",
+      "Built on top of decades of IPCC scientific assessment.",
+    ],
+    highlight: {
+      countryCodes: ["FRA", "USA", "CHN", "IND", "DEU", "BRA", "RUS", "JPN", "GBR"],
+      focus: { lat: 20, lng: 0, altitude: 2.8 },
+    },
   },
 ];
 

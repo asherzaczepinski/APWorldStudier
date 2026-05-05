@@ -8,6 +8,7 @@ import { tradeRoutes } from "@/lib/data/tradeRoutes";
 import { empires, type Empire } from "@/lib/data/empires";
 import InfoPopover, { type InfoSelection } from "@/components/InfoPopover";
 import type { TradeRoute, HistoricalEvent, Region } from "@/lib/types";
+import type { FeaturePath, EventPin } from "@/components/Globe";
 import type { HeimlerUnit } from "@/lib/data/heimlerUnits";
 
 const Globe = dynamic(() => import("@/components/Globe"), {
@@ -154,6 +155,28 @@ export default function HeimlerUnitView({ unit, onBack }: Props) {
     [aggregated.routeIds, activeEvent]
   );
 
+  // When the active event has a journey path (Mansa Musa hajj, da Gama,
+  // Magellan, etc.), draw it on the globe as a polyline.
+  const eventFeaturePaths = useMemo<FeaturePath[]>(() => {
+    if (!activeEvent?.highlight?.path) return [];
+    const pts = activeEvent.highlight.path;
+    if (pts.length < 2) return [];
+    return [
+      {
+        id: `event-path-${activeEvent.id}`,
+        label: activeEvent.title,
+        color: activeEvent.highlight.color ?? unit.accent,
+        points: pts.map((p) => [p.lat, p.lng] as [number, number]),
+      },
+    ];
+  }, [activeEvent, unit.accent]);
+
+  // Pins from the active event (cities/places to mark on the globe).
+  const eventPins = useMemo<EventPin[]>(
+    () => activeEvent?.highlight?.pins ?? [],
+    [activeEvent]
+  );
+
   const timelineEntries = useMemo(() => {
     const seen = new Set<string>();
     const out: HistoricalEvent[] = [];
@@ -269,7 +292,8 @@ export default function HeimlerUnitView({ unit, onBack }: Props) {
           countryLabels={countryLabels}
           events={[]}
           pois={[]}
-          eventPins={[]}
+          eventPins={eventPins}
+          featurePaths={eventFeaturePaths}
           autoRotate={false}
           focus={focus}
           onSelectCountry={selectCountry}
@@ -280,7 +304,18 @@ export default function HeimlerUnitView({ unit, onBack }: Props) {
 
         {selection && (
           <div className="fixed top-3 right-3" style={{ zIndex: 9999 }}>
-            <InfoPopover selection={selection} onClose={() => setSelection(null)} />
+            <InfoPopover
+              selection={selection}
+              onClose={() => {
+                setSelection(null);
+                // If the popover was showing the active timeline event, also
+                // clear the timeline selection so colors revert to base.
+                if (selection.kind === "event" && activeEventId === selection.event.id) {
+                  setActiveEventId(null);
+                  setFocusOverride(null);
+                }
+              }}
+            />
           </div>
         )}
 

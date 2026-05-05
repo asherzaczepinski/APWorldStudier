@@ -14,15 +14,12 @@ export default function HeimlerHome({ onSelectUnit }: Props) {
         style={{ borderBottom: "1px solid var(--border-soft)", background: "var(--bg)" }}
       >
         <h1 className="font-display t-20">AP World Studier</h1>
-        <span className="eyebrow" style={{ color: "var(--text-dim)" }}>
-          Heimler follow-along
-        </span>
       </header>
 
       <main className="max-w-5xl mx-auto px-4 md:px-8 py-8 md:py-12">
         <div className="mb-8 md:mb-12">
           <div className="eyebrow mb-2" style={{ color: "var(--text-dim)" }}>
-            Heimler&apos;s History · AP World Modern
+            AP World Modern · 1200–present
           </div>
           <h2 className="font-display t-26 md:text-4xl leading-tight">
             Pick a unit.
@@ -66,7 +63,7 @@ export default function HeimlerHome({ onSelectUnit }: Props) {
           className="mt-12 t-12 text-center"
           style={{ color: "var(--text-dim)" }}
         >
-          {heimlerUnits.length} units · one Heimler.
+          {heimlerUnits.length} units.
         </div>
       </main>
     </div>

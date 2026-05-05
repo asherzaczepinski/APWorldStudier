@@ -56,6 +56,12 @@ export type EventHighlight = {
   focus?: { lat: number; lng: number; altitude: number };
   /** Optional point markers (specific cities/places to pulse). */
   pins?: { lat: number; lng: number; label: string; color?: string }[];
+  /**
+   * A polyline drawn on the surface — for events with a journey or route
+   * (Mansa Musa's hajj, da Gama, Magellan, Berlin Airlift, etc.). Drawn with
+   * arrow segments showing direction.
+   */
+  path?: { lat: number; lng: number }[];
 };
 
 export type EventCategory =
