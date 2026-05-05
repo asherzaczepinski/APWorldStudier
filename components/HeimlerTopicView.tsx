@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { events } from "@/lib/data/events";
 import { tradeRoutes } from "@/lib/data/tradeRoutes";
-import { empires, empireAtCodeAndYear, territoriesAtYear, type Empire } from "@/lib/data/empires";
+import { empires, type Empire } from "@/lib/data/empires";
 import { pois as allPois } from "@/lib/data/pois";
 import InfoPopover, { type InfoSelection } from "@/components/InfoPopover";
 import type { TradeRoute } from "@/lib/types";
@@ -91,36 +91,21 @@ export default function HeimlerTopicView({ unit, topic: rawTopic, onBack }: Prop
     return out;
   }, [empireIds, year]);
 
-  // Background: every other empire that exists at topic.year, dimmer.
-  const backgroundTerritories = useMemo(() => {
-    const all = territoriesAtYear(year);
-    return all.filter((t) => !empireIds.includes(t.empire.id));
-  }, [year, empireIds]);
-
   const countryColors = useMemo(() => {
     const m = new Map<string, string>();
-    for (const t of backgroundTerritories) {
-      const base = /^#[0-9a-fA-F]{6}$/.test(t.empire.color)
-        ? t.empire.color + "55"
-        : t.empire.color;
-      for (const code of t.countryCodes) m.set(code, base);
-    }
     for (const t of territoriesForTopic) {
       for (const code of t.countryCodes) m.set(code, t.empire.color);
     }
     return m;
-  }, [territoriesForTopic, backgroundTerritories]);
+  }, [territoriesForTopic]);
 
   const countryLabels = useMemo(() => {
     const m = new Map<string, string>();
-    for (const t of backgroundTerritories) {
-      for (const code of t.countryCodes) m.set(code, t.empire.name);
-    }
     for (const t of territoriesForTopic) {
       for (const code of t.countryCodes) m.set(code, t.empire.name);
     }
     return m;
-  }, [territoriesForTopic, backgroundTerritories]);
+  }, [territoriesForTopic]);
 
   const visibleRoutes = useMemo<TradeRoute[]>(
     () => tradeRoutes.filter((r) => routeIds.includes(r.id)),
@@ -171,18 +156,18 @@ export default function HeimlerTopicView({ unit, topic: rawTopic, onBack }: Prop
   }, [visibleRoutes, topic.poiIds]);
 
   function selectCountry(code: string, name: string) {
-    // Prefer a topic-specific empire first; fall back to whatever empire owns
-    // the country at topic.year (the dimmed background).
-    let empire: Empire | null = null;
     for (const t of territoriesForTopic) {
       if (t.countryCodes.includes(code)) {
-        empire = t.empire;
-        break;
+        setSelection({
+          kind: "empire",
+          empire: t.empire,
+          year,
+          countryName: name,
+          countryCode: code,
+        });
+        return;
       }
     }
-    if (!empire) empire = empireAtCodeAndYear(code, year);
-    if (!empire) return;
-    setSelection({ kind: "empire", empire, year, countryName: name, countryCode: code });
   }
   function selectRoute(route: TradeRoute) {
     setSelection({ kind: "route", route, year });

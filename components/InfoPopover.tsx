@@ -4,7 +4,6 @@ import type { TradeRoute, HistoricalEvent } from "@/lib/types";
 import type { Empire } from "@/lib/data/empires";
 import type { POI } from "@/lib/data/pois";
 import type { HeimlerUnit, TopicFeature } from "@/lib/data/heimlerUnits";
-import { findGlossary } from "@/lib/data/glossary";
 
 export type InfoSelection =
   | { kind: "empire"; empire: Empire; year: number; countryName: string; countryCode: string }
@@ -50,12 +49,16 @@ export default function InfoPopover({ selection, onClose, topicContext }: Props)
     <div
       role="dialog"
       aria-modal="false"
-      className={
-        selection.kind === "unit"
-          ? "surface w-[440px] max-w-[92vw] p-5 pointer-events-auto"
-          : "surface w-[380px] max-w-[92vw] p-5 pointer-events-auto"
-      }
-      style={{ maxHeight: "80vh", overflowY: "auto" }}
+      className="surface p-5 pointer-events-auto"
+      style={{
+        width: 380,
+        minWidth: 280,
+        maxWidth: "92vw",
+        maxHeight: "80vh",
+        overflow: "auto",
+        // User can drag the bottom-right corner to resize horizontally + vertically.
+        resize: "horizontal",
+      }}
     >
       <div className="flex items-start justify-between gap-2 mb-1">
         <Header selection={selection} />
@@ -86,7 +89,6 @@ export default function InfoPopover({ selection, onClose, topicContext }: Props)
 function TopicCoverage({ ctx }: { ctx: TopicContext }) {
   const accent = ctx.unit.accent;
   const features = ctx.topic.features ?? [];
-  const mentions = ctx.topic.mentions ?? [];
 
   return (
     <div
@@ -153,38 +155,6 @@ function TopicCoverage({ ctx }: { ctx: TopicContext }) {
         </div>
       )}
 
-      {mentions.length > 0 && (
-        <div>
-          <div className="eyebrow mb-1.5" style={{ color: "var(--text-dim)" }}>
-            Also mentioned
-          </div>
-          <ul className="flex flex-wrap gap-1">
-            {mentions.map((m, i) => {
-              const hasDef = findGlossary(m) !== null;
-              return (
-                <li key={i}>
-                  <button
-                    onClick={() => hasDef && ctx.onSelectMention(m)}
-                    disabled={!hasDef}
-                    className="t-12 px-2 py-1 rounded transition"
-                    style={{
-                      background: "var(--bg-elev)",
-                      border: hasDef
-                        ? `1px solid color-mix(in oklch, ${accent} 30%, transparent)`
-                        : "1px solid var(--border-soft)",
-                      color: hasDef ? "var(--text)" : "var(--text-muted)",
-                      cursor: hasDef ? "pointer" : "default",
-                    }}
-                    title={hasDef ? "Click for definition" : "No definition yet"}
-                  >
-                    {m}
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      )}
     </div>
   );
 }
