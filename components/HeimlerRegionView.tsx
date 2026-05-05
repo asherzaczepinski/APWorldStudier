@@ -33,7 +33,18 @@ const REGION_PALETTE = [
 const REGION_ACCENT = "#f59e0b";
 
 export default function HeimlerRegionView({ region, onBack }: Props) {
-  const [selection, setSelection] = useState<InfoSelection | null>(null);
+  const [selection, setSelection] = useState<InfoSelection | null>(() => ({
+    kind: "intro",
+    eyebrow: `REGION · ${region.name.toUpperCase()}`,
+    title: region.name,
+    summary: region.blurb,
+    accent: REGION_ACCENT,
+    directions: [
+      "Click any event in the timeline below — works across all four AP periods.",
+      "Click a country on the globe to see which empire ruled it that year.",
+      "Click ★ Full Region Overview to return to this default view.",
+    ],
+  }));
   const [activeEventId, setActiveEventId] = useState<string | null>(null);
   const [focusOverride, setFocusOverride] = useState<
     { lat: number; lng: number; altitude: number } | null

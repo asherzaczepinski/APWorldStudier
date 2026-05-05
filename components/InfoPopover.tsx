@@ -13,7 +13,15 @@ export type InfoSelection =
   | { kind: "poi"; poi: POI; year: number }
   | { kind: "unit"; unit: HeimlerUnit }
   | { kind: "feature"; feature: TopicFeature; accent: string }
-  | { kind: "mention"; term: string; explanation: string; accent: string };
+  | { kind: "mention"; term: string; explanation: string; accent: string }
+  | {
+      kind: "intro";
+      eyebrow: string;
+      title: string;
+      summary: string;
+      accent: string;
+      directions: string[];
+    };
 
 export type TopicContext = {
   unit: HeimlerUnit;
@@ -108,6 +116,13 @@ function Header({ selection }: { selection: InfoSelection }) {
     return (
       <div className="eyebrow" style={{ color: selection.accent }}>
         TERM
+      </div>
+    );
+  }
+  if (selection.kind === "intro") {
+    return (
+      <div className="eyebrow" style={{ color: selection.accent }}>
+        {selection.eyebrow}
       </div>
     );
   }
@@ -322,6 +337,40 @@ function Body({ selection }: { selection: InfoSelection }) {
         <p className="t-14 mt-2 prose-cap" style={{ color: "var(--text-muted)" }}>
           {selection.explanation}
         </p>
+      </>
+    );
+  }
+
+  if (selection.kind === "intro") {
+    return (
+      <>
+        <h2
+          className="font-display t-26 leading-tight"
+          style={{ color: selection.accent }}
+        >
+          {selection.title}
+        </h2>
+        <p className="t-14 mt-2 prose-cap" style={{ color: "var(--text-muted)" }}>
+          {selection.summary}
+        </p>
+        <div
+          className="eyebrow mt-4 mb-1.5"
+          style={{ color: selection.accent }}
+        >
+          How to use this view
+        </div>
+        <ul className="space-y-1.5">
+          {selection.directions.map((d, i) => (
+            <li
+              key={i}
+              className="flex gap-2 t-14"
+              style={{ color: "var(--text)" }}
+            >
+              <span style={{ color: selection.accent }}>›</span>
+              <span>{d}</span>
+            </li>
+          ))}
+        </ul>
       </>
     );
   }

@@ -78,15 +78,17 @@ export const events: HistoricalEvent[] = [
     ],
     highlight: {
       countryCodes: ["MLI", "EGY", "SAU"],
-      color: "#eab308",
+      // Bright magenta — Mansa Musa's route runs across Sahara desert; a
+      // sandy/yellow line would blend into the terrain. Pink pops.
+      color: "#ec4899",
       focus: { lat: 20, lng: 10, altitude: 2.4 },
       pins: [
-        { lat: 13.21, lng: -8.29, label: "Niani (Mali capital)", color: "#eab308" },
-        { lat: 16.78, lng: -3.00, label: "Timbuktu", color: "#eab308" },
-        { lat: 32.89, lng: 13.18, label: "Tripoli", color: "#eab308" },
-        { lat: 30.05, lng: 31.24, label: "Cairo (1324)", color: "#eab308" },
-        { lat: 24.47, lng: 39.61, label: "Medina", color: "#eab308" },
-        { lat: 21.42, lng: 39.83, label: "Mecca", color: "#eab308" },
+        { lat: 13.21, lng: -8.29, label: "Niani (Mali capital)", color: "#ec4899" },
+        { lat: 16.78, lng: -3.00, label: "Timbuktu", color: "#ec4899" },
+        { lat: 32.89, lng: 13.18, label: "Tripoli", color: "#ec4899" },
+        { lat: 30.05, lng: 31.24, label: "Cairo (1324)", color: "#ec4899" },
+        { lat: 24.47, lng: 39.61, label: "Medina", color: "#ec4899" },
+        { lat: 21.42, lng: 39.83, label: "Mecca", color: "#ec4899" },
       ],
       path: [
         { lat: 13.21, lng: -8.29 },
@@ -1079,15 +1081,17 @@ export const events: HistoricalEvent[] = [
     ],
     highlight: {
       countryCodes: ["ITA", "TUR", "IRN", "AFG", "CHN", "MNG"],
-      color: "#a855f7",
+      // Bright cyan — overland Silk Road route crosses brown/tan Central Asia;
+      // cyan stands out where purple/blue would blend with mountains and sky.
+      color: "#22d3ee",
       focus: { lat: 42, lng: 70, altitude: 2.5 },
       pins: [
-        { lat: 45.44, lng: 12.32, label: "Venice (1271)", color: "#a855f7" },
-        { lat: 36.20, lng: 36.16, label: "Acre", color: "#a855f7" },
-        { lat: 32.66, lng: 51.67, label: "Isfahan", color: "#a855f7" },
-        { lat: 36.71, lng: 67.12, label: "Balkh", color: "#a855f7" },
-        { lat: 39.63, lng: 75.99, label: "Kashgar", color: "#a855f7" },
-        { lat: 39.91, lng: 116.40, label: "Khanbaliq (Beijing)", color: "#a855f7" },
+        { lat: 45.44, lng: 12.32, label: "Venice (1271)", color: "#22d3ee" },
+        { lat: 36.20, lng: 36.16, label: "Acre", color: "#22d3ee" },
+        { lat: 32.66, lng: 51.67, label: "Isfahan", color: "#22d3ee" },
+        { lat: 36.71, lng: 67.12, label: "Balkh", color: "#22d3ee" },
+        { lat: 39.63, lng: 75.99, label: "Kashgar", color: "#22d3ee" },
+        { lat: 39.91, lng: 116.40, label: "Khanbaliq (Beijing)", color: "#22d3ee" },
       ],
       path: [
         { lat: 45.44, lng: 12.32 },

@@ -433,10 +433,11 @@ export default function Globe({
         arcAltitudeAutoScale={0.45}
         arcLabel={(d: object) => {
           const a = d as ArcDatum;
-          return `<div style="background:${TOOLTIP_BG};padding:8px 12px;border-radius:10px;border:1px solid ${a.color};color:${TOOLTIP_TEXT};font:500 12px ui-sans-serif,system-ui;max-width:280px;box-shadow:0 12px 36px -16px rgba(0,0,0,0.7)">
-            <div style="font-family:ui-serif,Georgia,serif;font-size:14px;color:${a.color};letter-spacing:-0.01em">${a.route.name}</div>
-            <div style="font-size:11px;margin-top:3px;opacity:0.75">click the pin for details</div>
-          </div>`;
+          return `<div style="background:${TOOLTIP_BG};padding:6px 12px;border-radius:8px;border:1px solid ${a.color};color:${TOOLTIP_TEXT};font:600 13px ui-serif,Georgia,serif;letter-spacing:-0.01em;box-shadow:0 8px 24px -12px rgba(0,0,0,0.7)">${a.route.name}</div>`;
+        }}
+        onArcClick={(d: object) => {
+          const a = d as ArcDatum;
+          onSelectRoute(a.route);
         }}
 
         // Empty layers we don't use

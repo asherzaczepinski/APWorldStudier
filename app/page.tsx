@@ -18,14 +18,18 @@ export default function Page() {
   if (view.kind === "unit") {
     return (
       <HeimlerUnitView
+        key={view.unit.unitNumber}
         unit={view.unit}
         onBack={() => setView({ kind: "home" })}
       />
     );
   }
   if (view.kind === "region") {
+    // key forces a fresh mount when the user picks a different region — that
+    // way the intro popover re-opens for the new region.
     return (
       <HeimlerRegionView
+        key={view.region.id}
         region={view.region}
         onBack={() => setView({ kind: "home" })}
       />

@@ -42,7 +42,18 @@ const REGION_PALETTE = [
 ];
 
 export default function HeimlerUnitView({ unit, onBack }: Props) {
-  const [selection, setSelection] = useState<InfoSelection | null>(null);
+  const [selection, setSelection] = useState<InfoSelection | null>(() => ({
+    kind: "intro",
+    eyebrow: `UNIT ${unit.unitNumber} · ${unit.yearStart}–${unit.yearEnd}`,
+    title: unit.title,
+    summary: unit.subtitle,
+    accent: unit.accent,
+    directions: [
+      "Click any event in the timeline below to color-code the regions it touches.",
+      "Click a country on the globe to see which empire ruled it that year.",
+      "Click ★ Full Unit Overview to return to this default view.",
+    ],
+  }));
   const [activeEventId, setActiveEventId] = useState<string | null>(null);
   const [focusOverride, setFocusOverride] = useState<
     { lat: number; lng: number; altitude: number } | null
