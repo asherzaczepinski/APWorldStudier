@@ -8,7 +8,6 @@ import { tradeRoutes } from "@/lib/data/tradeRoutes";
 import { empires, type Empire } from "@/lib/data/empires";
 import InfoPopover, { type InfoSelection } from "@/components/InfoPopover";
 import type { TradeRoute, HistoricalEvent, Region } from "@/lib/types";
-import type { EventPin } from "@/components/Globe";
 import type { HeimlerUnit } from "@/lib/data/heimlerUnits";
 
 const Globe = dynamic(() => import("@/components/Globe"), {
@@ -181,11 +180,8 @@ export default function HeimlerUnitView({ unit, onBack }: Props) {
     ];
   }, [activeEvent, unit.accent]);
 
-  // Pins from the active event (cities/places to mark on the globe).
-  const eventPins = useMemo<EventPin[]>(
-    () => activeEvent?.highlight?.pins ?? [],
-    [activeEvent]
-  );
+  // Pins are intentionally not rendered — the journey arc + region color
+  // already convey location without cluttering the globe.
 
   const timelineEntries = useMemo(() => {
     const seen = new Set<string>();
@@ -211,7 +207,14 @@ export default function HeimlerUnitView({ unit, onBack }: Props) {
     return undefined;
   }, [focusOverride, activeEvent]);
 
-  function selectEvent(ev: HistoricalEvent) {
+  function selectEvent(ev: HistoricalEvent | null) {
+    if (ev === null) {
+      // Back to "Full Unit Overview" — clear event, restore unit-wide view.
+      setActiveEventId(null);
+      setSelection(null);
+      setFocusOverride(null);
+      return;
+    }
     if (activeEventId === ev.id) {
       // Toggle off.
       setActiveEventId(null);
@@ -262,7 +265,7 @@ export default function HeimlerUnitView({ unit, onBack }: Props) {
   return (
     <div className="fixed inset-0 flex flex-col">
       <header
-        className="flex items-center justify-between gap-4 px-4 md:px-6 py-2.5 z-30 relative flex-shrink-0"
+        className="flex items-center justify-between gap-4 pl-4 pr-4 md:pl-5 md:pr-6 py-2.5 z-30 relative flex-shrink-0"
         style={{
           borderBottom: "1px solid var(--border-soft)",
           background: "var(--bg)",
@@ -303,7 +306,7 @@ export default function HeimlerUnitView({ unit, onBack }: Props) {
           countryLabels={countryLabels}
           events={[]}
           pois={[]}
-          eventPins={eventPins}
+          eventPins={[]}
           autoRotate={false}
           focus={focus}
           onSelectCountry={selectCountry}
@@ -357,7 +360,7 @@ function UnitTimeline({
   accent: string;
   unitStart: number;
   unitEnd: number;
-  onPick: (ev: HistoricalEvent) => void;
+  onPick: (ev: HistoricalEvent | null) => void;
 }) {
   const minYear = Math.min(unitStart, ...entries.map((e) => e.year));
   const maxYear = Math.max(
@@ -379,15 +382,42 @@ function UnitTimeline({
           <div className="eyebrow" style={{ color: accent }}>
             Unit timeline · {minYear}–{maxYear}
           </div>
-          <div className="t-12" style={{ color: "var(--text-dim)" }}>
-            {entries.length} events · click one
-          </div>
         </div>
         <div
-          className="flex items-stretch gap-2"
+          className="flex items-start gap-2"
           role="list"
           aria-label="Unit timeline"
         >
+          <button
+            onClick={() => onPick(null)}
+            role="listitem"
+            className="flex-shrink-0 text-left rounded transition hover:brightness-125"
+            style={{
+              width: 150,
+              height: 76,
+              padding: 10,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-start",
+              background: activeEventId === null
+                ? `color-mix(in oklch, ${accent} 28%, transparent)`
+                : "var(--bg-elev)",
+              border: activeEventId === null
+                ? `1px solid ${accent}`
+                : "1px solid var(--border-soft)",
+            }}
+            title="Full Unit Overview — everything at once"
+          >
+            <div className="t-12 font-display" style={{ color: accent }}>
+              ★ Overview
+            </div>
+            <div
+              className="t-12 mt-0.5 leading-tight"
+              style={{ color: "var(--text)" }}
+            >
+              Full Unit Overview
+            </div>
+          </button>
           {entries.map((e) => {
             const isActive = activeEventId === e.id;
             const range =
@@ -399,9 +429,14 @@ function UnitTimeline({
                 key={e.id}
                 onClick={() => onPick(e)}
                 role="listitem"
-                className="flex-shrink-0 text-left rounded p-2 transition hover:brightness-125"
+                className="flex-shrink-0 text-left rounded transition hover:brightness-125"
                 style={{
                   width: 150,
+                  height: 76,
+                  padding: 10,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "flex-start",
                   background: isActive
                     ? `color-mix(in oklch, ${accent} 28%, transparent)`
                     : "var(--bg-elev)",

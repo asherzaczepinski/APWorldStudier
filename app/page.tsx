@@ -5,12 +5,12 @@ import HeimlerHome from "@/components/HeimlerHome";
 import HeimlerUnitView from "@/components/HeimlerTopicView";
 import HeimlerRegionView from "@/components/HeimlerRegionView";
 import type { HeimlerUnit } from "@/lib/data/heimlerUnits";
-import type { Region } from "@/lib/types";
+import type { HomeRegion } from "@/lib/data/homeRegions";
 
 type View =
   | { kind: "home" }
   | { kind: "unit"; unit: HeimlerUnit }
-  | { kind: "region"; region: Region };
+  | { kind: "region"; region: HomeRegion };
 
 export default function Page() {
   const [view, setView] = useState<View>({ kind: "home" });

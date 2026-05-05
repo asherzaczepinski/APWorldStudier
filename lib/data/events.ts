@@ -154,17 +154,22 @@ export const events: HistoricalEvent[] = [
         { lat: -3.22, lng: 40.12, label: "Malindi (giraffe!)", color: "#ef4444" },
       ],
       path: [
-        { lat: 32.06, lng: 118.79 },
-        { lat: 22.30, lng: 114.17 },
-        { lat: 10.78, lng: 106.70 },
-        { lat: -7.25, lng: 112.75 },
-        { lat: 5.42, lng: 100.33 },
-        { lat: 6.93, lng: 79.85 },
-        { lat: 11.26, lng: 75.78 },
-        { lat: 27.18, lng: 56.27 },
-        { lat: 12.77, lng: 45.04 },
-        { lat: 2.04, lng: 45.34 },
-        { lat: -3.22, lng: 40.12 },
+        { lat: 32.06, lng: 118.79 },  // Nanjing
+        { lat: 28.0, lng: 122.0 },    // East China Sea
+        { lat: 22.30, lng: 114.17 },  // Hong Kong
+        { lat: 14.0, lng: 113.0 },    // South China Sea
+        { lat: 1.3, lng: 104.5 },     // off Singapore
+        { lat: 4.5, lng: 99.5 },      // Strait of Malacca
+        { lat: 7.0, lng: 92.0 },      // Andaman Sea
+        { lat: 6.93, lng: 79.85 },    // Sri Lanka
+        { lat: 11.26, lng: 75.78 },   // Calicut
+        { lat: 14.0, lng: 65.0 },     // open Arabian Sea
+        { lat: 22.0, lng: 60.0 },     // off Oman
+        { lat: 27.18, lng: 56.27 },   // Hormuz
+        { lat: 13.0, lng: 53.0 },     // off Socotra
+        { lat: 12.77, lng: 45.04 },   // Aden
+        { lat: 2.04, lng: 45.34 },    // off Mogadishu
+        { lat: -3.22, lng: 40.12 },   // Malindi
       ],
     },
   },
@@ -410,8 +415,7 @@ export const events: HistoricalEvent[] = [
     ],
     highlight: {
       splits: [
-        { label: "United States + PR", color: "#3b82f6", countryCodes: ["USA", "PRI"] },
-        { label: "Acquired 1898 (Philippines, Cuba)", color: "#facc15", countryCodes: ["PHL", "CUB"] },
+        { label: "Acquired 1898 (Philippines, Cuba, Puerto Rico, Guam)", color: "#facc15", countryCodes: ["PHL", "CUB", "PRI"] },
       ],
       focus: { lat: 18, lng: -120, altitude: 2.7 },
     },
@@ -972,6 +976,75 @@ export const events: HistoricalEvent[] = [
 
   // ---------- Unit 1–2 (p1) additions ----------
   {
+    id: "song-dynasty",
+    year: 1200,
+    endYear: 1279,
+    periodId: "p1",
+    regionIds: ["china"],
+    title: "Song dynasty (Southern Song)",
+    description:
+      "Southern Song rules from Hangzhou after losing the north to the Jin in 1127 — Confucian revival, the imperial civil service exam at full scale, Champa rice, paper money, and gunpowder weapons.",
+    significance:
+      "Most economically and technologically advanced state of its era; ~100 million population, mass urbanization, and a meritocratic bureaucracy that other East Asian states copy.",
+    facts: [
+      "Champa rice from Vietnam → two harvests/year → population doubles.",
+      "First true paper money (jiaozi); world's first mass-printed books.",
+      "Compass, gunpowder, and movable type all matured under the Song.",
+      "Falls to Kublai Khan's Mongols at the Battle of Yamen, 1279.",
+    ],
+    highlight: {
+      countryCodes: ["CHN"],
+      color: "#dc2626",
+      focus: { lat: 30, lng: 113, altitude: 1.7 },
+    },
+  },
+  {
+    id: "yuan-dynasty",
+    year: 1271,
+    endYear: 1368,
+    periodId: "p1",
+    regionIds: ["china", "mongol"],
+    title: "Yuan dynasty (Mongol China)",
+    description:
+      "Kublai Khan declares the Yuan, completes the conquest of the Southern Song (1279), and rules China as part of the wider Mongol world.",
+    significance:
+      "First non-Han dynasty to rule all of China. Pax Mongolica reopens Silk Roads — Marco Polo, Ibn Battuta, and the Black Death all travel through Yuan territory.",
+    facts: [
+      "Capital at Khanbaliq (Dadu) — modern Beijing.",
+      "Han Chinese ranked 4th of 4 social classes (below Mongols, Semu, northerners).",
+      "Failed invasions of Japan (1274, 1281) wrecked by kamikaze typhoons.",
+      "Red Turban revolts + plague + flooding → collapse 1368.",
+    ],
+    highlight: {
+      countryCodes: ["CHN", "MNG"],
+      color: "#7c3aed",
+      focus: { lat: 40, lng: 110, altitude: 2.0 },
+    },
+  },
+  {
+    id: "ming-dynasty",
+    year: 1368,
+    endYear: 1644,
+    periodId: "p2",
+    regionIds: ["china"],
+    title: "Ming dynasty",
+    description:
+      "Hongwu (Zhu Yuanzhang), a peasant rebel, expels the Mongols and founds the Ming. Yongle moves the capital to Beijing, builds the Forbidden City, and sponsors Zheng He's voyages.",
+    significance:
+      "Restores Han rule, rebuilds the Great Wall in stone, and at its peak is the world's wealthiest economy. Silver inflows from Potosí via Manila tie China to the global economy.",
+    facts: [
+      "Built the Forbidden City (1406–1420).",
+      "Zheng He's 7 treasure-fleet voyages 1405–1433.",
+      "Single-Whip tax reform (1581) demanded payment in silver.",
+      "Falls to peasant rebel Li Zicheng (1644) → Manchus walk in.",
+    ],
+    highlight: {
+      countryCodes: ["CHN"],
+      color: "#f59e0b",
+      focus: { lat: 35, lng: 110, altitude: 1.7 },
+    },
+  },
+  {
     id: "sundiata-mali",
     year: 1235,
     endYear: 1464,
@@ -1075,20 +1148,33 @@ export const events: HistoricalEvent[] = [
         { lat: 16.78, lng: -3.00, label: "Timbuktu (1352)", color: "#06b6d4" },
       ],
       path: [
-        { lat: 35.78, lng: -5.81 },
-        { lat: 36.80, lng: 10.18 },
-        { lat: 31.20, lng: 29.92 },
-        { lat: 30.05, lng: 31.24 },
-        { lat: 21.42, lng: 39.83 },
-        { lat: 33.31, lng: 44.36 },
-        { lat: 32.66, lng: 51.67 },
-        { lat: 28.61, lng: 77.21 },
-        { lat: 11.26, lng: 75.78 },
-        { lat: 24.87, lng: 118.66 },
-        { lat: -6.81, lng: 39.27 },
-        { lat: -8.96, lng: 39.65 },
-        { lat: 16.78, lng: -3.00 },
-        { lat: 33.97, lng: -4.99 },
+        { lat: 35.78, lng: -5.81 },   // Tangier
+        { lat: 36.80, lng: 10.18 },   // Tunis (overland)
+        { lat: 31.20, lng: 29.92 },   // Alexandria
+        { lat: 30.05, lng: 31.24 },   // Cairo
+        { lat: 21.42, lng: 39.83 },   // Mecca
+        { lat: 33.31, lng: 44.36 },   // Baghdad (overland)
+        { lat: 32.66, lng: 51.67 },   // Isfahan
+        { lat: 28.61, lng: 77.21 },   // Delhi (overland)
+        { lat: 11.26, lng: 75.78 },   // Calicut
+        // Calicut → Quanzhou: keep arcs over water around the Indian peninsula
+        // and through the Malacca Strait.
+        { lat: 6.93, lng: 79.85 },    // Sri Lanka
+        { lat: 7.0, lng: 92.0 },      // Andaman Sea
+        { lat: 4.5, lng: 99.5 },      // Strait of Malacca
+        { lat: 14.0, lng: 113.0 },    // South China Sea
+        { lat: 24.87, lng: 118.66 },  // Quanzhou
+        // Return down East Africa coast via Indian Ocean, not through Asia again.
+        { lat: 14.0, lng: 65.0 },     // Arabian Sea
+        { lat: 12.8, lng: 45.0 },     // Aden
+        { lat: 2.0, lng: 47.0 },      // off Mogadishu
+        { lat: -6.81, lng: 39.27 },   // Dar es Salaam
+        { lat: -8.96, lng: 39.65 },   // Kilwa
+        // Then back overland up through Africa to Mali and Morocco.
+        { lat: 21.42, lng: 39.83 },   // Mecca again on return
+        { lat: 30.05, lng: 31.24 },   // Cairo
+        { lat: 16.78, lng: -3.00 },   // Timbuktu
+        { lat: 33.97, lng: -4.99 },   // Fez
       ],
     },
   },
@@ -1634,7 +1720,7 @@ export const events: HistoricalEvent[] = [
       "Zapata's slogan: 'Tierra y Libertad.'",
       "1917 Constitution restored ejido communal land tenure.",
     ],
-    highlight: { countryCodes: ["MEX", "USA"], focus: { lat: 23, lng: -102, altitude: 1.8 } },
+    highlight: { countryCodes: ["MEX"], color: "#22c55e", focus: { lat: 23, lng: -102, altitude: 1.8 } },
   },
   {
     id: "versailles-1919",

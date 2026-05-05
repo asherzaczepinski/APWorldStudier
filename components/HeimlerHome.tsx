@@ -2,12 +2,11 @@
 
 import { useState } from "react";
 import { heimlerUnits, type HeimlerUnit } from "@/lib/data/heimlerUnits";
-import { regions } from "@/lib/data/regions";
-import type { Region } from "@/lib/types";
+import { homeRegions, type HomeRegion } from "@/lib/data/homeRegions";
 
 type Props = {
   onSelectUnit: (unit: HeimlerUnit) => void;
-  onSelectRegion: (region: Region) => void;
+  onSelectRegion: (region: HomeRegion) => void;
 };
 
 type Tab = "unit" | "region";
@@ -87,11 +86,11 @@ export default function HeimlerHome({ onSelectUnit, onSelectRegion }: Props) {
           </ol>
         ) : (
           <ol className="grid gap-2.5 md:gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {regions.map((r) => (
-              <li key={r.id}>
+            {homeRegions.map((r) => (
+              <li key={r.id} className="flex">
                 <button
                   onClick={() => onSelectRegion(r)}
-                  className="w-full text-left p-4 transition hover:brightness-110"
+                  className="w-full h-full text-left p-4 transition hover:brightness-110"
                   style={{
                     background: "var(--bg-elev)",
                     border: "1px solid var(--border-soft)",
@@ -117,14 +116,6 @@ export default function HeimlerHome({ onSelectUnit, onSelectRegion }: Props) {
           </ol>
         )}
 
-        <div
-          className="mt-12 t-12 text-center"
-          style={{ color: "var(--text-dim)" }}
-        >
-          {tab === "unit"
-            ? `${heimlerUnits.length} units.`
-            : `${regions.length} regions.`}
-        </div>
       </main>
     </div>
   );

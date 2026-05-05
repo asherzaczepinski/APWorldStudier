@@ -34,9 +34,22 @@ export const tradeRoutes: TradeRoute[] = [
     description:
       "Monsoon-driven maritime network linking China to East Africa. Diasporic merchant communities connected hubs like Calicut, Malacca, Hormuz, and Kilwa.",
     path: [
-      { lat: 31.2, lng: 121.5 }, { lat: 22.3, lng: 114.2 }, { lat: 2.2, lng: 102.3 },
-      { lat: 6.9, lng: 79.9 }, { lat: 11.3, lng: 75.8 }, { lat: 27.1, lng: 56.3 },
-      { lat: 12.8, lng: 45.0 }, { lat: -8.96, lng: 39.5 },
+      { lat: 31.2, lng: 121.5 },   // Shanghai / Yangzi delta
+      { lat: 22.3, lng: 114.2 },   // Hong Kong / Pearl River
+      { lat: 14.0, lng: 113.0 },   // South China Sea
+      { lat: 1.3, lng: 104.5 },    // off Singapore
+      { lat: 4.5, lng: 99.5 },     // Strait of Malacca
+      { lat: 7.0, lng: 92.0 },     // Andaman Sea
+      { lat: 6.9, lng: 79.9 },     // Sri Lanka
+      { lat: 11.3, lng: 75.8 },    // Calicut
+      { lat: 14.0, lng: 65.0 },    // open Arabian Sea
+      { lat: 22.0, lng: 60.0 },    // off Oman
+      { lat: 27.1, lng: 56.3 },    // Hormuz
+      { lat: 13.0, lng: 53.0 },    // off Socotra
+      { lat: 12.8, lng: 45.0 },    // Aden / Bab-el-Mandeb
+      { lat: 2.0, lng: 47.0 },     // off Somali coast
+      { lat: -4.0, lng: 40.5 },    // off Mombasa
+      { lat: -8.96, lng: 39.5 },   // Kilwa
     ],
   },
   {

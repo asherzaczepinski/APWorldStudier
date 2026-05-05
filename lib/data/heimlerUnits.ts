@@ -377,9 +377,10 @@ const rawUnits: RawUnit[] = [
         year: 1325,
         empireIds: ["delhi", "mali", "aztec", "inca", "maya"],
         eventIds: [
-          "mongol-rise", "delhi-sultanate", "sundiata-mali", "marco-polo",
-          "kilwa-swahili", "tenochtitlan-founded", "mansa-musa", "ibn-battuta",
-          "black-death", "malacca-founded", "zheng-he", "inca-founding",
+          "song-dynasty", "mongol-rise", "delhi-sultanate", "sundiata-mali",
+          "yuan-dynasty", "marco-polo", "kilwa-swahili", "tenochtitlan-founded",
+          "mansa-musa", "ibn-battuta", "black-death", "ming-dynasty",
+          "malacca-founded", "zheng-he", "inca-founding",
         ],
         poiIds: [
           "beijing", "delhi", "baghdad", "cairo", "tenochtitlan", "cuzco", "timbuktu",
@@ -520,9 +521,10 @@ const rawUnits: RawUnit[] = [
         empireIds: ["mongol", "yuan", "mali"],
         routeIds: ["silk-road", "indian-ocean", "trans-saharan", "trans-saharan-2"],
         eventIds: [
-          "mongol-rise", "delhi-sultanate", "sundiata-mali", "marco-polo",
-          "kilwa-swahili", "mansa-musa", "ibn-battuta", "black-death",
-          "malacca-founded", "zheng-he",
+          "song-dynasty", "mongol-rise", "delhi-sultanate", "sundiata-mali",
+          "yuan-dynasty", "marco-polo", "kilwa-swahili", "mansa-musa",
+          "ibn-battuta", "black-death", "ming-dynasty", "malacca-founded",
+          "zheng-he",
         ],
         poiIds: ["beijing", "samarkand", "kashgar", "calicut", "malacca", "kilwa", "timbuktu", "cairo", "venice"],
         mentions: [
@@ -615,9 +617,9 @@ const rawUnits: RawUnit[] = [
         year: 1600,
         empireIds: ["ottoman", "safavid", "mughal", "ming", "qing", "russian-empire"],
         eventIds: [
-          "constantinople-1453", "safavid-1501", "chaldiran-1514", "suleiman",
-          "mughal-1526", "akbar", "lepanto-1571", "qing-1644", "aurangzeb",
-          "tokugawa-sakoku",
+          "ming-dynasty", "constantinople-1453", "safavid-1501", "chaldiran-1514",
+          "suleiman", "mughal-1526", "akbar", "lepanto-1571", "qing-1644",
+          "aurangzeb", "tokugawa-sakoku",
         ],
         poiIds: ["constantinople", "isfahan", "delhi", "beijing", "moscow", "wittenberg", "vatican"],
         mentions: [

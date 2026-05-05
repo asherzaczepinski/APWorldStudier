@@ -7,7 +7,7 @@ import { regions } from "@/lib/data/regions";
 import { periods } from "@/lib/data/periods";
 import InfoPopover, { type InfoSelection } from "@/components/InfoPopover";
 import type { TradeRoute, HistoricalEvent, Region } from "@/lib/types";
-import type { EventPin } from "@/components/Globe";
+import type { HomeRegion } from "@/lib/data/homeRegions";
 
 const Globe = dynamic(() => import("@/components/Globe"), {
   ssr: false,
@@ -21,7 +21,7 @@ const Globe = dynamic(() => import("@/components/Globe"), {
 });
 
 type Props = {
-  region: Region;
+  region: HomeRegion;
   onBack: () => void;
 };
 
@@ -39,15 +39,16 @@ export default function HeimlerRegionView({ region, onBack }: Props) {
     { lat: number; lng: number; altitude: number } | null
   >(null);
 
-  // Every event whose regionIds includes this region — the region's full timeline.
+  // Every event whose regionIds intersects the macro-region's eventRegionIds.
   const regionEvents = useMemo<HistoricalEvent[]>(() => {
+    const set = new Set(region.eventRegionIds);
     return events
-      .filter((e) => e.regionIds.includes(region.id))
+      .filter((e) => e.regionIds.some((rid) => set.has(rid)))
       .sort(
         (a, b) =>
           a.year - b.year || (a.endYear ?? a.year) - (b.endYear ?? b.year)
       );
-  }, [region.id]);
+  }, [region.eventRegionIds]);
 
   // Group events by AP period for timeline section headings.
   const eventsByPeriod = useMemo(() => {
@@ -134,18 +135,22 @@ export default function HeimlerRegionView({ region, onBack }: Props) {
     ];
   }, [activeEvent]);
 
-  const eventPins = useMemo<EventPin[]>(
-    () => activeEvent?.highlight?.pins ?? [],
-    [activeEvent]
-  );
+  // Pins intentionally not rendered.
 
   const focus = useMemo(() => {
     if (focusOverride) return focusOverride;
     if (activeEvent?.highlight?.focus) return activeEvent.highlight.focus;
-    return { lat: region.lat, lng: region.lng, altitude: 1.9 };
+    return { lat: region.lat, lng: region.lng, altitude: region.altitude };
   }, [focusOverride, activeEvent, region]);
 
-  function selectEvent(ev: HistoricalEvent) {
+  function selectEvent(ev: HistoricalEvent | null) {
+    if (ev === null) {
+      // Back to "Full Region Overview" — clear event, restore region-wide view.
+      setActiveEventId(null);
+      setSelection(null);
+      setFocusOverride(null);
+      return;
+    }
     if (activeEventId === ev.id) {
       setActiveEventId(null);
       setSelection(null);
@@ -174,7 +179,7 @@ export default function HeimlerRegionView({ region, onBack }: Props) {
   return (
     <div className="fixed inset-0 flex flex-col">
       <header
-        className="flex items-center justify-between gap-4 px-4 md:px-6 py-2.5 z-30 relative flex-shrink-0"
+        className="flex items-center justify-between gap-4 pl-4 pr-4 md:pl-5 md:pr-6 py-2.5 z-30 relative flex-shrink-0"
         style={{
           borderBottom: "1px solid var(--border-soft)",
           background: "var(--bg)",
@@ -215,7 +220,7 @@ export default function HeimlerRegionView({ region, onBack }: Props) {
           countryLabels={countryLabels}
           events={[]}
           pois={[]}
-          eventPins={eventPins}
+          eventPins={[]}
           autoRotate={false}
           focus={focus}
           onSelectCountry={selectCountry}
@@ -258,8 +263,22 @@ function RegionTimeline({
 }: {
   eventsByPeriod: Map<string, HistoricalEvent[]>;
   activeEventId: string | null;
-  onPick: (ev: HistoricalEvent) => void;
+  onPick: (ev: HistoricalEvent | null) => void;
 }) {
+  // Flatten back to one chronological row, but tag each entry with its period
+  // color so the user still gets the period cue without per-period rows.
+  type Row = { event: HistoricalEvent; periodColor: string };
+  const rows: Row[] = [];
+  for (const p of periods) {
+    const list = eventsByPeriod.get(p.id) ?? [];
+    for (const e of list) rows.push({ event: e, periodColor: p.color });
+  }
+  rows.sort(
+    (a, b) =>
+      a.event.year - b.event.year ||
+      (a.event.endYear ?? a.event.year) - (b.event.endYear ?? b.event.year)
+  );
+
   return (
     <div
       className="absolute bottom-0 left-0 right-0"
@@ -270,72 +289,106 @@ function RegionTimeline({
       }}
     >
       <div className="surface mx-3 md:mx-4 mb-3 px-3 py-2.5 overflow-x-auto">
-        <div className="eyebrow mb-2" style={{ color: REGION_ACCENT }}>
-          Region timeline · click an event
+        <div className="flex items-baseline justify-between gap-3 mb-1.5">
+          <div className="eyebrow" style={{ color: REGION_ACCENT }}>
+            Region timeline
+          </div>
+          <div className="flex items-center gap-3 t-12" style={{ color: "var(--text-dim)" }}>
+            {periods.map((p) => (
+              <span key={p.id} className="flex items-center gap-1">
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: 8,
+                    height: 8,
+                    borderRadius: 999,
+                    background: p.color,
+                  }}
+                />
+                {p.startYear}–{p.endYear}
+              </span>
+            ))}
+          </div>
         </div>
-        <div className="flex items-stretch gap-3" role="list" aria-label="Region timeline">
-          {periods.map((p) => {
-            const list = eventsByPeriod.get(p.id) ?? [];
-            if (list.length === 0) return null;
+        <div
+          className="flex items-start gap-2"
+          role="list"
+          aria-label="Region timeline"
+        >
+          <button
+            onClick={() => onPick(null)}
+            role="listitem"
+            className="flex-shrink-0 text-left rounded transition hover:brightness-125"
+            style={{
+              width: 150,
+              height: 76,
+              padding: 10,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-start",
+              background: activeEventId === null
+                ? `color-mix(in oklch, ${REGION_ACCENT} 28%, transparent)`
+                : "var(--bg-elev)",
+              border: activeEventId === null
+                ? `1px solid ${REGION_ACCENT}`
+                : "1px solid var(--border-soft)",
+            }}
+            title="Full Region Overview — everything at once"
+          >
+            <div className="t-12 font-display" style={{ color: REGION_ACCENT }}>
+              ★ Overview
+            </div>
+            <div
+              className="t-12 mt-0.5 leading-tight"
+              style={{ color: "var(--text)" }}
+            >
+              Full Region Overview
+            </div>
+          </button>
+          {rows.map(({ event: e, periodColor }) => {
+            const isActive = activeEventId === e.id;
+            const range =
+              e.endYear && e.endYear !== e.year
+                ? `${e.year}–${e.endYear}`
+                : `${e.year}`;
             return (
-              <div key={p.id} className="flex-shrink-0">
+              <button
+                key={e.id}
+                onClick={() => onPick(e)}
+                role="listitem"
+                className="flex-shrink-0 text-left rounded transition hover:brightness-125"
+                style={{
+                  width: 150,
+                  height: 76,
+                  padding: 10,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "flex-start",
+                  background: isActive
+                    ? `color-mix(in oklch, ${periodColor} 28%, transparent)`
+                    : "var(--bg-elev)",
+                  border: isActive
+                    ? `1px solid ${periodColor}`
+                    : "1px solid var(--border-soft)",
+                }}
+                title={`${range} · ${e.title}`}
+              >
+                <div className="t-12 font-display" style={{ color: periodColor }}>
+                  {range}
+                </div>
                 <div
-                  className="t-12 mb-1.5 pl-1"
-                  style={{ color: p.color }}
-                  title={p.name}
+                  className="t-12 mt-0.5 leading-tight"
+                  style={{
+                    color: "var(--text)",
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                  }}
                 >
-                  <span className="font-display">{p.startYear}–{p.endYear}</span>
-                  <span style={{ color: "var(--text-dim)", marginLeft: 6 }}>
-                    {p.name}
-                  </span>
+                  {e.title}
                 </div>
-                <div className="flex items-stretch gap-2">
-                  {list.map((e) => {
-                    const isActive = activeEventId === e.id;
-                    const range =
-                      e.endYear && e.endYear !== e.year
-                        ? `${e.year}–${e.endYear}`
-                        : `${e.year}`;
-                    return (
-                      <button
-                        key={e.id}
-                        onClick={() => onPick(e)}
-                        role="listitem"
-                        className="flex-shrink-0 text-left rounded p-2 transition hover:brightness-125"
-                        style={{
-                          width: 150,
-                          background: isActive
-                            ? `color-mix(in oklch, ${p.color} 28%, transparent)`
-                            : "var(--bg-elev)",
-                          border: isActive
-                            ? `1px solid ${p.color}`
-                            : "1px solid var(--border-soft)",
-                        }}
-                        title={`${range} · ${e.title}`}
-                      >
-                        <div
-                          className="t-12 font-display"
-                          style={{ color: p.color }}
-                        >
-                          {range}
-                        </div>
-                        <div
-                          className="t-12 mt-0.5 leading-tight"
-                          style={{
-                            color: "var(--text)",
-                            display: "-webkit-box",
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: "vertical",
-                            overflow: "hidden",
-                          }}
-                        >
-                          {e.title}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
+              </button>
             );
           })}
         </div>
