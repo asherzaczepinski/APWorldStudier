@@ -2,22 +2,14 @@
 
 import { useState } from "react";
 import HeimlerHome from "@/components/HeimlerHome";
-import HeimlerTopicView from "@/components/HeimlerTopicView";
-import type { HeimlerTopic, HeimlerUnit } from "@/lib/data/heimlerUnits";
-
-type Active = { unit: HeimlerUnit; topic: HeimlerTopic };
+import HeimlerUnitView from "@/components/HeimlerTopicView";
+import type { HeimlerUnit } from "@/lib/data/heimlerUnits";
 
 export default function Page() {
-  const [active, setActive] = useState<Active | null>(null);
+  const [unit, setUnit] = useState<HeimlerUnit | null>(null);
 
-  if (active) {
-    return (
-      <HeimlerTopicView
-        unit={active.unit}
-        topic={active.topic}
-        onBack={() => setActive(null)}
-      />
-    );
+  if (unit) {
+    return <HeimlerUnitView unit={unit} onBack={() => setUnit(null)} />;
   }
-  return <HeimlerHome onSelectTopic={(unit, topic) => setActive({ unit, topic })} />;
+  return <HeimlerHome onSelectUnit={setUnit} />;
 }

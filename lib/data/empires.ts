@@ -146,6 +146,263 @@ export const empires: Empire[] = [
     phases: [{ yearStart: 1270, yearEnd: 1936, countryCodes: ["ETH", "ERI"] }],
   },
   {
+    id: "german-empire",
+    name: "Imperial Germany",
+    color: "#475569",
+    blurb: "German Empire founded 1871 under Bismarck; collapsed at the end of WWI in 1918.",
+    facts: [
+      "Unified by Otto von Bismarck through three short wars (1864, 1866, 1870–71).",
+      "Industrial powerhouse — second only to the US by 1900.",
+      "Triggered the alliance system that pulled Europe into WWI.",
+      "Fell in 1918 with the Kaiser's abdication.",
+    ],
+    phases: [{ yearStart: 1871, yearEnd: 1918, countryCodes: ["DEU", "POL"] }],
+  },
+  {
+    id: "austria-hungary",
+    name: "Austria-Hungary",
+    color: "#fef3c7",
+    blurb:
+      "Dual monarchy (1867–1918) of Habsburg Austria + Hungary. Polyglot empire whose ethnic tensions helped trigger WWI.",
+    facts: [
+      "Created 1867 by the Compromise (Ausgleich) between Austria + Hungary.",
+      "Multi-ethnic — Germans, Magyars, Czechs, Slovaks, Poles, Croats, Serbs, Italians, Romanians.",
+      "Annexation of Bosnia (1908) helped destabilize the Balkans.",
+      "Dissolved at the end of WWI; carved into Austria, Hungary, Czechoslovakia, Yugoslavia.",
+    ],
+    phases: [
+      { yearStart: 1867, yearEnd: 1918, countryCodes: ["AUT", "HUN", "CZE", "SVK", "SVN", "HRV", "BIH"] },
+    ],
+  },
+  {
+    id: "modern-india",
+    name: "India (Republic)",
+    color: "#f97316",
+    blurb:
+      "Independent India since 1947. World's largest democracy; nuclear power; major Cold War-era voice in the Non-Aligned Movement.",
+    facts: [
+      "Independence + partition with Pakistan, 1947.",
+      "Nehru's secular socialist republic; later economic liberalization 1991.",
+      "Three wars with Pakistan (1947, 1965, 1971).",
+      "Nuclear test 1974.",
+    ],
+    phases: [{ yearStart: 1947, yearEnd: 2030, countryCodes: ["IND"] }],
+  },
+  {
+    id: "pakistan",
+    name: "Pakistan",
+    color: "#16a34a",
+    blurb: "Created by partition in 1947. Originally East + West Pakistan; East seceded as Bangladesh (1971).",
+    facts: [
+      "Founded 1947 by Muhammad Ali Jinnah on partition.",
+      "Lost East Pakistan (Bangladesh) after the 1971 war.",
+      "Nuclear power since 1998.",
+    ],
+    phases: [{ yearStart: 1947, yearEnd: 2030, countryCodes: ["PAK"] }],
+  },
+  {
+    id: "israel",
+    name: "Israel",
+    color: "#3b82f6",
+    blurb:
+      "Founded 1948 after the UN partition of Mandatory Palestine. Five Arab-Israeli wars; ongoing Palestinian conflict.",
+    facts: [
+      "Declaration of Independence May 14, 1948.",
+      "Won the 1948, 1967 (Six-Day), and 1973 (Yom Kippur) wars.",
+      "Took the West Bank, Gaza, Golan Heights, Sinai in 1967.",
+      "Ongoing Israeli-Palestinian conflict.",
+    ],
+    phases: [{ yearStart: 1948, yearEnd: 2030, countryCodes: ["ISR"] }],
+  },
+  {
+    id: "modern-egypt",
+    name: "Republic of Egypt",
+    color: "#facc15",
+    blurb:
+      "Republic since 1953 after the Free Officers' coup. Nasser nationalized the Suez Canal (1956) and led the Non-Aligned Movement.",
+    facts: [
+      "Free Officers Revolution 1952; King Farouk deposed.",
+      "Suez Crisis 1956 — Nasser nationalizes the canal.",
+      "Lost Sinai in 1967, regained it after the 1979 Camp David peace with Israel.",
+      "Mubarak rule (1981–2011); Arab Spring.",
+    ],
+    phases: [{ yearStart: 1953, yearEnd: 2030, countryCodes: ["EGY"] }],
+  },
+  {
+    id: "indonesia",
+    name: "Indonesia",
+    color: "#dc2626",
+    blurb:
+      "Declared independence from the Dutch in 1945. Largest Muslim-majority country; founding member of the Non-Aligned Movement (Bandung 1955).",
+    facts: [
+      "Sukarno declared independence August 17, 1945; recognized 1949.",
+      "Hosted the 1955 Bandung Conference — birth of the Non-Aligned Movement.",
+      "1965 anti-communist purge under Suharto killed ~500,000–1 million people.",
+    ],
+    phases: [{ yearStart: 1945, yearEnd: 2030, countryCodes: ["IDN"] }],
+  },
+  {
+    id: "modern-vietnam",
+    name: "Vietnam",
+    color: "#a16207",
+    blurb:
+      "Independent of France 1954; unified under communist rule 1976 after the Vietnam War.",
+    facts: [
+      "Defeated France at Dien Bien Phu, 1954.",
+      "North/South split 1954; reunified 1976.",
+      "Doi Moi market reforms from 1986.",
+    ],
+    phases: [{ yearStart: 1954, yearEnd: 2030, countryCodes: ["VNM"] }],
+  },
+  {
+    id: "ghana",
+    name: "Ghana",
+    color: "#ca8a04",
+    blurb:
+      "First sub-Saharan African colony to gain independence (1957) under Kwame Nkrumah.",
+    facts: [
+      "Independence 1957 from Britain.",
+      "Kwame Nkrumah — leading Pan-African voice.",
+      "Multiple coups; democracy returned 1992.",
+    ],
+    phases: [{ yearStart: 1957, yearEnd: 2030, countryCodes: ["GHA"] }],
+  },
+  {
+    id: "algeria",
+    name: "Algeria",
+    color: "#0d9488",
+    blurb:
+      "Independent of France 1962 after a brutal eight-year war.",
+    facts: [
+      "Algerian War 1954–62; FLN vs. France.",
+      "~1 million Algerian deaths.",
+      "Independence July 5, 1962.",
+    ],
+    phases: [{ yearStart: 1962, yearEnd: 2030, countryCodes: ["DZA"] }],
+  },
+  {
+    id: "cuba-castro",
+    name: "Communist Cuba",
+    color: "#ef4444",
+    blurb:
+      "Castro's Cuba (1959+). Soviet ally 90 miles off the US coast. Center of the Cuban Missile Crisis (1962).",
+    facts: [
+      "Fidel Castro overthrew US-backed Batista, January 1959.",
+      "Bay of Pigs failure 1961; Cuban Missile Crisis 1962.",
+      "Soviet aid kept the economy afloat until 1991.",
+    ],
+    phases: [{ yearStart: 1959, yearEnd: 2030, countryCodes: ["CUB"] }],
+  },
+  {
+    id: "north-korea",
+    name: "North Korea (DPRK)",
+    color: "#b91c1c",
+    blurb:
+      "Soviet-backed communist state founded 1948. Invaded the South in 1950, kicking off the Korean War. Continues as a closed dynastic regime.",
+    facts: [
+      "Founded 1948 by Kim Il-sung.",
+      "Invaded South Korea June 25, 1950.",
+      "Armistice 1953, no peace treaty.",
+      "Nuclear weapons since 2006.",
+    ],
+    phases: [{ yearStart: 1948, yearEnd: 2030, countryCodes: ["PRK"] }],
+  },
+  {
+    id: "south-korea",
+    name: "South Korea",
+    color: "#1d4ed8",
+    blurb:
+      "US-backed republic founded 1948. Survived North Korean invasion; transformed from agrarian state to industrial powerhouse.",
+    facts: [
+      "Republic of Korea founded 1948.",
+      "Korean War 1950–53 stalemate.",
+      "'Miracle on the Han River' — rapid industrialization 1960s–80s.",
+      "Democratized 1987.",
+    ],
+    phases: [{ yearStart: 1948, yearEnd: 2030, countryCodes: ["KOR"] }],
+  },
+  {
+    id: "afghanistan-soviet",
+    name: "Soviet-Afghan War zone",
+    color: "#a16207",
+    blurb:
+      "Afghanistan during the 1979–89 Soviet occupation and the post-2001 US war. Cold War proxy theater par excellence.",
+    facts: [
+      "Soviet invasion December 1979.",
+      "US-backed mujahideen resistance via Pakistan.",
+      "Soviet withdrawal 1989; civil war → Taliban (1996).",
+      "US invasion 2001; Taliban return 2021.",
+    ],
+    phases: [{ yearStart: 1979, yearEnd: 2030, countryCodes: ["AFG"] }],
+  },
+  {
+    id: "communist-vietnam",
+    name: "Communist Vietnam",
+    color: "#65a30d",
+    blurb:
+      "North Vietnam (1954–75), then unified communist Vietnam (1976+). Defeated France, then the US.",
+    facts: [
+      "Ho Chi Minh founded the DRV 1945; recognized 1954 after Dien Bien Phu.",
+      "Vietnam War 1955–75 with the US.",
+      "Reunified after fall of Saigon, April 30, 1975.",
+    ],
+    phases: [{ yearStart: 1954, yearEnd: 2030, countryCodes: ["VNM"] }],
+  },
+  {
+    id: "angola-mpla",
+    name: "Angola (Cold War proxy)",
+    color: "#7c2d12",
+    blurb:
+      "Independent of Portugal 1975. Civil war between Soviet/Cuban-backed MPLA and US/South-African-backed UNITA + FNLA.",
+    facts: [
+      "Independence November 11, 1975.",
+      "Cuban troops fought for the MPLA.",
+      "Civil war until 2002.",
+    ],
+    phases: [{ yearStart: 1975, yearEnd: 2030, countryCodes: ["AGO"] }],
+  },
+  {
+    id: "iran-republic",
+    name: "Islamic Republic of Iran",
+    color: "#15803d",
+    blurb:
+      "After the 1979 revolution overthrew the US-backed Shah. Theocracy under the Ayatollah; major regional power.",
+    facts: [
+      "Iranian Revolution 1979 — Khomeini returns from exile.",
+      "Iran-Iraq War 1980–88.",
+      "Nuclear deal 2015; US withdrawal 2018.",
+    ],
+    phases: [{ yearStart: 1979, yearEnd: 2030, countryCodes: ["IRN"] }],
+  },
+  {
+    id: "yugoslavia-tito",
+    name: "Tito's Yugoslavia",
+    color: "#b45309",
+    blurb:
+      "Federal socialist state under Tito (1945–80), independent of Soviet bloc. Founding member of the Non-Aligned Movement.",
+    facts: [
+      "Tito broke with Stalin 1948.",
+      "Founded the Non-Aligned Movement with Nehru + Nasser at Bandung (1955).",
+      "Disintegrated in the 1990s — Yugoslav Wars.",
+    ],
+    phases: [
+      { yearStart: 1945, yearEnd: 1992, countryCodes: ["SRB", "BIH", "HRV", "SVN", "MKD", "MNE", "XKX"] },
+    ],
+  },
+  {
+    id: "south-africa-apartheid",
+    name: "Apartheid South Africa",
+    color: "#854d0e",
+    blurb:
+      "South Africa under National Party rule 1948–94 — institutionalized racial segregation. Ended with Nelson Mandela's election as president.",
+    facts: [
+      "Apartheid laws from 1948.",
+      "ANC banned; Nelson Mandela imprisoned 1962–90.",
+      "First multiracial elections 1994; Mandela elected president.",
+    ],
+    phases: [{ yearStart: 1948, yearEnd: 1994, countryCodes: ["ZAF", "NAM"] }],
+  },
+  {
     id: "mississippian",
     name: "Mississippian Culture",
     color: "#84cc16",

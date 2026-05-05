@@ -1,12 +1,12 @@
 "use client";
 
-import { heimlerUnits, type HeimlerTopic, type HeimlerUnit } from "@/lib/data/heimlerUnits";
+import { heimlerUnits, type HeimlerUnit } from "@/lib/data/heimlerUnits";
 
 type Props = {
-  onSelectTopic: (unit: HeimlerUnit, topic: HeimlerTopic) => void;
+  onSelectUnit: (unit: HeimlerUnit) => void;
 };
 
-export default function HeimlerHome({ onSelectTopic }: Props) {
+export default function HeimlerHome({ onSelectUnit }: Props) {
   return (
     <div className="fixed inset-0 overflow-y-auto" style={{ background: "var(--bg)" }}>
       <header
@@ -19,106 +19,54 @@ export default function HeimlerHome({ onSelectTopic }: Props) {
         </span>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 md:px-8 py-8 md:py-12">
+      <main className="max-w-5xl mx-auto px-4 md:px-8 py-8 md:py-12">
         <div className="mb-8 md:mb-12">
           <div className="eyebrow mb-2" style={{ color: "var(--text-dim)" }}>
             Heimler&apos;s History · AP World Modern
           </div>
           <h2 className="font-display t-26 md:text-4xl leading-tight">
-            Pick a topic.
+            Pick a unit.
           </h2>
           <p className="t-14 mt-3 prose-cap" style={{ color: "var(--text-muted)", maxWidth: 640 }}>
-            Each topic is one of Heimler&apos;s videos. Click in to load only the empires, routes,
-            cities, and events he mentions in that video — nothing else.
+            Each unit loads its empires, routes, and a timeline of every dated event.
+            Click a timeline event to color-code the regions it touches.
           </p>
         </div>
 
-        <div className="space-y-8 md:space-y-10">
+        <ol className="grid gap-3 md:gap-4 sm:grid-cols-2">
           {heimlerUnits.map((u) => (
-            <section key={u.unitNumber}>
-              <div className="flex items-baseline justify-between gap-3 mb-3">
-                <div className="flex items-baseline gap-3">
+            <li key={u.unitNumber}>
+              <button
+                onClick={() => onSelectUnit(u)}
+                className="w-full text-left p-5 transition hover:brightness-110"
+                style={{
+                  background: "var(--bg-elev)",
+                  border: `1px solid ${u.accent}`,
+                  borderRadius: 8,
+                }}
+              >
+                <div className="flex items-baseline gap-3 mb-2">
                   <span className="eyebrow" style={{ color: u.accent }}>
                     Unit {u.unitNumber}
                   </span>
-                  <h3 className="font-display t-20 md:t-26 leading-tight">{u.title}</h3>
                   <span className="t-12" style={{ color: "var(--text-dim)" }}>
                     {u.yearStart}–{u.yearEnd}
                   </span>
                 </div>
-                <a
-                  href={u.playlistUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="t-12"
-                  style={{ color: "var(--text-dim)" }}
-                >
-                  Playlist ↗
-                </a>
-              </div>
-              <p className="t-14 mb-3 prose-cap" style={{ color: "var(--text-muted)" }}>
-                {u.subtitle}
-              </p>
-              <ol className="grid gap-2 md:gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
-                {u.topics.map((t) => {
-                  const summary = t.isUnitSummary;
-                  return (
-                    <li
-                      key={t.code}
-                      className={summary ? "sm:col-span-2 lg:col-span-3" : undefined}
-                    >
-                      <button
-                        onClick={() => onSelectTopic(u, t)}
-                        className="w-full text-left p-3 transition hover:brightness-110"
-                        style={{
-                          background: summary
-                            ? `color-mix(in oklch, ${u.accent} 16%, transparent)`
-                            : "var(--bg-elev)",
-                          border: summary
-                            ? `1px solid ${u.accent}`
-                            : "1px solid var(--border-soft)",
-                          borderRadius: 6,
-                        }}
-                      >
-                        <div className="flex items-baseline gap-2 mb-1">
-                          <span
-                            className="t-12 font-display flex-shrink-0"
-                            style={{ color: u.accent }}
-                          >
-                            {summary ? "★ " : ""}{t.code}
-                          </span>
-                          <span className="font-display t-14 leading-tight">
-                            {t.title}
-                          </span>
-                          {summary && (
-                            <span
-                              className="t-12 ml-auto flex-shrink-0"
-                              style={{ color: u.accent }}
-                            >
-                              everything at once
-                            </span>
-                          )}
-                        </div>
-                        <p
-                          className="t-12 prose-cap"
-                          style={{ color: "var(--text-muted)" }}
-                        >
-                          {t.summary}
-                        </p>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ol>
-            </section>
+                <h3 className="font-display t-20 leading-tight mb-2">{u.title}</h3>
+                <p className="t-14 prose-cap" style={{ color: "var(--text-muted)" }}>
+                  {u.subtitle}
+                </p>
+              </button>
+            </li>
           ))}
-        </div>
+        </ol>
 
         <div
           className="mt-12 t-12 text-center"
           style={{ color: "var(--text-dim)" }}
         >
-          {heimlerUnits.reduce((sum, u) => sum + u.topics.length, 0)} topics · 9 units · one Heimler.
+          {heimlerUnits.length} units · one Heimler.
         </div>
       </main>
     </div>

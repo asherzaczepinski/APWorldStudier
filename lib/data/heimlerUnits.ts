@@ -42,6 +42,10 @@ export type TopicFeature = {
    * feature only appears once the user clicks it in the side panel.
    */
   pinned?: boolean;
+  /** Year (or start year for date ranges) for the unit timeline at the bottom. */
+  year?: number;
+  /** Optional end year — feature spans a date range (war, dynasty, etc.). */
+  endYear?: number;
 };
 
 export type HeimlerTopic = {
@@ -78,6 +82,12 @@ export type HeimlerTopic = {
    * the user sees all of unit X at once.
    */
   isUnitSummary?: boolean;
+  /**
+   * If true, every country on the globe gets a soft highlight in the unit's
+   * accent color. Used for globalization-style topics where the whole world is
+   * the subject. Topic-specific empires still paint over with full color.
+   */
+  highlightAllCountries?: boolean;
 };
 
 export type HeimlerUnit = {
@@ -270,6 +280,10 @@ const rawUnits: RawUnit[] = [
         eventIds: ["delhi-sultanate"],
         poiIds: ["baghdad", "cairo", "delhi", "mecca", "medina", "al-azhar"],
         regionIds: ["persia", "ottoman", "egypt"],
+        features: [
+          { id: "baghdad-1258", label: "Sack of Baghdad", emoji: "💥", category: "movement", lat: 33.31, lng: 44.36, year: 1258, pinned: true, explanation: "Mongols under Hulagu Khan sack Baghdad and execute the last Abbasid caliph. End of the Islamic Golden Age in its Baghdad form." },
+          { id: "ain-jalut", label: "Battle of Ain Jalut", emoji: "💥", category: "movement", lat: 32.55, lng: 35.36, year: 1260, pinned: true, explanation: "1260 — Mamluks of Egypt halt the Mongol advance. Only force ever to stop the Mongols cold." },
+        ],
         mentions: [
           "Abbasid Caliphate", "Seljuk Turks", "Mamluk Sultanate", "Delhi Sultanate",
           "House of Wisdom", "Islamic Golden Age", "Sufism", "sharia",
@@ -338,6 +352,12 @@ const rawUnits: RawUnit[] = [
         empireIds: ["hre", "byzantine"],
         eventIds: ["black-death"],
         poiIds: ["rome", "vatican", "paris", "venice", "genoa", "florence", "bologna", "oxford"],
+        features: [
+          { id: "crusades", label: "Crusades", emoji: "💥", category: "movement", lat: 31.78, lng: 35.22, year: 1095, endYear: 1291, pinned: true, explanation: "1095–1291 — Catholic Europe's wars to retake the Holy Land from Muslim rulers. Eight major Crusades; only the First captured Jerusalem (1099)." },
+          { id: "reconquista", label: "Reconquista", emoji: "💥", category: "movement", lat: 40.0, lng: -3.7, year: 1200, endYear: 1492, pinned: true, explanation: "Christian re-conquest of Iberia from Muslim rule. Granada falls 1492 — same year as Columbus." },
+          { id: "100-years-war", label: "Hundred Years' War", emoji: "💥", category: "movement", lat: 47.0, lng: 2.5, year: 1337, endYear: 1453, pinned: true, explanation: "England vs. France over the French crown. Joan of Arc, longbows, Black Death disruption. Helped consolidate national monarchies." },
+          { id: "bd-feature", label: "Black Death", emoji: "💀", category: "disease", lat: 45.0, lng: 12.0, year: 1347, endYear: 1351, pinned: true, explanation: "Bubonic plague pandemic. Killed 30–50% of Europeans. Reached Europe via Crimean trade in 1347; spread along Mediterranean shipping lanes." },
+        ],
         regionIds: ["italy", "wnerope", "iberia"],
         mentions: [
           "feudalism", "manorialism", "three estates", "serfdom", "vassals", "fiefs",
@@ -353,6 +373,7 @@ const rawUnits: RawUnit[] = [
         summary:
           "Heimler's full cram-session video for Unit 1 — every state, every belief system, every comparison line you need before the test.",
         isUnitSummary: true,
+        highlightAllCountries: true,
         year: 1325,
         empireIds: ["delhi", "mali", "aztec", "inca", "maya"],
         eventIds: ["delhi-sultanate", "mansa-musa", "black-death"],
@@ -490,6 +511,7 @@ const rawUnits: RawUnit[] = [
         summary:
           "Heimler's full Unit 2 cram covering every trade network, every cultural and environmental consequence, and every comparison the test wants.",
         isUnitSummary: true,
+        highlightAllCountries: true,
         year: 1325,
         empireIds: ["mongol", "yuan", "mali"],
         routeIds: ["silk-road", "indian-ocean", "trans-saharan", "trans-saharan-2"],
@@ -558,6 +580,14 @@ const rawUnits: RawUnit[] = [
         year: 1550,
         empireIds: ["ottoman", "safavid", "mughal"],
         poiIds: ["wittenberg", "vatican", "rome", "jerusalem", "mecca", "isfahan", "constantinople"],
+        features: [
+          { id: "chaldiran", label: "Battle of Chaldiran (Sunni-Shia)", emoji: "💥", category: "movement", lat: 39.04, lng: 44.41, year: 1514, pinned: true, explanation: "1514 — Ottoman Sunni Selim I crushes Safavid Shia Ismail I in eastern Anatolia. Cemented the Sunni–Shia geographic split that still defines the Middle East." },
+          { id: "ottoman-vienna-1529", label: "Siege of Vienna", emoji: "💥", category: "movement", lat: 48.21, lng: 16.37, year: 1529, pinned: true, explanation: "Ottoman Suleiman besieges Christian Vienna. Repulsed — high-water mark of Ottoman expansion into Europe (until the second siege in 1683)." },
+          { id: "lepanto", label: "Battle of Lepanto", emoji: "💥", category: "movement", lat: 38.34, lng: 21.47, year: 1571, pinned: true, explanation: "Holy League fleet (Spain, Venice, Papal States) vs. Ottomans. First major Christian naval victory over the Ottomans — symbolic turning point." },
+          { id: "wittenberg-95", label: "95 Theses", emoji: "📜", category: "idea", lat: 51.87, lng: 12.65, year: 1517, pinned: true, explanation: "Oct 31, 1517 — Martin Luther nails (or mails) his 95 Theses to the Wittenberg church door. Launches the Protestant Reformation." },
+          { id: "30-years-war", label: "Thirty Years' War", emoji: "💥", category: "movement", lat: 50.08, lng: 14.43, year: 1618, endYear: 1648, pinned: true, explanation: "1618–48 — Catholic vs. Protestant war that consumed central Europe. Ended with the Treaty of Westphalia, the modern state system." },
+          { id: "trent", label: "Council of Trent", emoji: "📚", category: "policy", lat: 46.07, lng: 11.12, year: 1545, endYear: 1563, pinned: true, explanation: "Catholic Counter-Reformation council. Reaffirmed doctrine, banned indulgence-selling, founded seminaries, energized the Jesuits." },
+        ],
         mentions: [
           "Sunni–Shia split", "Twelver Shi'ism (Safavid state religion)",
           "Akbar's syncretism (Din-i Ilahi)", "Sikhism (Guru Nanak)",
@@ -573,6 +603,7 @@ const rawUnits: RawUnit[] = [
         summary:
           "Heimler's full Unit 3 cram — every empire, every administration trick, every belief-system shift, all in one go.",
         isUnitSummary: true,
+        highlightAllCountries: true,
         year: 1600,
         empireIds: ["ottoman", "safavid", "mughal", "ming", "qing", "russian-empire"],
         eventIds: ["constantinople-1453", "mughal-1526", "qing-1644"],
@@ -806,6 +837,10 @@ const rawUnits: RawUnit[] = [
         empireIds: ["portuguese-empire", "spanish-empire", "british-empire", "french-empire"],
         eventIds: ["columbus-1492", "tordesillas", "cortes-aztec", "pizarro-inca", "voc-1602"],
         poiIds: ["lisbon", "goa", "malacca", "macau", "amsterdam", "batavia", "mexico-city", "manila"],
+        features: [
+          { id: "fall-tenoch", label: "Fall of Tenochtitlán", emoji: "💥", category: "movement", lat: 19.43, lng: -99.13, year: 1521, pinned: true, explanation: "Aug 13, 1521 — Cortés + native allies + smallpox topple the Aztec Empire after a 79-day siege." },
+          { id: "fall-cuzco", label: "Spanish capture of Cuzco", emoji: "💥", category: "movement", lat: -13.53, lng: -71.97, year: 1533, pinned: true, explanation: "Pizarro captures the Inca capital after executing Atahualpa. Inca state effectively over." },
+        ],
         mentions: [
           "Portuguese trading-post empire", "Estado da Índia", "Goa", "Malacca", "Macau",
           "Hernán Cortés", "fall of Tenochtitlán 1521", "Francisco Pizarro",
@@ -891,6 +926,7 @@ const rawUnits: RawUnit[] = [
         summary:
           "Heimler's full Unit 4 cram covering every maritime empire, every labor system, and every social shift across the early modern oceans.",
         isUnitSummary: true,
+        highlightAllCountries: true,
         year: 1600,
         empireIds: ["spanish-empire", "portuguese-empire", "british-empire", "french-empire"],
         routeIds: ["atlantic-slave", "columbian-exchange-east", "columbian-exchange-west"],
@@ -924,6 +960,7 @@ const rawUnits: RawUnit[] = [
         summary:
           "Locke, Voltaire, Rousseau, and Adam Smith apply reason to government and economy. Natural rights, social contract, deism, and individualism become the toolkit for the revolutions to come.",
         year: 1770,
+        empireIds: ["british-empire", "french-empire"],
         poiIds: ["paris", "london", "oxford"],
         mentions: [
           "Scientific Revolution", "John Locke (natural rights)", "Voltaire",
@@ -940,8 +977,15 @@ const rawUnits: RawUnit[] = [
         summary:
           "American, French, Haitian, and Latin American revolutions all draw on Enlightenment ideas. Later, nationalism drives Italian and German unification and the Propaganda Movement in the Philippines.",
         year: 1810,
+        empireIds: ["british-empire", "french-empire", "spanish-empire", "usa"],
         eventIds: ["american-rev", "french-rev", "haitian-rev", "latin-am-indep", "seven-years"],
         poiIds: ["paris", "washington", "yorktown", "havana", "mexico-city", "waterloo"],
+        features: [
+          { id: "yorktown-feat", label: "Yorktown surrender", emoji: "💥", category: "movement", lat: 37.24, lng: -76.51, year: 1781, pinned: true, explanation: "Cornwallis surrenders to Washington + Rochambeau. Effectively ended the American Revolutionary War." },
+          { id: "bastille", label: "Storming of the Bastille", emoji: "💥", category: "movement", lat: 48.85, lng: 2.37, year: 1789, pinned: true, explanation: "July 14, 1789 — Parisians storm the royal prison. Symbolic start of the French Revolution." },
+          { id: "haiti-feat", label: "Haitian Revolution", emoji: "💥", category: "movement", lat: 18.97, lng: -72.28, year: 1791, endYear: 1804, pinned: true, explanation: "Only successful slave-led revolution. Toussaint L'Ouverture, then Dessalines. Independence Jan 1, 1804." },
+          { id: "waterloo-feat", label: "Waterloo", emoji: "💥", category: "movement", lat: 50.68, lng: 4.41, year: 1815, pinned: true, explanation: "June 1815 — Napoleon's final defeat by Wellington + Blücher. Ends 25 years of revolutionary / Napoleonic wars." },
+        ],
         mentions: [
           "American Revolution (1775–83)", "Declaration of Independence",
           "French Revolution (1789)", "Storming of the Bastille", "Reign of Terror",
@@ -993,6 +1037,7 @@ const rawUnits: RawUnit[] = [
         summary:
           "Steam engine, railroads, steamships, telegraph, then electricity and the internal combustion engine — each a multiplier on production and communication.",
         year: 1850,
+        empireIds: ["british-empire", "usa", "german-empire"],
         routeIds: ["industrial-railway"],
         eventIds: ["industrial-rev"],
         poiIds: ["london", "berlin", "suez"],
@@ -1028,6 +1073,7 @@ const rawUnits: RawUnit[] = [
         summary:
           "The corporation, the stock market, and transnational businesses (Unilever, HSBC) emerge. Capital becomes more important than land for the first time.",
         year: 1880,
+        empireIds: ["british-empire", "usa"],
         poiIds: ["london", "amsterdam", "hong-kong", "shanghai"],
         mentions: [
           "the corporation", "limited liability", "stock markets", "London Stock Exchange",
@@ -1043,6 +1089,7 @@ const rawUnits: RawUnit[] = [
         summary:
           "Marx and Engels, socialism, labor unions. An expanded middle class, a brutal working class, urban slums, and changing gender roles. Women enter factories and drive early suffrage movements.",
         year: 1870,
+        empireIds: ["british-empire", "german-empire", "french-empire"],
         poiIds: ["london", "berlin", "paris"],
         mentions: [
           "Karl Marx + Friedrich Engels", "Communist Manifesto (1848)",
@@ -1071,6 +1118,15 @@ const rawUnits: RawUnit[] = [
           "rise of the corporation", "labor unions", "first-wave feminism",
           "still: rural agriculture, gender hierarchies, religious authority in many places",
         ],
+      },
+      {
+        code: "5.R",
+        title: "Full Unit 5 Review",
+        summary:
+          "Heimler's full Unit 5 cram — Enlightenment ideas, the Atlantic Revolutions, the Industrial Revolution and its spread, new tech, new economies, and Marx-era backlash.",
+        isUnitSummary: true,
+        highlightAllCountries: true,
+        year: 1825,
       },
     ],
   },
@@ -1130,6 +1186,12 @@ const rawUnits: RawUnit[] = [
         year: 1880,
         eventIds: ["1857-rebellion", "taiping", "adwa"],
         poiIds: ["kolkata", "plassey", "adwa", "beijing", "nanjing"],
+        features: [
+          { id: "sepoy", label: "Sepoy Rebellion", emoji: "💥", category: "movement", lat: 25.76, lng: 82.75, year: 1857, pinned: true, explanation: "Indian sepoys + displaced princes + peasants rise against the British East India Company. Crushed; led to direct British Crown rule (1858)." },
+          { id: "boxer", label: "Boxer Rebellion", emoji: "💥", category: "movement", lat: 39.9, lng: 116.4, year: 1899, endYear: 1901, pinned: true, explanation: "Anti-foreign, anti-Christian uprising in China. Crushed by 8-nation coalition. Hastened Qing collapse." },
+          { id: "taiping-feat", label: "Taiping Rebellion", emoji: "💥", category: "movement", lat: 32.06, lng: 118.8, year: 1850, endYear: 1864, pinned: true, explanation: "Hong Xiuquan, who believed he was Jesus's brother, led a 14-year civil war. ~20 million dead — among the deadliest wars in history." },
+          { id: "adwa-feat", label: "Battle of Adwa", emoji: "💥", category: "movement", lat: 14.17, lng: 38.89, year: 1896, pinned: true, explanation: "Ethiopia under Menelik II crushes invading Italy. Only major colonial defeat in Africa during the scramble; kept Ethiopia independent." },
+        ],
         mentions: [
           "Sepoy Rebellion / Indian Rebellion of 1857", "greased cartridges",
           "Xhosa Cattle Killing (1856–57)", "Zulu Wars", "Cetshwayo",
@@ -1150,6 +1212,10 @@ const rawUnits: RawUnit[] = [
         routeIds: ["british-empire"],
         eventIds: ["opium-wars"],
         poiIds: ["shanghai", "hong-kong", "suez", "cairo", "havana"],
+        features: [
+          { id: "opium-1", label: "First Opium War", emoji: "💥", category: "movement", lat: 22.3, lng: 113.6, year: 1839, endYear: 1842, pinned: true, explanation: "Britain forces China to keep accepting opium. Treaty of Nanjing opens ports + cedes Hong Kong. Start of China's 'century of humiliation.'" },
+          { id: "opium-2", label: "Second Opium War", emoji: "💥", category: "movement", lat: 39.9, lng: 116.4, year: 1856, endYear: 1860, pinned: true, explanation: "Britain + France force more concessions; burn the Summer Palace. Treaty of Tianjin." },
+        ],
         mentions: [
           "cash crops", "monoculture", "rubber (Belgian Congo)", "palm oil (W. Africa)",
           "cotton (Egypt, India, US South)", "sugar (Caribbean)", "tea (India, Ceylon)",
@@ -1166,6 +1232,7 @@ const rawUnits: RawUnit[] = [
         summary:
           "Push factors (Irish famine, Italian poverty, Indian poverty) and pull factors (industrial jobs, gold rushes, plantation labor) move people in unprecedented numbers.",
         year: 1870,
+        empireIds: ["british-empire", "usa"],
         poiIds: ["london", "mumbai", "kolkata", "witwatersrand"],
         mentions: [
           "push factors: famine (Irish potato famine 1845–52)",
@@ -1184,6 +1251,7 @@ const rawUnits: RawUnit[] = [
         summary:
           "Ethnic enclaves form (Chinese in Southeast Asia, Indians across the British Empire as indentured laborers). Receiving societies often respond with restrictions like the Chinese Exclusion Act.",
         year: 1880,
+        empireIds: ["british-empire", "usa"],
         routeIds: ["indentured"],
         poiIds: ["singapore", "mumbai", "kolkata", "havana", "washington"],
         mentions: [
@@ -1212,6 +1280,15 @@ const rawUnits: RawUnit[] = [
           "ethnic enclaves",
           "global hierarchy reinforced by ideology + economy",
         ],
+      },
+      {
+        code: "6.R",
+        title: "Full Unit 6 Review",
+        summary:
+          "Heimler's full Unit 6 cram — second-wave imperialism, the Berlin Conference, indigenous resistance, the Opium Wars, global migration, and the human cost of industry.",
+        isUnitSummary: true,
+        highlightAllCountries: true,
+        year: 1880,
       },
     ],
   },
@@ -1251,6 +1328,7 @@ const rawUnits: RawUnit[] = [
         summary:
           "MAIN: Militarism, Alliances, Imperialism, Nationalism — plus Franz Ferdinand as the spark. The alliance system turns a Balkan crisis into a world war.",
         year: 1914,
+        empireIds: ["german-empire", "austria-hungary", "ottoman", "russian-empire", "british-empire", "french-empire"],
         eventIds: ["wwi"],
         poiIds: ["sarajevo", "vienna", "berlin", "paris", "london", "moscow"],
         mentions: [
@@ -1269,8 +1347,17 @@ const rawUnits: RawUnit[] = [
         summary:
           "Trench warfare, machine guns, poison gas, tanks, planes, and total war on the home front. The Treaty of Versailles ends it with humiliating terms for Germany.",
         year: 1916,
+        empireIds: ["german-empire", "austria-hungary", "british-empire", "french-empire", "russian-empire", "usa"],
         eventIds: ["wwi"],
         poiIds: ["verdun", "paris", "berlin", "london"],
+        features: [
+          { id: "wwi-verdun", label: "Verdun", emoji: "💥", category: "movement", lat: 49.16, lng: 5.39, year: 1916, pinned: true, explanation: "Battle of Verdun, Feb–Dec 1916. ~700,000 casualties. France 'shall not pass.'" },
+          { id: "wwi-somme", label: "Somme", emoji: "💥", category: "movement", lat: 50.0, lng: 2.7, year: 1916, pinned: true, explanation: "Battle of the Somme, July–Nov 1916. ~1 million casualties. First mass tank deployment." },
+          { id: "wwi-marne", label: "Marne", emoji: "💥", category: "movement", lat: 48.94, lng: 3.45, year: 1914, pinned: true, explanation: "First Battle of the Marne, Sep 1914. Halted the German Schlieffen Plan; began trench warfare." },
+          { id: "wwi-ypres", label: "Ypres", emoji: "💥", category: "movement", lat: 50.85, lng: 2.88, year: 1915, pinned: true, explanation: "Three battles at Ypres (1914, 1915, 1917). Site of the first large-scale poison-gas attack (1915)." },
+          { id: "wwi-gallipoli", label: "Gallipoli", emoji: "💥", category: "movement", lat: 40.22, lng: 26.4, year: 1915, pinned: true, explanation: "Allied campaign to take the Dardanelles from the Ottomans. Disaster — ~250,000 Allied casualties. Made Mustafa Kemal (Atatürk) a national hero." },
+          { id: "wwi-tannenberg", label: "Tannenberg", emoji: "💥", category: "movement", lat: 53.5, lng: 20.13, year: 1914, pinned: true, explanation: "German victory over Russia, Aug 1914. Set the tone for the Eastern Front." },
+        ],
         mentions: [
           "trench warfare", "no man's land", "machine guns", "barbed wire",
           "poison gas (chlorine, mustard)", "tanks", "airplanes", "U-boats",
@@ -1287,6 +1374,7 @@ const rawUnits: RawUnit[] = [
         summary:
           "Hyperinflation in Weimar Germany gives way to the Great Depression after 1929, which spreads worldwide and fuels political extremism.",
         year: 1930,
+        empireIds: ["usa", "british-empire", "german-empire"],
         eventIds: ["great-depression"],
         poiIds: ["berlin", "washington", "london"],
         mentions: [
@@ -1305,6 +1393,7 @@ const rawUnits: RawUnit[] = [
         summary:
           "Anticolonial movements ramp up — Gandhi in India, Ho Chi Minh in Indochina, the Pan-African Congress — even though the Allies refused to extend self-determination to colonies.",
         year: 1925,
+        empireIds: ["british-empire", "french-empire"],
         eventIds: ["indian-indep"],
         poiIds: ["kolkata", "mumbai", "hanoi", "saigon"],
         mentions: [
@@ -1347,8 +1436,23 @@ const rawUnits: RawUnit[] = [
           "Blitzkrieg in Europe, Pacific island-hopping, total war economies, firebombing of Tokyo and Dresden, atomic bombs on Hiroshima and Nagasaki.",
         year: 1943,
         eventIds: ["wwii"],
-        empireIds: ["japan-empire"],
+        empireIds: ["japan-empire", "german-empire", "soviet-union", "usa", "british-empire", "french-empire"],
         poiIds: ["stalingrad", "hiroshima", "pearl-harbor", "berlin", "tokyo", "nanjing"],
+        features: [
+          { id: "wwii-pearl", label: "Pearl Harbor", emoji: "💥", category: "movement", lat: 21.35, lng: -157.95, year: 1941, pinned: true, explanation: "Japanese surprise attack, Dec 7, 1941. Brought the US into WWII." },
+          { id: "wwii-stalingrad", label: "Stalingrad", emoji: "💥", category: "movement", lat: 48.71, lng: 44.51, year: 1942, endYear: 1943, pinned: true, explanation: "Brutal urban battle. Soviet victory turned the tide on the Eastern Front. ~2 million casualties." },
+          { id: "wwii-dday", label: "D-Day", emoji: "💥", category: "movement", lat: 49.42, lng: -0.75, year: 1944, pinned: true, explanation: "Allied landings at Normandy. Largest seaborne invasion in history; opened the Western Front." },
+          { id: "wwii-berlin", label: "Fall of Berlin", emoji: "💥", category: "movement", lat: 52.52, lng: 13.4, year: 1945, pinned: true, explanation: "Soviet forces capture Berlin, late April–May 1945. Hitler kills himself; Germany surrenders." },
+          { id: "wwii-london", label: "Battle of Britain / Blitz", emoji: "💥", category: "movement", lat: 51.51, lng: -0.13, year: 1940, pinned: true, explanation: "1940 air war over Britain; the Blitz bombed London for ~8 months. RAF win prevented invasion." },
+          { id: "wwii-midway", label: "Midway", emoji: "💥", category: "movement", lat: 28.21, lng: -177.37, year: 1942, pinned: true, explanation: "US naval victory over Japan, June 1942. Turned the tide of the Pacific War." },
+          { id: "wwii-iwo", label: "Iwo Jima", emoji: "💥", category: "movement", lat: 24.78, lng: 141.32, year: 1945, pinned: true, explanation: "Brutal Pacific island battle, Feb–Mar 1945. Famous flag-raising on Mt. Suribachi." },
+          { id: "wwii-okinawa", label: "Okinawa", emoji: "💥", category: "movement", lat: 26.5, lng: 127.94, year: 1945, pinned: true, explanation: "Last major Pacific battle, Apr–Jun 1945. Influenced the decision to use the atomic bomb." },
+          { id: "wwii-hiroshima", label: "Hiroshima atomic bomb", emoji: "💥", category: "movement", lat: 34.39, lng: 132.46, year: 1945, pinned: true, explanation: "First atomic bomb dropped Aug 6, 1945. Killed ~140,000 people." },
+          { id: "wwii-nagasaki", label: "Nagasaki atomic bomb", emoji: "💥", category: "movement", lat: 32.75, lng: 129.88, year: 1945, pinned: true, explanation: "Second atomic bomb, Aug 9, 1945. Killed ~70,000 people. Japan surrendered Aug 15." },
+          { id: "wwii-dresden", label: "Dresden firebombing", emoji: "🔥", category: "movement", lat: 51.05, lng: 13.74, year: 1945, pinned: true, explanation: "Allied firebombing, Feb 1945. ~25,000 civilians killed." },
+          { id: "wwii-tokyo-fire", label: "Tokyo firebombing", emoji: "🔥", category: "movement", lat: 35.68, lng: 139.76, year: 1945, pinned: true, explanation: "March 1945 — single deadliest air raid in history. ~100,000 people killed in one night." },
+          { id: "wwii-nanjing", label: "Rape of Nanjing", emoji: "💥", category: "movement", lat: 32.06, lng: 118.8, year: 1937, pinned: true, explanation: "Japanese mass atrocity in the Chinese capital, Dec 1937. ~200,000+ killed." },
+        ],
         mentions: [
           "Blitzkrieg", "Fall of France (1940)", "Battle of Britain", "the Blitz",
           "Operation Barbarossa (1941)", "Battle of Stalingrad",
@@ -1366,8 +1470,17 @@ const rawUnits: RawUnit[] = [
         summary:
           "The Holocaust is the central example, plus the Armenian genocide, Holodomor, Cambodia under the Khmer Rouge, Rwanda (1994), and Bosnia (1990s).",
         year: 1942,
+        empireIds: ["german-empire", "soviet-union", "japan-empire", "ottoman"],
         eventIds: ["wwii"],
         poiIds: ["berlin", "sarajevo", "moscow", "nanjing"],
+        features: [
+          { id: "holocaust", label: "Holocaust", emoji: "💀", category: "movement", lat: 50.04, lng: 19.18, year: 1941, endYear: 1945, pinned: true, explanation: "Nazi systematic murder of ~6 million Jews + millions of Roma, disabled, LGBT, Slavs. Auschwitz alone: ~1.1 million." },
+          { id: "armenian-gen", label: "Armenian Genocide", emoji: "💀", category: "movement", lat: 39.93, lng: 41.27, year: 1915, endYear: 1923, pinned: true, explanation: "Ottoman government deports + kills ~1.5 million Armenians during WWI. First major 20th-c. genocide." },
+          { id: "holodomor", label: "Holodomor", emoji: "💀", category: "movement", lat: 50.45, lng: 30.52, year: 1932, endYear: 1933, pinned: true, explanation: "Stalin's man-made famine in Ukraine during forced collectivization. Killed millions; recognized as genocide by Ukraine + many countries." },
+          { id: "khmer-rouge", label: "Cambodian Genocide", emoji: "💀", category: "movement", lat: 11.55, lng: 104.92, year: 1975, endYear: 1979, pinned: true, explanation: "Pol Pot's Khmer Rouge killed ~1.7–2 million Cambodians (~25% of the population) in the 'killing fields.'" },
+          { id: "rwanda-gen", label: "Rwandan Genocide", emoji: "💀", category: "movement", lat: -1.95, lng: 30.06, year: 1994, pinned: true, explanation: "April–July 1994 — Hutu extremists kill ~800,000 Tutsis and moderate Hutus in 100 days." },
+          { id: "bosnia-gen", label: "Bosnian Genocide", emoji: "💀", category: "movement", lat: 44.1, lng: 19.3, year: 1992, endYear: 1995, pinned: true, explanation: "Bosnian Serb forces kill ~8,000 Bosniak men + boys at Srebrenica (1995). Broader ethnic cleansing across Bosnia." },
+        ],
         mentions: [
           "Holocaust / Shoah", "concentration camps", "Auschwitz", "Treblinka",
           "Final Solution (Wannsee 1942)", "6 million Jews murdered",
@@ -1378,6 +1491,15 @@ const rawUnits: RawUnit[] = [
           "Bosnian Genocide (1992–95)", "Srebrenica massacre",
           "ethnic cleansing", "UN Genocide Convention (1948)",
         ],
+      },
+      {
+        code: "7.R",
+        title: "Full Unit 7 Review",
+        summary:
+          "Heimler's full Unit 7 cram — collapse of old empires, both world wars, the Great Depression, fascism, the Holocaust, and the broader 20th-century mass atrocities.",
+        isUnitSummary: true,
+        highlightAllCountries: true,
+        year: 1920,
       },
     ],
   },
@@ -1416,7 +1538,7 @@ const rawUnits: RawUnit[] = [
         summary:
           "Iron Curtain, NATO vs. Warsaw Pact, the arms race, the space race, the Berlin Blockade and Wall, and the Cuban Missile Crisis as the moment it almost went hot.",
         year: 1962,
-        empireIds: ["usa", "soviet-union"],
+        empireIds: ["usa", "soviet-union", "prc", "cuba-castro", "north-korea", "south-korea", "communist-vietnam", "yugoslavia-tito"],
         routeIds: ["cold-war"],
         eventIds: ["cold-war-alliances", "cuban-missile", "berlin-wall"],
         poiIds: ["berlin", "moscow", "washington", "havana"],
@@ -1435,9 +1557,17 @@ const rawUnits: RawUnit[] = [
         summary:
           "Conflict goes global through proxy wars: Korea, Vietnam, Afghanistan, Angola. Both superpowers prop up dictators in the Global South to keep the other side out.",
         year: 1965,
-        empireIds: ["usa", "soviet-union"],
+        empireIds: ["usa", "soviet-union", "prc", "north-korea", "south-korea", "communist-vietnam", "cuba-castro", "afghanistan-soviet", "angola-mpla"],
         eventIds: ["korean-war", "vietnam-war"],
         poiIds: ["hanoi", "saigon", "havana"],
+        features: [
+          { id: "korea-38", label: "Korean War", emoji: "💥", category: "movement", lat: 38.0, lng: 127.5, year: 1950, endYear: 1953, pinned: true, explanation: "1950–53 — North + China vs. South + UN. Stalemate at the 38th parallel; armistice 1953." },
+          { id: "vietnam-saigon", label: "Fall of Saigon", emoji: "💥", category: "movement", lat: 10.82, lng: 106.63, year: 1975, pinned: true, explanation: "April 30, 1975 — North Vietnamese forces enter Saigon. End of the Vietnam War; reunification." },
+          { id: "vietnam-tet", label: "Tet Offensive", emoji: "💥", category: "movement", lat: 16.45, lng: 107.6, year: 1968, pinned: true, explanation: "Surprise communist attacks across South Vietnam during Tet (Lunar New Year). Tactical US victory but turned American public opinion against the war." },
+          { id: "afghan-war", label: "Soviet-Afghan War", emoji: "💥", category: "movement", lat: 34.5, lng: 69.17, year: 1979, endYear: 1989, pinned: true, explanation: "1979–89 — USSR invades; US-backed mujahideen resist. Soviet 'Vietnam.'" },
+          { id: "angola-civil", label: "Angolan Civil War", emoji: "💥", category: "movement", lat: -8.84, lng: 13.23, year: 1975, endYear: 2002, pinned: true, explanation: "1975–2002 — Soviet/Cuban-backed MPLA vs. US/South-African-backed UNITA + FNLA." },
+          { id: "cuban-missile-feat", label: "Cuban Missile Crisis", emoji: "💥", category: "movement", lat: 23.13, lng: -82.36, year: 1962, pinned: true, explanation: "13 days when the US and USSR came closest to nuclear war over Soviet missiles in Cuba." },
+        ],
         mentions: [
           "Korean War (1950–53)", "38th parallel", "MacArthur",
           "Vietnam War", "Tet Offensive (1968)", "Ho Chi Minh Trail",
@@ -1455,9 +1585,15 @@ const rawUnits: RawUnit[] = [
         summary:
           "Mao's communist victory in China (1949), the Great Leap Forward, and the Cultural Revolution. Castro's Cuba in 1959. Communist movements rise across Southeast Asia, Africa, and Latin America.",
         year: 1955,
-        empireIds: ["prc", "soviet-union"],
+        empireIds: ["prc", "soviet-union", "cuba-castro", "north-korea"],
         eventIds: ["prc-1949"],
         poiIds: ["beijing", "havana", "hanoi", "moscow"],
+        features: [
+          { id: "prc-1949-feat", label: "PRC founded", emoji: "💥", category: "movement", lat: 39.9, lng: 116.4, year: 1949, pinned: true, explanation: "Oct 1, 1949 — Mao announces the People's Republic of China from Tiananmen. Nationalists flee to Taiwan." },
+          { id: "great-leap", label: "Great Leap Forward", emoji: "💀", category: "policy", lat: 35.0, lng: 105.0, year: 1958, endYear: 1962, pinned: true, explanation: "Mao's forced collectivization + backyard furnaces. Famine killed ~30 million people. Largest single-decade death toll in modern history." },
+          { id: "cultural-rev", label: "Cultural Revolution", emoji: "💥", category: "movement", lat: 39.9, lng: 116.4, year: 1966, endYear: 1976, pinned: true, explanation: "Mao mobilized youth (Red Guards) against 'old' culture and party rivals. Schools closed; intellectuals exiled or killed." },
+          { id: "cuban-rev", label: "Cuban Revolution", emoji: "💥", category: "movement", lat: 23.13, lng: -82.36, year: 1959, pinned: true, explanation: "Castro overthrows the US-backed Batista. Cuba becomes the first communist state in the Americas." },
+        ],
         mentions: [
           "Mao Zedong", "Chinese Communist Party", "Long March (1934–35)",
           "Chinese Civil War", "PRC founded (Oct 1, 1949)",
@@ -1474,6 +1610,7 @@ const rawUnits: RawUnit[] = [
         summary:
           "India and Pakistan partition (1947), Ghana under Nkrumah (1957), Algeria after a brutal war (1962), Vietnam from France then the US, and a wave of African independence in the 1960s.",
         year: 1960,
+        empireIds: ["modern-india", "pakistan", "modern-vietnam", "ghana", "algeria", "indonesia"],
         eventIds: ["indian-indep", "decolonization", "vietnam-war"],
         poiIds: ["kolkata", "mumbai", "hanoi", "saigon"],
         mentions: [
@@ -1493,6 +1630,7 @@ const rawUnits: RawUnit[] = [
         summary:
           "New states navigate Cold War pressure with the Non-Aligned Movement (Nehru, Nasser, Tito). The creation of Israel in 1948 and the resulting Arab-Israeli wars reshape the Middle East.",
         year: 1955,
+        empireIds: ["modern-india", "modern-egypt", "indonesia", "israel", "pakistan", "modern-vietnam", "ghana", "algeria", "yugoslavia-tito", "iran-republic"],
         eventIds: ["non-aligned"],
         poiIds: ["jerusalem", "cairo", "tehran"],
         mentions: [
@@ -1512,7 +1650,14 @@ const rawUnits: RawUnit[] = [
         summary:
           "Civil rights in the US, anti-apartheid in South Africa, Tiananmen Square in China, Solidarity in Poland, and second-wave feminism — protest movements challenge entrenched power on both sides of the Iron Curtain.",
         year: 1985,
+        empireIds: ["usa", "soviet-union", "prc", "south-africa-apartheid"],
         poiIds: ["washington", "beijing", "berlin", "witwatersrand"],
+        features: [
+          { id: "tiananmen", label: "Tiananmen Square", emoji: "💥", category: "movement", lat: 39.9, lng: 116.4, year: 1989, pinned: true, explanation: "June 4, 1989 — Chinese army crushes pro-democracy protests in Beijing. Hundreds to thousands killed." },
+          { id: "selma", label: "Selma march", emoji: "✊", category: "movement", lat: 32.41, lng: -87.02, year: 1965, pinned: true, explanation: "March 1965 — civil rights march from Selma to Montgomery. 'Bloody Sunday' on the Edmund Pettus Bridge. Helped pass the Voting Rights Act." },
+          { id: "mandela-free", label: "Mandela released", emoji: "✊", category: "movement", lat: -33.9, lng: 18.42, year: 1990, pinned: true, explanation: "Feb 11, 1990 — Nelson Mandela freed after 27 years. Apartheid ends 1994 with the first multiracial election." },
+          { id: "solidarity", label: "Solidarity (Poland)", emoji: "✊", category: "movement", lat: 54.35, lng: 18.65, year: 1980, pinned: true, explanation: "Lech Wałęsa's labor-movement-turned-political party. First non-communist government in Eastern Europe (1989)." },
+        ],
         mentions: [
           "US Civil Rights Movement", "Martin Luther King Jr.", "Selma",
           "1964 Civil Rights Act", "Voting Rights Act 1965",
@@ -1544,6 +1689,15 @@ const rawUnits: RawUnit[] = [
           "Boris Yeltsin", "end of bipolar world", "rise of US 'unipolar moment'",
         ],
       },
+      {
+        code: "8.R",
+        title: "Full Unit 8 Review",
+        summary:
+          "Heimler's full Unit 8 cram — origins of the Cold War, NATO vs. Warsaw, proxy wars, the spread of communism, decolonization, the Non-Aligned Movement, civil rights, and the Soviet collapse.",
+        isUnitSummary: true,
+        highlightAllCountries: true,
+        year: 1965,
+      },
     ],
   },
 
@@ -1564,6 +1718,8 @@ const rawUnits: RawUnit[] = [
         summary:
           "Internet, cell phones, satellites, and shipping containerization compress time and distance. Capital, goods, ideas, and people move faster than ever.",
         year: 2000,
+        highlightAllCountries: true,
+        empireIds: ["usa", "prc", "modern-india"],
         routeIds: ["globalization"],
         poiIds: ["shenzhen", "shanghai", "singapore", "hong-kong"],
         mentions: [
@@ -1584,6 +1740,7 @@ const rawUnits: RawUnit[] = [
         summary:
           "Vaccines and antibiotics extend life, but disease still travels — the 1918 flu, HIV/AIDS, Ebola, and COVID-19 spread along globalized networks.",
         year: 2010,
+        highlightAllCountries: true,
         routeIds: ["globalization"],
         mentions: [
           "Green Revolution (Norman Borlaug)", "high-yield wheat + rice",
@@ -1602,6 +1759,8 @@ const rawUnits: RawUnit[] = [
         summary:
           "Climate change, deforestation, the shrinking Aral Sea, and the broader Anthropocene — the same technologies that connect us also degrade the planet at a global scale.",
         year: 2010,
+        highlightAllCountries: true,
+        routeIds: ["globalization"],
         mentions: [
           "anthropogenic climate change", "fossil fuels", "CO₂ emissions",
           "greenhouse effect", "global warming",
@@ -1620,7 +1779,8 @@ const rawUnits: RawUnit[] = [
         summary:
           "Neoliberalism (Reagan, Thatcher), the IMF/World Bank/WTO, free trade agreements (NAFTA), and multinational corporations reorganize global production into supply chains.",
         year: 1995,
-        empireIds: ["usa", "prc"],
+        highlightAllCountries: true,
+        empireIds: ["usa", "prc", "modern-india"],
         routeIds: ["globalization"],
         eventIds: ["wto-1995", "deng-reform"],
         poiIds: ["washington", "london", "hong-kong", "shanghai", "shenzhen"],
@@ -1643,6 +1803,8 @@ const rawUnits: RawUnit[] = [
         summary:
           "Second- and third-wave feminism, environmentalism, the UN Universal Declaration of Human Rights, and movements for indigenous rights all push back on the costs of the global order.",
         year: 1990,
+        highlightAllCountries: true,
+        empireIds: ["usa", "soviet-union"],
         poiIds: ["washington", "paris", "moscow"],
         mentions: [
           "second-wave feminism (Friedan, NOW)",
@@ -1662,6 +1824,9 @@ const rawUnits: RawUnit[] = [
         summary:
           "Hollywood, K-pop, World Cup soccer, English as a global lingua franca, and consumer brands like Coke and McDonald's create a shared global pop culture — alongside fierce local resistance to it.",
         year: 2000,
+        highlightAllCountries: true,
+        empireIds: ["usa", "prc", "modern-india"],
+        routeIds: ["globalization"],
         poiIds: ["washington", "tokyo", "london", "hong-kong"],
         mentions: [
           "Hollywood (films)", "Bollywood", "Nollywood",
@@ -1681,6 +1846,8 @@ const rawUnits: RawUnit[] = [
         summary:
           "Religious fundamentalism and terrorism (9/11, Al-Qaeda, ISIS), anti-globalization protests (Seattle 1999), and the recent rise of economic nationalism all push back on the global order.",
         year: 2001,
+        highlightAllCountries: true,
+        empireIds: ["usa"],
         eventIds: ["9-11"],
         poiIds: ["washington", "tehran"],
         mentions: [
@@ -1701,7 +1868,8 @@ const rawUnits: RawUnit[] = [
         summary:
           "UN, WHO, World Bank, IMF, NGOs (Greenpeace, Amnesty), regional blocs (EU, ASEAN, Mercosur). What changed (instant communication, multinational economies) and what didn't (inequality, ethnic conflict).",
         year: 2010,
-        empireIds: ["usa", "prc"],
+        highlightAllCountries: true,
+        empireIds: ["usa", "prc", "modern-india"],
         routeIds: ["globalization"],
         eventIds: ["wto-1995", "9-11", "ussr-collapse"],
         poiIds: ["washington", "london", "shanghai", "hong-kong", "shenzhen", "singapore"],
@@ -1714,6 +1882,15 @@ const rawUnits: RawUnit[] = [
           "what changed: instant communication, multinational economies, cultural blending",
           "what stayed: global inequality, ethnic conflict, environmental limits, religion as motivator",
         ],
+      },
+      {
+        code: "9.R",
+        title: "Full Unit 9 Review",
+        summary:
+          "Heimler's full Unit 9 cram — globalization in tech, economy, environment, culture, and politics. Every country on Earth is in this story.",
+        isUnitSummary: true,
+        highlightAllCountries: true,
+        year: 2000,
       },
     ],
   },

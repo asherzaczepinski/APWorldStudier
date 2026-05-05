@@ -72,6 +72,14 @@ type GlobeProps = {
   features?: FeatureMarker[];
   /** Feature lines / paths drawn on the surface (Grand Canal, Inca roads, etc.). */
   featurePaths?: FeaturePath[];
+  /** Notified each time the user zooms; receives the current camera altitude. */
+  onZoomChange?: (altitude: number) => void;
+  /**
+   * When set, every country not in countryColors is washed with this color
+   * (used for globalization-style "every country" topics). Topic-specific
+   * empires in countryColors still paint with full saturation on top.
+   */
+  defaultHighlightColor?: string;
   onSelectCountry: (code: string, name: string) => void;
   onSelectRoute: (route: TradeRoute) => void;
   onSelectEvent: (eventId: string) => void;
@@ -106,6 +114,8 @@ export default function Globe({
   showAllPois = false,
   features = [],
   featurePaths = [],
+  onZoomChange,
+  defaultHighlightColor,
   onSelectCountry,
   onSelectRoute,
   onSelectEvent,
@@ -147,7 +157,12 @@ export default function Globe({
     c.autoRotateSpeed = 0.18;
   }, [autoRotate]);
 
-  // Camera focus — fly to coords when prop changes.
+  // Camera focus — fly to coords ONLY when the actual values change.
+  // Without the value-based key, every render creates a fresh focus object,
+  // re-triggering pointOfView mid-click → first click swallowed → double-click.
+  const focusKey = focus
+    ? `${focus.lat.toFixed(3)},${focus.lng.toFixed(3)},${(focus.altitude ?? 1.6).toFixed(3)}`
+    : "";
   useEffect(() => {
     const g = globeRef.current;
     if (!g || !focus || typeof g.pointOfView !== "function") return;
@@ -158,7 +173,8 @@ export default function Globe({
       );
     }, 80);
     return () => clearTimeout(t);
-  }, [focus]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [focusKey]);
 
   const getCode = (f: CountryFeature) =>
     f.properties.ISO_A3 ?? f.properties.ADM0_A3 ?? f.properties.iso_a3 ?? "";
@@ -321,16 +337,42 @@ export default function Globe({
         showAtmosphere
         atmosphereColor={ATMOSPHERE}
         atmosphereAltitude={0.18}
-        onZoom={(pov: { altitude: number }) => setAltitude(pov.altitude)}
+        onZoom={(pov: { altitude: number }) => {
+          // Clamp max zoom-in: anything closer than altitude 1.075 (~75% on
+          // the user-facing 0–100% scale) snaps back. Stops accidental
+          // dive-to-the-surface and keeps text readable.
+          const MIN_ALT = 1.075;
+          if (pov.altitude < MIN_ALT) {
+            const g = globeRef.current;
+            if (g && typeof g.pointOfView === "function") {
+              g.pointOfView({ altitude: MIN_ALT }, 0);
+            }
+            setAltitude(MIN_ALT);
+            onZoomChange?.(MIN_ALT);
+            return;
+          }
+          setAltitude(pov.altitude);
+          onZoomChange?.(pov.altitude);
+        }}
         polygonsData={countries}
         polygonAltitude={(d: object) => {
           const f = d as CountryFeature;
-          return countryColors.has(getCode(f)) ? 0.018 : 0.005;
+          // Thicker than 0.018 so the polygon's hit-mesh is substantial
+          // enough that the first raycaster click reliably lands.
+          if (countryColors.has(getCode(f))) return 0.04;
+          return defaultHighlightColor ? 0.025 : 0.012;
         }}
         polygonCapColor={(d: object) => {
           const f = d as CountryFeature;
           const c = countryColors.get(getCode(f));
-          if (!c) return POLY_BASE_TINT;
+          if (!c) {
+            if (defaultHighlightColor) {
+              return /^#[0-9a-fA-F]{6}$/.test(defaultHighlightColor)
+                ? defaultHighlightColor + "44"
+                : defaultHighlightColor;
+            }
+            return POLY_BASE_TINT;
+          }
           // Short hex (#rrggbb) → append alpha. Anything else (rgba, color-mix,
           // 8-char hex) → assume the caller already chose its own opacity.
           if (/^#[0-9a-fA-F]{6}$/.test(c)) return c + "cc";
@@ -350,7 +392,7 @@ export default function Globe({
           const name = f.properties.ADMIN ?? f.properties.name ?? "";
           onSelectCountry(getCode(f), name);
         }}
-        polygonsTransitionDuration={500}
+        polygonsTransitionDuration={0}
 
         // Arcs ("shooting lines") between consecutive route waypoints
         arcsData={arcsData}
