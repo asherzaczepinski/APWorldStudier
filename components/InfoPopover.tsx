@@ -4,6 +4,7 @@ import type { TradeRoute, HistoricalEvent } from "@/lib/types";
 import type { Empire } from "@/lib/data/empires";
 import type { POI } from "@/lib/data/pois";
 import type { HeimlerUnit, TopicFeature } from "@/lib/data/heimlerUnits";
+import { findGlossary } from "@/lib/data/glossary";
 
 export type InfoSelection =
   | { kind: "empire"; empire: Empire; year: number; countryName: string; countryCode: string }
@@ -15,15 +16,33 @@ export type InfoSelection =
   | { kind: "feature"; feature: TopicFeature; accent: string }
   | { kind: "mention"; term: string; explanation: string; accent: string };
 
+export type TopicContext = {
+  unit: HeimlerUnit;
+  topic: {
+    title: string;
+    code: string;
+    summary: string;
+    mentions?: string[];
+    features?: TopicFeature[];
+  };
+  /** Which features have been clicked (so they show on the map). */
+  activeFeatureIds: Set<string>;
+  /** Click a feature in the panel: pin it to the map and open its explanation. */
+  onSelectFeature: (id: string) => void;
+  /** Click a mention chip: open its glossary definition (if any). */
+  onSelectMention: (term: string) => void;
+};
+
 type Props = {
   selection: InfoSelection;
   onClose: () => void;
   /**
    * Optional topic context. When set on an empire / route selection, the
-   * popover prepends a small "What Heimler covers in this topic" callout so
-   * the user sees how the clicked thing fits into the active video.
+   * popover renders a "What Heimler covers in this topic" section with the
+   * topic summary, clickable feature cards (pin emoji on map + read
+   * explanation), and clickable mention chips (read glossary definition).
    */
-  topicContext?: { unit: HeimlerUnit; topic: { title: string; code: string; summary: string; mentions?: string[] } };
+  topicContext?: TopicContext;
 };
 
 export default function InfoPopover({ selection, onClose, topicContext }: Props) {
@@ -58,21 +77,114 @@ export default function InfoPopover({ selection, onClose, topicContext }: Props)
         (selection.kind === "empire" ||
           selection.kind === "route" ||
           selection.kind === "country") && (
-          <div
-            className="mt-4 p-3 rounded"
-            style={{
-              borderTop: `1px solid color-mix(in oklch, ${topicContext.unit.accent} 30%, transparent)`,
-              background: `color-mix(in oklch, ${topicContext.unit.accent} 8%, transparent)`,
-            }}
-          >
-            <div className="eyebrow mb-1" style={{ color: topicContext.unit.accent }}>
-              What Heimler covers · {topicContext.topic.code}
-            </div>
-            <p className="t-12 prose-cap" style={{ color: "var(--text-muted)" }}>
-              {topicContext.topic.summary}
-            </p>
-          </div>
+          <TopicCoverage ctx={topicContext} />
         )}
+    </div>
+  );
+}
+
+function TopicCoverage({ ctx }: { ctx: TopicContext }) {
+  const accent = ctx.unit.accent;
+  const features = ctx.topic.features ?? [];
+  const mentions = ctx.topic.mentions ?? [];
+
+  return (
+    <div
+      className="mt-4 p-3 rounded space-y-3"
+      style={{
+        borderTop: `1px solid color-mix(in oklch, ${accent} 30%, transparent)`,
+        background: `color-mix(in oklch, ${accent} 8%, transparent)`,
+      }}
+    >
+      <div>
+        <div className="eyebrow mb-1" style={{ color: accent }}>
+          What Heimler covers · {ctx.topic.code}
+        </div>
+        <p className="t-12 prose-cap" style={{ color: "var(--text-muted)" }}>
+          {ctx.topic.summary}
+        </p>
+      </div>
+
+      {features.length > 0 && (
+        <div>
+          <div className="eyebrow mb-1.5" style={{ color: "var(--text-dim)" }}>
+            Highlights — click to drop on the map
+          </div>
+          <ul className="grid grid-cols-2 gap-1.5">
+            {features.map((f) => {
+              const isActive = f.pinned || ctx.activeFeatureIds.has(f.id);
+              return (
+                <li key={f.id}>
+                  <button
+                    onClick={() => ctx.onSelectFeature(f.id)}
+                    className="w-full text-left flex items-center gap-2 px-2 py-1.5 rounded transition hover:brightness-125"
+                    style={{
+                      background: isActive
+                        ? `color-mix(in oklch, ${accent} 22%, transparent)`
+                        : "var(--bg-elev)",
+                      border: isActive
+                        ? `1px solid ${accent}`
+                        : "1px solid var(--border-soft)",
+                    }}
+                    title={f.explanation}
+                  >
+                    <span
+                      aria-hidden
+                      className="flex-shrink-0"
+                      style={{
+                        fontSize: 16,
+                        lineHeight: 1,
+                        opacity: isActive ? 1 : 0.6,
+                      }}
+                    >
+                      {f.emoji}
+                    </span>
+                    <span
+                      className="t-12 truncate"
+                      style={{ color: isActive ? "var(--text)" : "var(--text-muted)" }}
+                    >
+                      {f.label}
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
+
+      {mentions.length > 0 && (
+        <div>
+          <div className="eyebrow mb-1.5" style={{ color: "var(--text-dim)" }}>
+            Also mentioned
+          </div>
+          <ul className="flex flex-wrap gap-1">
+            {mentions.map((m, i) => {
+              const hasDef = findGlossary(m) !== null;
+              return (
+                <li key={i}>
+                  <button
+                    onClick={() => hasDef && ctx.onSelectMention(m)}
+                    disabled={!hasDef}
+                    className="t-12 px-2 py-1 rounded transition"
+                    style={{
+                      background: "var(--bg-elev)",
+                      border: hasDef
+                        ? `1px solid color-mix(in oklch, ${accent} 30%, transparent)`
+                        : "1px solid var(--border-soft)",
+                      color: hasDef ? "var(--text)" : "var(--text-muted)",
+                      cursor: hasDef ? "pointer" : "default",
+                    }}
+                    title={hasDef ? "Click for definition" : "No definition yet"}
+                  >
+                    {m}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

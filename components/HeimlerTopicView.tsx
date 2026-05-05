@@ -8,7 +8,9 @@ import { empires, empireAtCodeAndYear, territoriesAtYear, type Empire } from "@/
 import { pois as allPois } from "@/lib/data/pois";
 import InfoPopover, { type InfoSelection } from "@/components/InfoPopover";
 import type { TradeRoute } from "@/lib/types";
+import type { FeatureMarker } from "@/components/Globe";
 import type { HeimlerTopic, HeimlerUnit, TopicFeature } from "@/lib/data/heimlerUnits";
+import { findGlossary } from "@/lib/data/glossary";
 
 const Globe = dynamic(() => import("@/components/Globe"), {
   ssr: false,
@@ -67,10 +69,14 @@ export default function HeimlerTopicView({ unit, topic: rawTopic, onBack }: Prop
   }, [rawTopic, unit.topics]);
 
   const [selection, setSelection] = useState<InfoSelection | null>(null);
+  const [activeFeatureIds, setActiveFeatureIds] = useState<Set<string>>(
+    () => new Set()
+  );
 
   const year = topic.year;
   const empireIds = topic.empireIds ?? [];
   const routeIds = topic.routeIds ?? [];
+  const features = topic.features ?? [];
 
   // Topic-specific empires shown in full color.
   const territoriesForTopic = useMemo(() => {
@@ -121,6 +127,25 @@ export default function HeimlerTopicView({ unit, topic: rawTopic, onBack }: Prop
     [routeIds]
   );
 
+  // Pinned features and any the user has clicked → drop emoji on the globe.
+  const featureMarkers = useMemo<FeatureMarker[]>(
+    () =>
+      features
+        .filter((f): f is TopicFeature & { lat: number; lng: number } =>
+          typeof f.lat === "number" && typeof f.lng === "number"
+        )
+        .filter((f) => f.pinned || activeFeatureIds.has(f.id))
+        .map((f) => ({
+          id: f.id,
+          lat: f.lat,
+          lng: f.lng,
+          label: f.label,
+          emoji: f.emoji,
+          color: unit.accent,
+        })),
+    [features, unit.accent, activeFeatureIds]
+  );
+
   // Compute camera focus from territories' first capital-ish point + routes.
   const focus = useMemo(() => {
     const points: { lat: number; lng: number }[] = [];
@@ -161,6 +186,29 @@ export default function HeimlerTopicView({ unit, topic: rawTopic, onBack }: Prop
   }
   function selectRoute(route: TradeRoute) {
     setSelection({ kind: "route", route, year });
+  }
+  function selectFeature(featureId: string) {
+    const f = features.find((x) => x.id === featureId);
+    if (!f) return;
+    if (!f.pinned) {
+      setActiveFeatureIds((prev) => {
+        if (prev.has(featureId)) return prev;
+        const next = new Set(prev);
+        next.add(featureId);
+        return next;
+      });
+    }
+    setSelection({ kind: "feature", feature: f, accent: unit.accent });
+  }
+  function selectMention(term: string) {
+    const explanation = findGlossary(term);
+    if (explanation) {
+      setSelection({ kind: "mention", term, explanation, accent: unit.accent });
+    }
+  }
+  function selectFeatureFromGlobe(featureId: string) {
+    const f = features.find((x) => x.id === featureId);
+    if (f) setSelection({ kind: "feature", feature: f, accent: unit.accent });
   }
 
   return (
@@ -206,11 +254,12 @@ export default function HeimlerTopicView({ unit, topic: rawTopic, onBack }: Prop
           eventPins={[]}
           autoRotate={false}
           focus={focus}
-          features={[]}
+          features={featureMarkers}
           onSelectCountry={selectCountry}
           onSelectRoute={selectRoute}
           onSelectEvent={() => {}}
           onSelectPOI={() => {}}
+          onSelectFeature={selectFeatureFromGlobe}
         />
 
         {selection && (
@@ -222,10 +271,15 @@ export default function HeimlerTopicView({ unit, topic: rawTopic, onBack }: Prop
               selection={selection}
               onClose={() => setSelection(null)}
               topicContext={
-                selection.kind === "empire" && empireIds.includes(selection.empire.id)
-                  ? { unit, topic }
-                  : selection.kind === "route" && routeIds.includes(selection.route.id)
-                  ? { unit, topic }
+                (selection.kind === "empire" && empireIds.includes(selection.empire.id)) ||
+                (selection.kind === "route" && routeIds.includes(selection.route.id))
+                  ? {
+                      unit,
+                      topic,
+                      activeFeatureIds,
+                      onSelectFeature: selectFeature,
+                      onSelectMention: selectMention,
+                    }
                   : undefined
               }
             />
