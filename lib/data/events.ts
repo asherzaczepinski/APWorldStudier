@@ -974,7 +974,7 @@ export const events: HistoricalEvent[] = [
   {
     id: "sundiata-mali",
     year: 1235,
-    endYear: 1670,
+    endYear: 1464,
     periodId: "p1",
     regionIds: ["wafrica"],
     title: "Sundiata founds the Mali Empire",

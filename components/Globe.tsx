@@ -357,10 +357,11 @@ export default function Globe({
         polygonsData={countries}
         polygonAltitude={(d: object) => {
           const f = d as CountryFeature;
-          // Thicker than 0.018 so the polygon's hit-mesh is substantial
-          // enough that the first raycaster click reliably lands.
-          if (countryColors.has(getCode(f))) return 0.04;
-          return defaultHighlightColor ? 0.025 : 0.012;
+          // Clamped near the surface so colored countries look flush with
+          // the globe, not floating slabs. Just enough thickness for the
+          // raycaster to register a click.
+          if (countryColors.has(getCode(f))) return 0.008;
+          return defaultHighlightColor ? 0.006 : 0.005;
         }}
         polygonCapColor={(d: object) => {
           const f = d as CountryFeature;
