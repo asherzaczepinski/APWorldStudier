@@ -223,6 +223,17 @@ input[type="range"]::-moz-range-thumb {
   color: var(--text-dim);
 }
 
+/* When a route on the globe is being hovered, fade the HTML markers
+   (network pins, feature pills, event dots) so the animated path reads
+   on top instead of being covered by their labels. */
+.globe-marker {
+  transition: opacity 180ms var(--ease);
+}
+.route-hovered .globe-marker {
+  opacity: 0.08;
+  pointer-events: none;
+}
+
 .transcript p {
   margin-bottom: 0.95em;
   max-width: 64ch;

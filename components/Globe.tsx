@@ -132,6 +132,12 @@ export default function Globe({
   const [countries, setCountries] = useState<CountryFeature[]>([]);
   const [size, setSize] = useState({ w: 800, h: 800 });
   const [altitude, setAltitude] = useState(2.5);
+  // Track route hover + click-to-pin. Hover dims the markers; click pins the
+  // dim so the user can read the route in peace. Click the same path (or any
+  // empty area of the globe) again to release.
+  const [pathHovered, setPathHovered] = useState(false);
+  const [pathSelectedId, setPathSelectedId] = useState<string | null>(null);
+  const routeFocused = pathHovered || pathSelectedId !== null;
   const containerRef = useRef<HTMLDivElement>(null);
   const globeRef = useRef<GlobeMethods | undefined>(undefined);
 
@@ -347,7 +353,16 @@ export default function Globe({
   }, [routes, events, visiblePois, altitude, eventPins, features]);
 
   return (
-    <div ref={containerRef} className="absolute inset-0">
+    <div
+      ref={containerRef}
+      className={`absolute inset-0${routeFocused ? " route-hovered" : ""}`}
+      onClick={(e) => {
+        // Click on the empty backdrop (not on a path or marker) clears the
+        // pinned-route state. The path/marker handlers stop propagation so
+        // they don't accidentally clear themselves.
+        if (e.target === e.currentTarget) setPathSelectedId(null);
+      }}
+    >
       <ReactGlobe
         ref={globeRef}
         width={size.w}
@@ -455,14 +470,30 @@ export default function Globe({
           const fp = p as FeaturePath;
           return [fp.color, fp.color];
         }}
-        pathStroke={3.2}
-        pathDashLength={0.5}
-        pathDashGap={0.06}
-        pathDashAnimateTime={3500}
-        pathPointAlt={0.012}
+        pathStroke={(p: object) => {
+          const fp = p as FeaturePath;
+          const isFocused = pathHovered || pathSelectedId === fp.id;
+          // Thinner default; bump on hover/select for hitbox + readability.
+          return isFocused ? 3.6 : 1.8;
+        }}
+        // Solid, non-animated lines — no dash march.
+        pathDashLength={1}
+        pathDashGap={0}
+        pathDashAnimateTime={0}
+        pathPointAlt={routeFocused ? 0.018 : 0.010}
+        pathTransitionDuration={200}
         pathLabel={(p: object) => {
           const fp = p as FeaturePath;
-          return `<div style="background:${TOOLTIP_BG};padding:6px 12px;border-radius:8px;border:1px solid ${fp.color};color:${TOOLTIP_TEXT};font:600 13px ui-serif,Georgia,serif">${fp.label}</div>`;
+          const pinned = pathSelectedId === fp.id;
+          const tail = pinned
+            ? `<div style="font:500 11px ui-sans-serif,system-ui;color:${TOOLTIP_TEXT}cc;margin-top:2px">click again to release</div>`
+            : "";
+          return `<div style="background:${TOOLTIP_BG};padding:6px 12px;border-radius:8px;border:1px solid ${fp.color};color:${TOOLTIP_TEXT};font:600 13px ui-serif,Georgia,serif">${fp.label}${tail}</div>`;
+        }}
+        onPathHover={(p: object | null) => setPathHovered(!!p)}
+        onPathClick={(p: object) => {
+          const fp = p as FeaturePath;
+          setPathSelectedId((curr) => (curr === fp.id ? null : fp.id));
         }}
 
         htmlElementsData={htmlElements}
@@ -472,6 +503,8 @@ export default function Globe({
         htmlElement={(d: object) => {
           const m = d as HtmlMarker;
           const wrap = document.createElement("div");
+          // Tag every marker wrap so the route-hover CSS can dim them all.
+          wrap.className = "globe-marker";
           wrap.style.transform = "translate(-50%, -50%)";
           wrap.style.userSelect = "none";
           wrap.style.pointerEvents = "auto";

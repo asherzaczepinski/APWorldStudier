@@ -1,7 +1,7 @@
 "use client";
 
-import TimeScrubberView from "@/components/TimeScrubberView";
+import BriefingApp from "@/components/BriefingApp";
 
 export default function Page() {
-  return <TimeScrubberView />;
+  return <BriefingApp />;
 }
