@@ -8,6 +8,7 @@ import {
   buildBaseCountryColors,
   buildBaseCountryLabels,
 } from "@/lib/data/regionPalette";
+import { contextualizationFor } from "@/lib/data/contextualizations";
 import type { TradeRoute } from "@/lib/types";
 import type { EventPin, FeatureMarker, FeaturePath } from "@/components/Globe";
 
@@ -245,13 +246,15 @@ function SidePanel({
   onPickFeature: (id: string) => void;
   onBack: () => void;
 }) {
-  const [tab, setTab] = useState<"context" | "saq" | "venn">("context");
+  const [tab, setTab] = useState<"context" | "ctx" | "saq" | "venn">("context");
+  const ctxParagraph = contextualizationFor(idea.id);
   // If user lands on a Big Idea without the active tab's data (e.g. previously
   // on Venn, then opens a Big Idea that has no Venn), fall back to Context.
   useEffect(() => {
     if (tab === "saq" && !idea.saq) setTab("context");
     if (tab === "venn" && !idea.venn) setTab("context");
-  }, [idea, tab]);
+    if (tab === "ctx" && !ctxParagraph) setTab("context");
+  }, [idea, tab, ctxParagraph]);
 
   return (
     <aside
@@ -299,10 +302,13 @@ function SidePanel({
         </p>
 
         <div
-          className="inline-flex rounded-full p-0.5 mt-3"
+          className="inline-flex rounded-full p-0.5 mt-3 flex-wrap"
           style={{ border: "1px solid var(--border-soft)", background: "var(--bg-elev)" }}
         >
           <PanelTab active={tab === "context"} onClick={() => setTab("context")}>Context</PanelTab>
+          {ctxParagraph && (
+            <PanelTab active={tab === "ctx"} onClick={() => setTab("ctx")}>Contextualization</PanelTab>
+          )}
           {idea.saq && (
             <PanelTab active={tab === "saq"} onClick={() => setTab("saq")}>SAQ</PanelTab>
           )}
@@ -327,6 +333,7 @@ function SidePanel({
             onPickFeature={onPickFeature}
           />
         )}
+        {tab === "ctx" && ctxParagraph && <CtxTab body={ctxParagraph} accent={accent} />}
         {tab === "saq" && idea.saq && <SAQTab saq={idea.saq} accent={accent} />}
         {tab === "venn" && idea.venn && <VennTab venn={idea.venn} accent={accent} />}
       </div>
@@ -467,6 +474,34 @@ function ContextTab({
           </ul>
         </>
       )}
+    </>
+  );
+}
+
+function CtxTab({ body, accent }: { body: string; accent: string }) {
+  return (
+    <>
+      <div className="eyebrow mb-2" style={{ color: "var(--text-dim)" }}>
+        DBQ contextualization paragraph
+      </div>
+      <p className="t-12 prose-cap mb-3" style={{ color: "var(--text-dim)" }}>
+        Drop this in a DBQ intro to earn the contextualization point. Paraphrase + adjust to fit
+        the prompt — don&apos;t copy verbatim.
+      </p>
+      <p
+        className="t-14 prose-cap"
+        style={{
+          color: "var(--text)",
+          background: "var(--bg-elev)",
+          border: "1px solid var(--border-soft)",
+          borderLeft: `3px solid ${accent}`,
+          padding: "12px 14px",
+          borderRadius: 6,
+          lineHeight: 1.65,
+        }}
+      >
+        {body}
+      </p>
     </>
   );
 }

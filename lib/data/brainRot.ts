@@ -181,10 +181,10 @@ export const brainRot: BrainRot[] = [
   },
   {
     ideaId: "u5-bi2",
-    phrase: "America copied France, France copied Haiti — all delulu, all valid",
+    phrase: "America went first, France copied homework, Haiti pulled up — all delulu, all valid",
     emojis: "🇺🇸🇫🇷✊🏿📜",
     anim: "bounce",
-    hook: "American → French → Haitian → Latin American revolutions. Bolívar's Letter from Jamaica.",
+    hook: "American (1776) → French (1789, inspired by US) → Haitian → Latin American revolutions. Bolívar's Letter from Jamaica.",
   },
   {
     ideaId: "u5-bi3",
@@ -369,10 +369,10 @@ export const brainRot: BrainRot[] = [
   },
   {
     ideaId: "u8-bi8",
-    phrase: "Reagan spent USSR into the coffin of Andy & Leyley",
+    phrase: "Reagan: 'we go gym' — USSR ran out of cash, Afghanistan ran out of patience",
     emojis: "🪖🇺🇸📜🧱",
     anim: "shake",
-    hook: "Afghan invasion drained USSR. Reagan spent. Gorbachev's perestroika + glasnost = unraveling.",
+    hook: "Afghan invasion drained USSR. Reagan's defense spending = budget race. Gorbachev's perestroika + glasnost = unraveling.",
   },
 
   // ─── Unit 9 ──────────────────────────────────────────────────────────────

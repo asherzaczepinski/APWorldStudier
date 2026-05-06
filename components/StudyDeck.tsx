@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { briefingUnits, type BigIdea } from "@/lib/data/briefing";
 import { regionPalette } from "@/lib/data/regionPalette";
+import { ideaQuizzes } from "@/lib/data/quizQuestions";
 
 type Props = {
   shaky: Set<string>;
@@ -13,6 +14,9 @@ type Mode = "review" | "quiz";
 
 export default function StudyDeck({ shaky, onOpenIdea }: Props) {
   const [mode, setMode] = useState<Mode>("review");
+  // When set, a focused-quiz overlay covers the screen with questions for
+  // ONLY that one Big Idea. Triggered by each review card's "Open quiz" button.
+  const [focusedQuizIdeaId, setFocusedQuizIdeaId] = useState<string | null>(null);
 
   const deck = useMemo<{ idea: BigIdea; unitNumber: number; accent: string }[]>(() => {
     const out: { idea: BigIdea; unitNumber: number; accent: string }[] = [];
@@ -51,9 +55,21 @@ export default function StudyDeck({ shaky, onOpenIdea }: Props) {
       </div>
 
       {mode === "review" ? (
-        <ReviewList deck={deck} onOpenIdea={onOpenIdea} />
+        <ReviewList
+          deck={deck}
+          onOpenIdea={onOpenIdea}
+          onOpenQuiz={(id) => setFocusedQuizIdeaId(id)}
+        />
       ) : (
         <QuizMode deck={deck} onOpenIdea={onOpenIdea} />
+      )}
+
+      {focusedQuizIdeaId && (
+        <FocusedQuizOverlay
+          ideaId={focusedQuizIdeaId}
+          onClose={() => setFocusedQuizIdeaId(null)}
+          onOpenIdea={onOpenIdea}
+        />
       )}
     </div>
   );
@@ -110,9 +126,11 @@ function EmptyState() {
 function ReviewList({
   deck,
   onOpenIdea,
+  onOpenQuiz,
 }: {
   deck: { idea: BigIdea; unitNumber: number; accent: string }[];
   onOpenIdea: (id: string) => void;
+  onOpenQuiz: (id: string) => void;
 }) {
   return (
     <ol className="space-y-4">
@@ -123,6 +141,7 @@ function ReviewList({
             accent={accent}
             unitNumber={unitNumber}
             onOpenGlobe={() => onOpenIdea(idea.id)}
+            onOpenQuiz={() => onOpenQuiz(idea.id)}
           />
         </li>
       ))}
@@ -135,11 +154,13 @@ function SlideCard({
   accent,
   unitNumber,
   onOpenGlobe,
+  onOpenQuiz,
 }: {
   idea: BigIdea;
   accent: string;
   unitNumber: number;
   onOpenGlobe: () => void;
+  onOpenQuiz: () => void;
 }) {
   const dominantRegionId = idea.spotlightRegions[0];
   const dominantRegion = dominantRegionId ? regionPalette[dominantRegionId] : null;
@@ -290,23 +311,317 @@ function SlideCard({
           </>
         )}
 
-        <button
-          onClick={onOpenGlobe}
-          className="mt-5 t-14"
-          style={{
-            background: "transparent",
-            color: "var(--text)",
-            border: `1px solid ${accent}`,
-            borderRadius: 999,
-            padding: "9px 18px",
-            fontWeight: 500,
-            cursor: "pointer",
-          }}
-        >
-          Open on globe →
-        </button>
+        <div className="flex flex-wrap gap-2 mt-5">
+          <button
+            onClick={onOpenQuiz}
+            className="t-14"
+            style={{
+              background: accent,
+              color: "var(--bg)",
+              border: "none",
+              borderRadius: 999,
+              padding: "9px 18px",
+              fontWeight: 600,
+              cursor: "pointer",
+            }}
+          >
+            Open quiz
+          </button>
+          <button
+            onClick={onOpenGlobe}
+            className="t-14"
+            style={{
+              background: "transparent",
+              color: "var(--text)",
+              border: `1px solid ${accent}`,
+              borderRadius: 999,
+              padding: "9px 18px",
+              fontWeight: 500,
+              cursor: "pointer",
+            }}
+          >
+            Open on globe →
+          </button>
+        </div>
       </div>
     </article>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Focused-quiz overlay — runs questions for ONE Big Idea only.
+// ---------------------------------------------------------------------------
+
+function FocusedQuizOverlay({
+  ideaId,
+  onClose,
+  onOpenIdea,
+}: {
+  ideaId: string;
+  onClose: () => void;
+  onOpenIdea: (id: string) => void;
+}) {
+  const idea = useMemo<BigIdea | null>(() => {
+    for (const u of briefingUnits) {
+      const i = u.bigIdeas.find((x) => x.id === ideaId);
+      if (i) return i;
+    }
+    return null;
+  }, [ideaId]);
+
+  const accent = useMemo(() => {
+    for (const u of briefingUnits) {
+      if (u.bigIdeas.some((x) => x.id === ideaId)) return u.accent;
+    }
+    return "#fbbf24";
+  }, [ideaId]);
+
+  const pool = useMemo<Question[]>(() => {
+    const out: Question[] = [];
+    const handCrafted = ideaQuizzes[ideaId] ?? [];
+    for (let i = 0; i < handCrafted.length; i++) {
+      const q = handCrafted[i];
+      out.push({
+        id: `${ideaId}-focused-${i}`,
+        ideaId,
+        kind: "feature",
+        prompt: q.prompt,
+        options: q.options,
+        correctIndex: q.correctIndex,
+        rationale: q.rationale,
+      });
+    }
+    return out;
+  }, [ideaId]);
+
+  const [pos, setPos] = useState(0);
+  const [picked, setPicked] = useState<number | null>(null);
+  const [hits, setHits] = useState(0);
+  const [misses, setMisses] = useState(0);
+
+  // Esc key closes the overlay.
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  if (!idea) return null;
+
+  function submit(idx: number) {
+    if (picked !== null) return;
+    setPicked(idx);
+    if (idx === pool[pos].correctIndex) setHits((h) => h + 1);
+    else setMisses((m) => m + 1);
+  }
+
+  function next() {
+    setPicked(null);
+    setPos((p) => Math.min(pool.length - 1, p + 1));
+  }
+
+  const done = pos >= pool.length - 1 && picked !== null;
+  const current = pool[pos];
+
+  return (
+    <div
+      className="fixed inset-0"
+      style={{
+        background: "color-mix(in oklch, black 82%, transparent)",
+        backdropFilter: "blur(6px)",
+        zIndex: 60,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "24px 16px",
+        animation: "info-pop-in 200ms cubic-bezier(0.16, 1, 0.3, 1)",
+      }}
+      role="dialog"
+      aria-label={`Focused quiz: ${idea.title}`}
+    >
+      <div
+        style={{
+          background: "var(--bg-elev)",
+          border: `1px solid ${accent}`,
+          borderRadius: 14,
+          width: "min(720px, 100%)",
+          maxHeight: "90vh",
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+          boxShadow: "0 24px 60px -20px oklch(0% 0 0 / 0.7)",
+        }}
+      >
+        <div
+          className="flex items-baseline justify-between gap-3"
+          style={{
+            padding: "14px 18px",
+            borderBottom: "1px solid var(--border-soft)",
+          }}
+        >
+          <div>
+            <div className="eyebrow" style={{ color: accent }}>
+              Focused quiz · Unit {idea.unitNumber} · BI {idea.ideaNumber}
+            </div>
+            <h3 className="font-display t-20 leading-tight mt-0.5">{idea.title}</h3>
+          </div>
+          <button
+            onClick={onClose}
+            aria-label="Close quiz"
+            className="t-12"
+            style={{
+              background: "transparent",
+              color: "var(--text-dim)",
+              border: "1px solid var(--border-soft)",
+              borderRadius: 999,
+              padding: "5px 11px",
+              cursor: "pointer",
+            }}
+          >
+            ✕ Esc
+          </button>
+        </div>
+
+        <div style={{ padding: "18px", overflowY: "auto", flex: 1 }}>
+          {pool.length === 0 ? (
+            <p className="t-14 prose-cap" style={{ color: "var(--text-muted)" }}>
+              No questions available yet for this Big Idea.
+            </p>
+          ) : (
+            <>
+              <div className="flex items-center gap-2 mb-3 t-12" style={{ color: "var(--text-dim)" }}>
+                <span>Question {pos + 1} of {pool.length}</span>
+                <span style={{ color: "#10b981" }}>· ✓ {hits}</span>
+                <span style={{ color: "#ef4444" }}>· ✗ {misses}</span>
+              </div>
+
+              <h4 className="font-display t-20 leading-snug mb-4">{current.prompt}</h4>
+
+              <ol className="space-y-2">
+                {current.options.map((opt, i) => {
+                  const answered = picked !== null;
+                  const isCorrect = i === current.correctIndex;
+                  const isPicked = i === picked;
+                  let bg = "var(--bg)";
+                  let border = "1px solid var(--border-soft)";
+                  let color = "var(--text)";
+                  if (answered && isCorrect) {
+                    bg = "color-mix(in oklch, #10b981 18%, var(--bg-elev))";
+                    border = "1px solid #10b981";
+                  } else if (answered && isPicked && !isCorrect) {
+                    bg = "color-mix(in oklch, #ef4444 18%, var(--bg-elev))";
+                    border = "1px solid #ef4444";
+                  } else if (answered) {
+                    color = "var(--text-muted)";
+                  }
+                  return (
+                    <li key={i}>
+                      <button
+                        onClick={() => submit(i)}
+                        disabled={answered}
+                        className="w-full text-left t-14"
+                        style={{
+                          background: bg,
+                          border,
+                          color,
+                          borderRadius: 8,
+                          padding: "10px 14px",
+                          cursor: answered ? "default" : "pointer",
+                        }}
+                      >
+                        <span className="font-display" style={{ marginRight: 10, color: "var(--text-dim)" }}>
+                          {String.fromCharCode(65 + i)}.
+                        </span>
+                        {opt}
+                      </button>
+                    </li>
+                  );
+                })}
+              </ol>
+
+              {picked !== null && (
+                <div
+                  className="mt-4"
+                  style={{
+                    background: "var(--bg)",
+                    border: "1px solid var(--border-soft)",
+                    borderLeft: `3px solid ${picked === current.correctIndex ? "#10b981" : "#ef4444"}`,
+                    borderRadius: 6,
+                    padding: "10px 12px",
+                  }}
+                >
+                  <div className="eyebrow" style={{ color: picked === current.correctIndex ? "#10b981" : "#ef4444" }}>
+                    {picked === current.correctIndex ? "Correct" : "Missed"}
+                  </div>
+                  <p className="t-12 mt-1.5 prose-cap" style={{ color: "var(--text-muted)" }}>
+                    {current.rationale}
+                  </p>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+
+        <div
+          className="flex items-center justify-between gap-2 flex-wrap"
+          style={{
+            padding: "12px 18px",
+            borderTop: "1px solid var(--border-soft)",
+          }}
+        >
+          <button
+            onClick={() => onOpenIdea(ideaId)}
+            className="t-12"
+            style={{
+              background: "transparent",
+              color: "var(--text-dim)",
+              border: "1px solid var(--border-soft)",
+              borderRadius: 999,
+              padding: "7px 14px",
+              cursor: "pointer",
+            }}
+          >
+            Open on globe
+          </button>
+          {!done && picked !== null && (
+            <button
+              onClick={next}
+              className="t-12"
+              style={{
+                background: "var(--text)",
+                color: "var(--bg)",
+                border: "none",
+                borderRadius: 999,
+                padding: "7px 16px",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+            >
+              Next →
+            </button>
+          )}
+          {done && (
+            <button
+              onClick={onClose}
+              className="t-12"
+              style={{
+                background: accent,
+                color: "var(--bg)",
+                border: "none",
+                borderRadius: 999,
+                padding: "7px 16px",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+            >
+              Done — {hits}/{pool.length} correct
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -631,6 +946,27 @@ function generateQuestions(ideas: BigIdea[]): Question[] {
   const out: Question[] = [];
   if (ideas.length === 0) return out;
 
+  // 1) Hand-curated questions take priority — these are the high-quality ones.
+  for (const idea of ideas) {
+    const handCrafted = ideaQuizzes[idea.id];
+    if (handCrafted && handCrafted.length > 0) {
+      for (let i = 0; i < handCrafted.length; i++) {
+        const q = handCrafted[i];
+        out.push({
+          id: `${idea.id}-curated-${i}`,
+          ideaId: idea.id,
+          kind: "feature",
+          prompt: q.prompt,
+          options: q.options,
+          correctIndex: q.correctIndex,
+          rationale: q.rationale,
+        });
+      }
+    }
+  }
+
+  // 2) Auto-generated questions as a small supplement (only when the user has
+  //    flagged enough Big Ideas that we can sample distractors from siblings).
   for (const idea of ideas) {
     // 1) "Which Big Idea is about ___?" — given the thesis, pick the title.
     {
