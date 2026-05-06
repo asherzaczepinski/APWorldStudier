@@ -6,7 +6,7 @@ export const periods: Period[] = [
     unit: "Unit 1–2",
     name: "Networks of Exchange",
     startYear: 1200,
-    endYear: 1450,
+    endYear: 1449,
     description:
       "Trans-regional exchange via the Silk Roads, Indian Ocean, and Trans-Saharan routes. Mongol unification, Dar al-Islam expansion, and the rise of states like Mali and the Delhi Sultanate.",
     themes: [
@@ -23,7 +23,7 @@ export const periods: Period[] = [
     unit: "Unit 3–4",
     name: "Land-Based & Maritime Empires",
     startYear: 1450,
-    endYear: 1750,
+    endYear: 1749,
     description:
       "Gunpowder empires (Ottoman, Safavid, Mughal, Ming/Qing) consolidate. European maritime expansion creates the Columbian Exchange, Atlantic slave trade, and global silver flows.",
     themes: [
@@ -40,7 +40,7 @@ export const periods: Period[] = [
     unit: "Unit 5–6",
     name: "Revolutions & Industrialization",
     startYear: 1750,
-    endYear: 1900,
+    endYear: 1899,
     description:
       "Atlantic revolutions, Industrial Revolution, new imperialism. Steam, railroads, telegraph, and global migration reshape labor and politics.",
     themes: [

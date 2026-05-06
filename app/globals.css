@@ -101,6 +101,22 @@ html, body {
   .info-popover { animation: none !important; }
 }
 
+/* Time scrubber side panel — comfortable default width, half-size on tiny phones. */
+.time-side-panel {
+  width: clamp(220px, 20vw, 300px);
+}
+@media (max-width: 499px) {
+  .time-side-panel {
+    width: clamp(110px, 28vw, 150px);
+  }
+  /* Shrink type to match the narrower column. */
+  .time-side-panel .t-26 { font-size: 16px; }
+  .time-side-panel .t-20 { font-size: 14px; }
+  .time-side-panel .t-16 { font-size: 13px; }
+  .time-side-panel .t-14 { font-size: 11px; line-height: 1.4; }
+  .time-side-panel .t-12 { font-size: 10px; line-height: 1.35; }
+}
+
 .surface {
   background: var(--surface);
   border: 1px solid var(--border-soft);

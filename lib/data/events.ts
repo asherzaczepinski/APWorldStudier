@@ -962,7 +962,201 @@ export const events: HistoricalEvent[] = [
     highlight: { countryCodes: ["USA","AFG","IRQ","PAK","SAU"], focus: { lat: 30, lng: 50, altitude: 2.2 } },
   },
 
-  // ---------- Unit 1–2 (p1) additions ----------
+  // ---------- Trade networks (p1) — Networks of Exchange ----------
+  {
+    id: "silk-roads",
+    year: 1200,
+    endYear: 1450,
+    periodId: "p1",
+    regionIds: ["china", "mongol", "persia", "ottoman", "italy"],
+    title: "Silk Roads revival",
+    description:
+      "Overland Eurasian caravan network from Chang'an through Samarkand, Baghdad, and Constantinople — revived under the Mongol Pax Mongolica.",
+    significance:
+      "Moves silk, porcelain, gunpowder, and paper west; carries Buddhism, Islam, and the Black Death along the same lanes.",
+    facts: [
+      "Pax Mongolica (~1250–1350) made caravans safe across four khanates.",
+      "Caravanserai every ~30 km; jam-jami passports protected merchants.",
+      "Same network spread the bubonic plague west by 1347.",
+    ],
+    highlight: {
+      countryCodes: ["CHN", "MNG", "KAZ", "UZB", "TKM", "TJK", "KGZ", "IRN", "IRQ", "TUR", "AFG", "ITA", "SYR", "GRC"],
+      color: "#fbbf24",
+      focus: { lat: 40, lng: 70, altitude: 2.6 },
+      path: [
+        { lat: 34.27, lng: 108.93 },  // Chang'an (Xi'an)
+        { lat: 36.06, lng: 103.83 },  // Lanzhou
+        { lat: 39.74, lng: 98.51 },   // Jiayuguan (Great Wall western terminus)
+        { lat: 40.14, lng: 94.66 },   // Dunhuang (Mogao Caves)
+        { lat: 41.83, lng: 86.62 },   // Korla
+        { lat: 39.47, lng: 75.99 },   // Kashgar
+        { lat: 39.65, lng: 66.97 },   // Samarkand
+        { lat: 39.77, lng: 64.43 },   // Bukhara
+        { lat: 37.59, lng: 61.83 },   // Merv
+        { lat: 36.30, lng: 59.61 },   // Mashhad / Nishapur
+        { lat: 35.69, lng: 51.39 },   // Tehran (Rey)
+        { lat: 33.31, lng: 44.36 },   // Baghdad
+        { lat: 36.20, lng: 37.16 },   // Aleppo
+        { lat: 36.85, lng: 31.75 },   // Antalya / southern Anatolia
+        { lat: 41.01, lng: 28.97 },   // Constantinople
+        { lat: 40.64, lng: 22.94 },   // Thessalonica
+        { lat: 45.44, lng: 12.32 },   // Venice
+      ],
+    },
+  },
+  {
+    id: "indian-ocean-trade",
+    year: 1200,
+    endYear: 1450,
+    periodId: "p1",
+    regionIds: ["china", "seasia", "india", "persia", "egypt", "eafrica"],
+    title: "Indian Ocean monsoon trade",
+    description:
+      "Maritime network linking China, Southeast Asia, India, the Persian Gulf, the Red Sea, and the Swahili coast — driven by predictable monsoon winds.",
+    significance:
+      "Built diasporic merchant communities, Swahili culture, and the spread of Islam across maritime Asia and East Africa.",
+    facts: [
+      "Hubs: Quanzhou, Malacca, Calicut, Hormuz, Aden, Kilwa.",
+      "Lateen sail + astrolabe + Chinese magnetic compass = navigation revolution.",
+      "Carried spices, cotton, ivory, gold, slaves, horses, porcelain.",
+    ],
+    highlight: {
+      countryCodes: ["CHN", "VNM", "MYS", "IDN", "IND", "LKA", "IRN", "OMN", "YEM", "SAU", "EGY", "SOM", "KEN", "TZA"],
+      color: "#22d3ee",
+      focus: { lat: 5, lng: 75, altitude: 2.7 },
+      path: [
+        { lat: 31.2, lng: 121.5 }, { lat: 22.3, lng: 114.2 }, { lat: 14.0, lng: 113.0 },
+        { lat: 1.3, lng: 104.5 }, { lat: 4.5, lng: 99.5 }, { lat: 7.0, lng: 92.0 },
+        { lat: 6.9, lng: 79.9 }, { lat: 11.3, lng: 75.8 }, { lat: 14.0, lng: 65.0 },
+        { lat: 22.0, lng: 60.0 }, { lat: 27.1, lng: 56.3 }, { lat: 13.0, lng: 53.0 },
+        { lat: 12.8, lng: 45.0 }, { lat: 2.0, lng: 47.0 }, { lat: -4.0, lng: 40.5 },
+        { lat: -8.96, lng: 39.5 },
+      ],
+    },
+  },
+  {
+    id: "trans-saharan-trade",
+    year: 1200,
+    endYear: 1450,
+    periodId: "p1",
+    regionIds: ["wafrica", "egypt"],
+    title: "Trans-Saharan caravan trade",
+    description:
+      "Camel caravans crossed the Sahara linking West African gold (Mali, Songhai) to North African and Mediterranean markets.",
+    significance:
+      "Made Mali and Timbuktu rich; spread Islam, Arabic script, and the salt-for-gold exchange that drew Europeans south.",
+    facts: [
+      "Camel saddle + caravan organization made desert crossings viable year-round.",
+      "Salt from Taghaza traded ounce-for-ounce with Mali gold.",
+      "Mansa Musa's 1324 hajj followed this network east through Cairo.",
+    ],
+    highlight: {
+      countryCodes: ["MLI", "SEN", "GMB", "GIN", "MRT", "NER", "BFA", "TCD", "DZA", "LBY", "MAR", "TUN", "EGY", "NGA", "GHA"],
+      color: "#fb923c",
+      focus: { lat: 22, lng: 5, altitude: 2.4 },
+      path: [
+        // Eastern axis: Niger Bend → Cairo
+        { lat: 12.65, lng: -8.00 },   // Niani (Mali capital)
+        { lat: 13.51, lng: -2.10 },   // Djenné
+        { lat: 16.78, lng: -3.00 },   // Timbuktu (Niger bend)
+        { lat: 16.97, lng: 1.00 },    // Gao
+        { lat: 19.10, lng: 1.27 },    // Tessalit
+        { lat: 22.79, lng: 5.52 },    // Tamanrasset (Hoggar)
+        { lat: 26.74, lng: 8.10 },    // Ghat
+        { lat: 30.13, lng: 9.50 },    // Ghadames
+        { lat: 32.88, lng: 13.18 },   // Tripoli
+        { lat: 30.75, lng: 20.22 },   // Cyrenaica
+        { lat: 30.05, lng: 31.24 },   // Cairo
+        // Continue west — separate caravan returning from Niger bend
+        { lat: 16.78, lng: -3.00 },   // Timbuktu (loop point)
+        { lat: 18.74, lng: -7.39 },   // Walata
+        { lat: 21.44, lng: -9.97 },   // Awdaghost
+        { lat: 27.20, lng: -13.20 },  // Tindouf
+        { lat: 31.62, lng: -4.99 },   // Sijilmasa (Morocco)
+        { lat: 31.63, lng: -7.99 },   // Marrakech
+        { lat: 33.97, lng: -5.00 },   // Fez
+      ],
+    },
+  },
+
+  // ---------- Maritime networks (p2) — Land-Based & Maritime Empires ----------
+  {
+    id: "columbian-exchange",
+    year: 1492,
+    endYear: 1750,
+    periodId: "p2",
+    regionIds: ["iberia", "wnerope", "caribbean", "mesoamerica", "andes", "brazil", "wafrica", "china"],
+    title: "Columbian Exchange",
+    description:
+      "After 1492, sustained transfer of crops, animals, people, and pathogens between the Old and New Worlds.",
+    significance:
+      "American crops (potato, maize, cassava) drove Eurasian/African population growth; Old World disease wiped out ~90% of indigenous Americans.",
+    facts: [
+      "New → Old: potato, maize, tomato, cassava, tobacco, chocolate, silver.",
+      "Old → New: wheat, sugar, horses, cattle, smallpox, measles.",
+      "Smallpox enabled Spanish conquest of the Aztec and Inca.",
+    ],
+    highlight: {
+      countryCodes: ["ESP", "PRT", "MEX", "PER", "BOL", "CUB", "HTI", "DOM", "JAM", "BRA", "VEN", "COL", "PAN", "FRA", "GBR", "DEU", "ITA", "NLD", "CHN"],
+      color: "#a3e635",
+      focus: { lat: 15, lng: -50, altitude: 2.7 },
+      path: [
+        // Old → New
+        { lat: 38.71, lng: -9.14 },    // Lisbon
+        { lat: 36.54, lng: -6.30 },    // Cádiz / Seville
+        { lat: 28.10, lng: -15.41 },   // Canary Islands
+        { lat: 14.92, lng: -23.50 },   // Cape Verde
+        { lat: 18.50, lng: -69.90 },   // Hispaniola (Santo Domingo)
+        { lat: 23.13, lng: -82.40 },   // Havana
+        { lat: 19.43, lng: -99.13 },   // Mexico City (Tenochtitlán)
+        { lat: 9.98, lng: -84.08 },    // Panama / Cartagena
+        { lat: -12.05, lng: -77.04 },  // Lima
+        { lat: -19.59, lng: -65.75 },  // Potosí
+        // New → Old crops & silver
+        { lat: -8.04, lng: -34.95 },   // Recife / Brazilian coast
+        { lat: 13.10, lng: -59.62 },   // Barbados
+        { lat: 32.78, lng: -79.93 },   // Charleston
+        { lat: 36.54, lng: -6.30 },    // back to Cádiz
+        { lat: 50.85, lng: 4.35 },     // Antwerp
+        { lat: 51.51, lng: -0.13 },    // London
+      ],
+    },
+  },
+  {
+    id: "manila-galleon",
+    year: 1565,
+    endYear: 1815,
+    periodId: "p2",
+    regionIds: ["andes", "mesoamerica", "seasia", "china"],
+    title: "Manila Galleon trade",
+    description:
+      "Spanish galleons sailed Acapulco ↔ Manila annually, swapping Potosí silver for Chinese silk and porcelain.",
+    significance:
+      "First sustained trans-Pacific trade route — funneled American silver into the Ming/Qing economy and tied the world into one market.",
+    facts: [
+      "Roughly one-third of New World silver ended up in China.",
+      "Round-trip Acapulco–Manila took ~6 months each way.",
+      "Ended 1815 with Mexican independence wars.",
+    ],
+    highlight: {
+      countryCodes: ["MEX", "PHL", "CHN", "PER", "BOL", "ESP", "JPN"],
+      color: "#facc15",
+      focus: { lat: 8, lng: -160, altitude: 2.8 },
+      path: [
+        { lat: -19.59, lng: -65.75 },  // Potosí (silver source)
+        { lat: -12.05, lng: -77.04 },  // Lima / Callao
+        { lat: 9.98, lng: -84.08 },    // Panama (overland transit)
+        { lat: 16.86, lng: -99.88 },   // Acapulco (Pacific departure)
+        { lat: 18.0, lng: -120.0 },    // mid-Pacific NE swing
+        { lat: 19.0, lng: -155.5 },    // Hawaii waters
+        { lat: 14.0, lng: 175.0 },     // central Pacific
+        { lat: 13.49, lng: 144.78 },   // Guam (provisioning stop)
+        { lat: 14.60, lng: 120.98 },   // Manila
+        { lat: 22.30, lng: 114.17 },   // Macau / Hong Kong
+        { lat: 23.13, lng: 113.27 },   // Guangzhou (Chinese silk + porcelain)
+      ],
+    },
+  },
   {
     id: "song-dynasty",
     year: 1200,

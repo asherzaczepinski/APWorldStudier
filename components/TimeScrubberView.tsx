@@ -6,6 +6,7 @@ import { events as allEvents } from "@/lib/data/events";
 import { empires, type Empire } from "@/lib/data/empires";
 import { periods } from "@/lib/data/periods";
 import { regions } from "@/lib/data/regions";
+import { homeRegions } from "@/lib/data/homeRegions";
 import YearScrubber from "@/components/YearScrubber";
 import type { HistoricalEvent, TradeRoute } from "@/lib/types";
 import type { EventPin } from "@/components/Globe";
@@ -46,6 +47,22 @@ function GlobeLoader() {
 
 export default function TimeScrubberView() {
   const [year, setYear] = useState<number>(1325);
+  // Region filter — start with every macro-region enabled. The user can
+  // toggle individual regions off, but at least one always stays on.
+  const [enabledRegions, setEnabledRegions] = useState<Set<string>>(
+    () => new Set(homeRegions.map((r) => r.id))
+  );
+  const [settingsOpen, setSettingsOpen] = useState(false);
+
+  // Union of all event-region IDs from currently-enabled macro regions.
+  const activeEventRegionIds = useMemo(() => {
+    const s = new Set<string>();
+    for (const r of homeRegions) {
+      if (!enabledRegions.has(r.id)) continue;
+      for (const rid of r.eventRegionIds) s.add(rid);
+    }
+    return s;
+  }, [enabledRegions]);
   // Camera target. Set when an event is clicked; cleared when the user drags
   // the year scrubber so it doesn't keep snapping back.
   const [focus, setFocus] = useState<
@@ -183,14 +200,16 @@ export default function TimeScrubberView() {
     return m;
   }, [activeEmpires]);
 
-  // Only events explicitly tagged for this AP period — no more spillover from
-  // events that happen to overlap dates (Delhi Sultanate, Mughal, Qing, etc.).
+  // Only events explicitly tagged for this AP period AND touching at least
+  // one of the user's currently-enabled macro regions.
   const happenings = useMemo<HistoricalEvent[]>(() => {
     return allEvents
       .filter((e) => e.periodId === period.id)
-      // Latest first within the period; oldest sit at the bottom.
+      .filter((e) =>
+        e.regionIds.some((rid) => activeEventRegionIds.has(rid))
+      )
       .sort((a, b) => b.year - a.year || (b.endYear ?? b.year) - (a.endYear ?? a.year));
-  }, [period.id]);
+  }, [period.id, activeEventRegionIds]);
 
   return (
     <div className="fixed inset-0 flex flex-col">
@@ -219,6 +238,13 @@ export default function TimeScrubberView() {
           onPickEvent={jumpToEvent}
         />
 
+        <SettingsControl
+          open={settingsOpen}
+          onToggle={() => setSettingsOpen((o) => !o)}
+          onClose={() => setSettingsOpen(false)}
+          enabledRegions={enabledRegions}
+          onChangeEnabled={setEnabledRegions}
+        />
 
         <div
           className="absolute bottom-0 left-0 right-0"
@@ -252,10 +278,8 @@ function SidePanel({
 }) {
   return (
     <aside
-      className="surface absolute info-popover"
+      className="surface absolute info-popover time-side-panel"
       style={{
-        // A bit thicker again — comfortable read width for event blurbs.
-        width: "clamp(220px, 20vw, 300px)",
         // Reach from near the top all the way down to just above the scrubber.
         top: 8,
         left: 8,
@@ -365,5 +389,206 @@ function EventChat({
         {event.description}
       </div>
     </button>
+  );
+}
+
+function SettingsControl({
+  open,
+  onToggle,
+  onClose,
+  enabledRegions,
+  onChangeEnabled,
+}: {
+  open: boolean;
+  onToggle: () => void;
+  onClose: () => void;
+  enabledRegions: Set<string>;
+  onChangeEnabled: (next: Set<string>) => void;
+}) {
+  function toggle(id: string) {
+    const next = new Set(enabledRegions);
+    if (next.has(id)) {
+      // Always keep at least one region enabled.
+      if (next.size === 1) return;
+      next.delete(id);
+    } else {
+      next.add(id);
+    }
+    onChangeEnabled(next);
+  }
+
+  function selectAll() {
+    onChangeEnabled(new Set(homeRegions.map((r) => r.id)));
+  }
+
+  return (
+    <>
+      <button
+        onClick={onToggle}
+        aria-label="Region filters"
+        aria-expanded={open}
+        title="Region filters"
+        className="absolute"
+        style={{
+          top: 8,
+          right: 8,
+          zIndex: 30,
+          width: 36,
+          height: 36,
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: 999,
+          background: "var(--bg-elev)",
+          border: "1px solid var(--border-soft)",
+          color: "var(--text)",
+          fontSize: 16,
+          cursor: "pointer",
+          transition: "background 150ms ease, border-color 150ms ease",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.borderColor = "var(--text-dim)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.borderColor = "var(--border-soft)";
+        }}
+      >
+        ⚙
+      </button>
+
+      {open && (
+        <div
+          className="surface info-popover absolute"
+          style={{
+            top: 52,
+            right: 8,
+            zIndex: 30,
+            width: "clamp(220px, 22vw, 280px)",
+            maxHeight: "calc(100vh - 100px)",
+            display: "flex",
+            flexDirection: "column",
+            overflow: "hidden",
+            animation: "info-pop-in 220ms cubic-bezier(0.16, 1, 0.3, 1)",
+          }}
+          role="dialog"
+          aria-label="Region filters"
+        >
+          <div
+            className="flex items-baseline justify-between gap-2"
+            style={{
+              padding: "10px 12px 6px 12px",
+              borderBottom: "1px solid var(--border-soft)",
+              flexShrink: 0,
+            }}
+          >
+            <div>
+              <div className="eyebrow" style={{ color: "var(--text-dim)" }}>
+                FILTER
+              </div>
+              <div className="font-display t-16 leading-tight mt-0.5">
+                Show regions
+              </div>
+            </div>
+            <button
+              onClick={onClose}
+              aria-label="Close"
+              className="rounded-full"
+              style={{
+                color: "var(--text-dim)",
+                width: 24,
+                height: 24,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                border: "1px solid transparent",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = "var(--text)";
+                e.currentTarget.style.borderColor = "var(--border-soft)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "var(--text-dim)";
+                e.currentTarget.style.borderColor = "transparent";
+              }}
+            >
+              ✕
+            </button>
+          </div>
+
+          <div
+            style={{
+              padding: "8px 10px 10px 10px",
+              overflowY: "auto",
+              flex: 1,
+            }}
+          >
+            <ul className="space-y-1">
+              {homeRegions.map((r) => {
+                const on = enabledRegions.has(r.id);
+                const isOnly = on && enabledRegions.size === 1;
+                return (
+                  <li key={r.id}>
+                    <button
+                      onClick={() => toggle(r.id)}
+                      disabled={isOnly}
+                      className="w-full text-left rounded"
+                      style={{
+                        padding: "6px 8px",
+                        background: on
+                          ? "color-mix(in oklch, var(--text) 10%, var(--bg-elev))"
+                          : "var(--bg-elev)",
+                        border: on
+                          ? "1px solid var(--text-dim)"
+                          : "1px solid var(--border-soft)",
+                        color: on ? "var(--text)" : "var(--text-muted)",
+                        cursor: isOnly ? "not-allowed" : "pointer",
+                        opacity: isOnly ? 0.7 : 1,
+                        transition:
+                          "background 150ms ease, border-color 150ms ease",
+                      }}
+                      title={
+                        isOnly
+                          ? "At least one region must stay on"
+                          : on
+                            ? `Hide ${r.name}`
+                            : `Show ${r.name}`
+                      }
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="t-14">{r.name}</span>
+                        <span
+                          aria-hidden
+                          className="t-12"
+                          style={{
+                            color: on ? "var(--text)" : "var(--text-dim)",
+                          }}
+                        >
+                          {on ? "✓" : ""}
+                        </span>
+                      </div>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+
+            {enabledRegions.size < homeRegions.length && (
+              <button
+                onClick={selectAll}
+                className="t-12 mt-3 px-2 py-1 rounded"
+                style={{
+                  background: "transparent",
+                  border: "1px solid var(--border-soft)",
+                  color: "var(--text-dim)",
+                  width: "100%",
+                }}
+              >
+                Show all
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 }
