@@ -7,9 +7,8 @@ import BriefingHome from "./BriefingHome";
 import BigIdeaView from "./BigIdeaView";
 import FormattingGuide from "./FormattingGuide";
 import StudyDeck from "./StudyDeck";
-import BrainRotTab from "./BrainRotTab";
 
-type Tab = "about" | "units" | "formatting" | "study" | "brainrot";
+type Tab = "about" | "units" | "formatting" | "study";
 
 export default function BriefingApp() {
   const [tab, setTab] = useState<Tab>("about");
@@ -60,7 +59,6 @@ export default function BriefingApp() {
         >
           <TabButton active={tab === "about"} onClick={() => setTab("about")}>About</TabButton>
           <TabButton active={tab === "units"} onClick={() => setTab("units")}>Units</TabButton>
-          <TabButton active={tab === "brainrot"} onClick={() => setTab("brainrot")}>Brain Rot</TabButton>
           <TabButton active={tab === "formatting"} onClick={() => setTab("formatting")}>Formatting</TabButton>
           <TabButton
             active={tab === "study"}
@@ -80,9 +78,6 @@ export default function BriefingApp() {
             onToggleShaky={toggleShaky}
             onOpenIdea={(id) => setOpenIdeaId(id)}
           />
-        )}
-        {tab === "brainrot" && (
-          <BrainRotTab onOpenIdea={(id) => setOpenIdeaId(id)} />
         )}
         {tab === "formatting" && <FormattingGuide />}
         {tab === "study" && (

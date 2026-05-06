@@ -15,11 +15,10 @@ export default function AboutPage({ onStart }: Props) {
           AP World Studier — quick tour.
         </h2>
         <p className="t-14 mt-3 prose-cap" style={{ color: "var(--text-muted)", maxWidth: 720 }}>
-          Four tabs at the top: <strong style={{ color: "var(--text)" }}>Units</strong> for the content,
-          <strong style={{ color: "var(--text)" }}> Brain Rot</strong> for goofy mnemonics that stick,
-          <strong style={{ color: "var(--text)" }}> Formatting</strong> for the writing side, and
-          <strong style={{ color: "var(--text)" }}> Study Deck</strong> for review + multiple-choice
-          practice on whatever you flagged.
+          Three tabs at the top: <strong style={{ color: "var(--text)" }}>Units</strong> for the
+          content,{" "}<strong style={{ color: "var(--text)" }}>Formatting</strong> for the writing
+          side, and <strong style={{ color: "var(--text)" }}>Study Deck</strong> for review +
+          multiple-choice practice on whatever you flagged.
         </p>
       </div>
 
@@ -68,14 +67,6 @@ export default function AboutPage({ onStart }: Props) {
           <p className="t-12 prose-cap" style={{ color: "var(--text-muted)" }}>
             How to actually structure SAQs (CER), DBQs (with a full model essay), LEQs, and the HIPP
             sourcing trick (lean on Purpose). Open it before writing anything.
-          </p>
-        </Card>
-
-        <Card eyebrow="BONUS" title="Brain Rot tab" accent="#fb7185">
-          <p className="t-12 prose-cap" style={{ color: "var(--text-muted)" }}>
-            Every Big Idea, paired with a goofy catchphrase + animated emoji combo. The dumber it
-            sounds, the harder it sticks. Use this when you keep blanking on a Big Idea and need a
-            handle to grab it by. Animations chill out if you have reduced-motion turned on.
           </p>
         </Card>
       </div>
