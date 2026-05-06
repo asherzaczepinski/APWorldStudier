@@ -63,6 +63,44 @@ html, body {
 
 .prose-cap { max-width: 64ch; }
 
+/* Tighter type inside the side info popover when the viewport is narrow.
+   Keeps the card readable but stops it from dominating the screen. */
+@media (max-width: 999px) {
+  .info-popover .t-26 { font-size: 20px; }
+  .info-popover .t-20 { font-size: 16px; }
+  .info-popover .t-16 { font-size: 14px; }
+  .info-popover .t-14 { font-size: 12px; line-height: 1.5; }
+  .info-popover .t-12 { font-size: 11px; line-height: 1.45; }
+}
+
+/* Popover entry animation. */
+@keyframes info-pop-in {
+  from { opacity: 0; transform: translateY(-6px) scale(0.985); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+/* Soften the popover's internal scrollbar so it blends with the surface. */
+.info-popover *::-webkit-scrollbar { width: 8px; }
+.info-popover *::-webkit-scrollbar-track { background: transparent; }
+.info-popover *::-webkit-scrollbar-thumb {
+  background: var(--border-soft);
+  border-radius: 999px;
+}
+.info-popover *::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+/* Focus-visible: keyboard users get a clear ring; mouse users don't. */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid color-mix(in oklch, var(--text) 70%, transparent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Honor system reduce-motion preference. */
+@media (prefers-reduced-motion: reduce) {
+  .info-popover { animation: none !important; }
+}
+
 .surface {
   background: var(--surface);
   border: 1px solid var(--border-soft);

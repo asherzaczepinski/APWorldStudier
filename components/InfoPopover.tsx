@@ -50,29 +50,69 @@ export default function InfoPopover({ selection, onClose }: Props) {
     <div
       role="dialog"
       aria-modal="false"
-      className="surface p-5 pointer-events-auto"
+      className="surface pointer-events-auto info-popover"
       style={{
-        width: 360,
-        maxWidth: "92vw",
-        maxHeight: "80vh",
-        overflow: "auto",
+        // ~1/4 of viewport width, with sensible min/max so it stays readable
+        // on phones and doesn't get giant on ultrawide displays.
+        width: "clamp(260px, 25vw, 360px)",
+        // Cap so the card never eats the whole screen on short windows.
+        // Inner body scrolls; close button stays pinned at top.
+        maxHeight: "min(70vh, 560px)",
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden",
+        animation: "info-pop-in 240ms cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
-      <div className="flex items-start justify-between gap-2 mb-1">
+      <div
+        className="flex items-start justify-between gap-2"
+        style={{
+          padding: "16px 20px 6px 20px",
+          borderBottom: "1px solid var(--border-soft)",
+          flexShrink: 0,
+        }}
+      >
         <Header selection={selection} />
         <button
           onClick={onClose}
           aria-label="Close"
-          className="t-12 px-2 py-0.5 rounded-full"
-          style={{ color: "var(--text-dim)" }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
-          onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-dim)")}
+          className="rounded-full"
+          style={{
+            color: "var(--text-dim)",
+            width: 28,
+            height: 28,
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: 14,
+            border: "1px solid transparent",
+            transition: "color 150ms ease, border-color 150ms ease, background 150ms ease",
+            flexShrink: 0,
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = "var(--text)";
+            e.currentTarget.style.background = "var(--bg-elev)";
+            e.currentTarget.style.borderColor = "var(--border-soft)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = "var(--text-dim)";
+            e.currentTarget.style.background = "transparent";
+            e.currentTarget.style.borderColor = "transparent";
+          }}
         >
           ✕
         </button>
       </div>
 
-      <Body selection={selection} />
+      <div
+        style={{
+          padding: "12px 20px 16px 20px",
+          overflowY: "auto",
+          flex: 1,
+        }}
+      >
+        <Body selection={selection} />
+      </div>
     </div>
   );
 }

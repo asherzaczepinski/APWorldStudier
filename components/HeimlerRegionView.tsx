@@ -11,14 +11,36 @@ import type { HomeRegion } from "@/lib/data/homeRegions";
 
 const Globe = dynamic(() => import("@/components/Globe"), {
   ssr: false,
-  loading: () => (
-    <div className="absolute inset-0 grid place-items-center" role="status">
-      <div className="text-center" style={{ color: "var(--text-dim)" }}>
-        <div className="eyebrow">Loading globe</div>
-      </div>
-    </div>
-  ),
+  loading: () => <GlobeLoader />,
 });
+
+function GlobeLoader() {
+  return (
+    <div
+      className="absolute inset-0 grid place-items-center"
+      role="status"
+      aria-live="polite"
+      style={{ background: "var(--bg)" }}
+    >
+      <div className="flex flex-col items-center gap-3">
+        <div
+          style={{
+            width: 38,
+            height: 38,
+            border: "3px solid var(--border-soft)",
+            borderTopColor: "var(--text)",
+            borderRadius: "50%",
+            animation: "spin 0.9s linear infinite",
+          }}
+        />
+        <div className="eyebrow" style={{ color: "var(--text-dim)" }}>
+          Loading globe
+        </div>
+      </div>
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+    </div>
+  );
+}
 
 type Props = {
   region: HomeRegion;
@@ -294,8 +316,9 @@ function RegionTimeline({
     <div
       className="absolute bottom-0 left-0 right-0"
       style={{
-        background: "linear-gradient(to top, var(--bg) 70%, transparent)",
-        paddingTop: 28,
+        background:
+          "linear-gradient(to top, var(--bg) 55%, color-mix(in oklch, var(--bg) 60%, transparent) 80%, transparent)",
+        paddingTop: 36,
         zIndex: 25,
       }}
     >
@@ -375,6 +398,8 @@ function RegionTimeline({
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "flex-start",
+                  transition:
+                    "background 180ms ease, border-color 180ms ease, filter 180ms ease, transform 180ms ease",
                   background: isActive
                     ? `color-mix(in oklch, ${periodColor} 28%, transparent)`
                     : "var(--bg-elev)",

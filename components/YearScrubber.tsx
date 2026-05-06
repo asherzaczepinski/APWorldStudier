@@ -79,24 +79,7 @@ export default function YearScrubber({ year, onChange }: Props) {
   );
 
   return (
-    <div className="surface px-4 py-2" aria-label="Year scrubber">
-      <div className="flex items-baseline gap-3 mb-1.5">
-        <div className="font-display t-26 leading-none">{year}</div>
-        <div
-          className="t-12 flex items-center gap-2 ml-auto"
-          style={{ color: period.color }}
-        >
-          <span
-            aria-hidden
-            className="inline-block w-1.5 h-1.5 rounded-full"
-            style={{ background: period.color }}
-          />
-          <span className="font-display">{period.name}</span>
-          <span style={{ color: "var(--text-dim)" }}>
-            · {period.startYear}–{period.endYear}
-          </span>
-        </div>
-      </div>
+    <div className="surface px-3 py-1" aria-label="Year scrubber">
 
       <div
         ref={trackRef}
@@ -111,7 +94,7 @@ export default function YearScrubber({ year, onChange }: Props) {
         onPointerUp={onPointerUp}
         onPointerLeave={() => setHoverYear(null)}
         onKeyDown={onKeyDown}
-        className="relative h-6 cursor-grab active:cursor-grabbing select-none rounded-full"
+        className="relative h-3 cursor-grab active:cursor-grabbing select-none rounded-full"
         style={{
           touchAction: "none",
           border: "1px solid var(--border-soft)",
@@ -128,10 +111,10 @@ export default function YearScrubber({ year, onChange }: Props) {
                 style={{
                   flexBasis: `${span * 100}%`,
                   background: active
-                    ? `color-mix(in oklch, ${p.color} 28%, transparent)`
-                    : `color-mix(in oklch, ${p.color} 12%, transparent)`,
+                    ? `color-mix(in oklch, ${p.color} 70%, transparent)`
+                    : `color-mix(in oklch, ${p.color} 38%, transparent)`,
                   borderRight:
-                    "1px solid color-mix(in oklch, var(--text) 6%, transparent)",
+                    "1px solid color-mix(in oklch, var(--text) 14%, transparent)",
                 }}
               />
             );
@@ -165,26 +148,37 @@ export default function YearScrubber({ year, onChange }: Props) {
           }}
         />
 
-        {hoverYear !== null && (
-          <div
-            aria-hidden
-            className="absolute -top-7 t-12 px-2 py-0.5 rounded-md font-display pointer-events-none"
-            style={{
-              left: `${((hoverYear - MIN) / (MAX - MIN)) * 100}%`,
-              transform: "translateX(-50%)",
-              background: "var(--bg)",
-              border: "1px solid var(--border-soft)",
-              color: "var(--text)",
-            }}
-          >
-            {hoverYear}
-          </div>
-        )}
+        {hoverYear !== null && (() => {
+          const hoverPeriod =
+            periods.find(
+              (p) => hoverYear >= p.startYear && hoverYear <= p.endYear
+            ) ?? period;
+          return (
+            <div
+              aria-hidden
+              className="absolute -top-8 t-12 px-2 py-1 rounded-md pointer-events-none whitespace-nowrap"
+              style={{
+                left: `${((hoverYear - MIN) / (MAX - MIN)) * 100}%`,
+                transform: "translateX(-50%)",
+                background: "var(--bg)",
+                border: `1px solid ${hoverPeriod.color}`,
+                color: "var(--text)",
+                boxShadow:
+                  "0 4px 12px -6px color-mix(in oklch, var(--text) 30%, transparent)",
+              }}
+            >
+              <span className="font-display">{hoverYear}</span>
+              <span style={{ color: hoverPeriod.color, marginLeft: 6 }}>
+                · {hoverPeriod.name}
+              </span>
+            </div>
+          );
+        })()}
       </div>
 
       <div
-        className="flex justify-between mt-1 px-0.5"
-        style={{ color: "var(--text-dim)", fontSize: 10 }}
+        className="flex justify-between mt-0.5 px-0.5"
+        style={{ color: "var(--text-dim)", fontSize: 9 }}
         aria-hidden
       >
         <span>1200</span>

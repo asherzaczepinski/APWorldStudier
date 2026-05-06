@@ -480,10 +480,13 @@ export default function Globe({
           if (m.kind === "event-pin") {
             const color = m.pin.color ?? "#fde68a";
             wrap.style.pointerEvents = "none";
+            // Dot anchored exactly on the lat/lng; label trails to the right
+            // and is vertically centered. The wrap's translate(-50%,-50%)
+            // centers an 8×8 box, so the dot itself sits on the geo point.
             wrap.innerHTML = `
-              <div style="display:flex;align-items:center;gap:5px">
-                <span style="display:inline-block;width:8px;height:8px;border-radius:999px;background:${color};box-shadow:0 0 0 2px rgba(15,22,28,0.85), 0 0 10px ${color}cc"></span>
-                <span style="font-family:ui-serif,Georgia,serif;font-size:11px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.85),0 0 6px rgba(0,0,0,0.6);white-space:nowrap;letter-spacing:-0.005em">${m.pin.label}</span>
+              <div style="position:relative;width:10px;height:10px">
+                <span style="position:absolute;inset:0;border-radius:999px;background:${color};box-shadow:0 0 0 2px rgba(15,22,28,0.85), 0 0 10px ${color}cc"></span>
+                <span style="position:absolute;left:16px;top:50%;transform:translateY(-50%);font-family:ui-serif,Georgia,serif;font-size:11px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.85),0 0 6px rgba(0,0,0,0.6);white-space:nowrap;letter-spacing:-0.005em">${m.pin.label}</span>
               </div>
             `;
             return wrap;

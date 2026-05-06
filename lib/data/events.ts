@@ -350,17 +350,13 @@ export const events: HistoricalEvent[] = [
     regionIds: ["northam", "wnerope"],
     title: "Thirteen British Colonies",
     description:
-      "Thirteen British colonies developed along the Atlantic seaboard from Jamestown (1607) to Georgia (1733), governed under royal, proprietary, and charter systems.",
+      "Thirteen British colonies along the Atlantic seaboard, from Jamestown (1607) to Georgia (1733).",
     significance:
-      "Their resistance to British mercantilism and parliamentary taxation produced the first successful colonial revolt against a European empire (1775–83).",
+      "Resistance to British taxation produced the first successful colonial revolt against a European empire (1775–83).",
     facts: [
-      "New England (4): Massachusetts (Plymouth 1620), New Hampshire, Rhode Island, Connecticut — Puritan small farms, shipbuilding, fishing, rum.",
-      "Middle Colonies (4): New York (Dutch 1624 → English 1664), New Jersey, Pennsylvania (Quaker 1682), Delaware — diverse migrants, the 'breadbasket'.",
-      "Southern Colonies (5): Virginia (Jamestown 1607), Maryland (1634 Catholic refuge), N. Carolina, S. Carolina, Georgia (1733) — tobacco, rice, indigo plantations using enslaved Africans.",
-      "Three governance types: royal (king-appointed governor), proprietary (granted to a person/family), and charter (self-government).",
-      "British mercantilism + Navigation Acts (1651–) forced trade through England.",
-      "Salutary neglect ended after the Seven Years' War debt → Stamp Act 1765, Townshend 1767, Tea Act 1773 → Boston Tea Party → Revolution.",
-      "By 1775 ~2.5 million colonists; ~20% were enslaved Africans, mostly in the South.",
+      "Three regions: New England (Puritan trade), Middle Colonies (the 'breadbasket'), Southern (tobacco/rice plantations + slavery).",
+      "Mercantilism + Navigation Acts forced colonial trade through England.",
+      "Stamp Act 1765 → Tea Act 1773 → Boston Tea Party → Revolution.",
     ],
     highlight: {
       // No country fill — modern USA is way bigger than the actual colonial
@@ -404,16 +400,13 @@ export const events: HistoricalEvent[] = [
     regionIds: ["northam", "caribbean", "seasia"],
     title: "American Overseas Empire",
     description:
-      "After defeating Spain in 1898, the US acquired the Philippines, Puerto Rico, Guam, plus the briefly occupied Cuba, while Hawaii was annexed the same year.",
+      "After beating Spain in 1898, the US acquired the Philippines, Puerto Rico, Guam, and (briefly) Cuba.",
     significance:
-      "The US transitions from continental power to overseas empire — a turning point of late-19th-century imperialism.",
+      "The US shifts from continental power to overseas empire — a turning point of late-19th-century imperialism.",
     facts: [
-      "Spanish-American War (1898) — John Hay's 'splendid little war'.",
-      "Treaty of Paris 1898 → US gets Philippines, Puerto Rico, Guam; Cuba briefly under occupation.",
-      "Philippine-American War (1899–1902): ~20,000 Filipino fighters and 200,000+ civilians dead.",
-      "Hawaii annexed 1898 (planters had toppled Queen Liliʻuokalani 1893).",
-      "Puerto Rico + Guam: still US territories today.",
-      "Philippines independent 1946; Cuba 1902 (with US oversight via Platt Amendment).",
+      "Spanish-American War (1898) — Treaty of Paris hands Spain's colonies to the US.",
+      "Philippine-American War (1899–1902): 200,000+ Filipino civilian deaths.",
+      "Hawaii annexed the same year; Puerto Rico and Guam are still US territories.",
     ],
     highlight: {
       splits: [
@@ -757,11 +750,9 @@ export const events: HistoricalEvent[] = [
     description: "First hot Cold War proxy conflict; ends in armistice on the 38th parallel.",
     significance: "Locks in Cold War divisions in East Asia.",
     facts: [
-      "North invaded south on June 25, 1950 with Soviet approval.",
-      "MacArthur's Inchon landing reversed the tide; he was fired for wanting to invade China.",
-      "Chinese 'volunteers' (300,000+) entered after UN forces neared the Yalu.",
-      "Armistice (1953) — no peace treaty to this day; DMZ at the 38th parallel.",
-      "~3 million dead, mostly Korean civilians.",
+      "North invaded south June 1950 with Soviet approval.",
+      "Chinese 'volunteers' (300,000+) joined when UN forces neared the Yalu.",
+      "Armistice 1953 (no peace treaty); ~3 million dead, mostly Korean civilians.",
     ],
     highlight: {
       splits: [
@@ -782,9 +773,8 @@ export const events: HistoricalEvent[] = [
     significance: "Reshapes the UN and global politics; many states inherit unstable colonial borders.",
     facts: [
       "Asia first: India/Pakistan 1947, Indonesia 1949, Indochina 1954.",
-      "Africa: Ghana 1957, then 17 countries in 1960 ('Year of Africa').",
-      "Algeria's 1954–62 war of independence killed ~500k.",
-      "Portuguese Africa held out until 1975 (Angola, Mozambique).",
+      "Africa: Ghana 1957 → 17 countries in 1960 ('Year of Africa').",
+      "Many states inherited arbitrary colonial borders → later civil wars.",
     ],
     highlight: {
       splits: [
@@ -804,10 +794,9 @@ export const events: HistoricalEvent[] = [
     description: "Belgrade 1961: 25 newly independent states refuse to join either superpower bloc.",
     significance: "Gave the Global South a third path; pushed UN agenda on decolonization and development.",
     facts: [
-      "Founded by Tito (Yugoslavia), Nehru (India), Nasser (Egypt), Sukarno (Indonesia), Nkrumah (Ghana).",
-      "Bandung Conference (1955) preceded it.",
-      "Now ~120 members — second-largest UN bloc.",
-      "Did not always mean neutrality — many leaned to one side or the other.",
+      "Founded by Tito, Nehru, Nasser, Sukarno, Nkrumah.",
+      "Built on the 1955 Bandung Conference.",
+      "Did not always mean neutrality — many leaned to one side.",
     ],
     highlight: { countryCodes: NAM_FOUNDING, focus: { lat: 15, lng: 30, altitude: 2.6 } },
   },
@@ -823,10 +812,8 @@ export const events: HistoricalEvent[] = [
     significance:
       "The bipolar order shaped proxy wars, decolonization, aid, and global trade for nearly half a century.",
     facts: [
-      "NATO founded 1949 (12 founding members); Warsaw Pact founded 1955.",
+      "NATO founded 1949; Warsaw Pact founded 1955.",
       "Sino-Soviet split (~1960) put PRC outside the Soviet bloc.",
-      "Cuba (1959), Vietnam, North Korea, Angola, Mozambique aligned with Moscow.",
-      "South Korea, Japan, Philippines, Taiwan, Iran (pre-1979), Saudi Arabia leaned US.",
       "Non-Aligned Movement (1961) refused to choose — India, Indonesia, Egypt, Yugoslavia.",
     ],
     highlight: {
@@ -969,7 +956,6 @@ export const events: HistoricalEvent[] = [
     significance: "Reorients US foreign policy; reshapes Middle East for two decades.",
     facts: [
       "Nearly 3,000 killed in the attacks.",
-      "Operation Enduring Freedom: Afghanistan invasion Oct 2001.",
       "Iraq War 2003 — premised on (false) WMD claims.",
       "US withdrew from Afghanistan in 2021 — Taliban returned to power.",
     ],
@@ -989,10 +975,9 @@ export const events: HistoricalEvent[] = [
     significance:
       "Most economically and technologically advanced state of its era; ~100 million population, mass urbanization, and a meritocratic bureaucracy that other East Asian states copy.",
     facts: [
-      "Champa rice from Vietnam → two harvests/year → population doubles.",
-      "First true paper money (jiaozi); world's first mass-printed books.",
-      "Compass, gunpowder, and movable type all matured under the Song.",
-      "Falls to Kublai Khan's Mongols at the Battle of Yamen, 1279.",
+      "Champa rice → two harvests/year → population doubles.",
+      "First true paper money; compass, gunpowder, and movable type all mature here.",
+      "Falls to Kublai Khan's Mongols in 1279.",
     ],
     highlight: {
       countryCodes: ["CHN"],
@@ -1013,9 +998,8 @@ export const events: HistoricalEvent[] = [
       "First non-Han dynasty to rule all of China. Pax Mongolica reopens Silk Roads — Marco Polo, Ibn Battuta, and the Black Death all travel through Yuan territory.",
     facts: [
       "Capital at Khanbaliq (Dadu) — modern Beijing.",
-      "Han Chinese ranked 4th of 4 social classes (below Mongols, Semu, northerners).",
-      "Failed invasions of Japan (1274, 1281) wrecked by kamikaze typhoons.",
-      "Red Turban revolts + plague + flooding → collapse 1368.",
+      "Han Chinese ranked 4th of 4 social classes; civil service exam suspended.",
+      "Red Turban revolts + plague → collapse 1368.",
     ],
     highlight: {
       countryCodes: ["CHN", "MNG"],
@@ -1035,10 +1019,9 @@ export const events: HistoricalEvent[] = [
     significance:
       "Restores Han rule, rebuilds the Great Wall in stone, and at its peak is the world's wealthiest economy. Silver inflows from Potosí via Manila tie China to the global economy.",
     facts: [
-      "Built the Forbidden City (1406–1420).",
-      "Zheng He's 7 treasure-fleet voyages 1405–1433.",
-      "Single-Whip tax reform (1581) demanded payment in silver.",
-      "Falls to peasant rebel Li Zicheng (1644) → Manchus walk in.",
+      "Yongle built the Forbidden City and sponsored Zheng He's 7 voyages (1405–1433).",
+      "Single-Whip tax reform demanded silver payment → ties China to global silver trade.",
+      "Falls to peasant rebellion (1644) → Manchus walk in and become the Qing.",
     ],
     highlight: {
       countryCodes: ["CHN"],
