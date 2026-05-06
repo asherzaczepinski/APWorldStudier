@@ -142,7 +142,14 @@ export default function TimeScrubberView() {
   }, [selectedEvent]);
 
   function jumpToEvent(ev: HistoricalEvent) {
-    setYear(ev.year);
+    // Clamp the cursor inside the *current* period so clicking an event with
+    // a date outside the period (e.g. a long-running dynasty whose start year
+    // sits in the previous period) doesn't kick the user into another period.
+    const clamped = Math.max(
+      period.startYear,
+      Math.min(period.endYear, ev.year)
+    );
+    setYear(clamped);
     setSelectedEventId(ev.id);
     if (ev.highlight?.focus) {
       setFocus(ev.highlight.focus);
