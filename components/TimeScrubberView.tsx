@@ -63,6 +63,17 @@ export default function TimeScrubberView() {
     }
     return s;
   }, [enabledRegions]);
+
+  // ISO codes from currently-enabled macro regions — used to suppress empire
+  // colouring on countries the user has filtered out.
+  const activeCountryCodes = useMemo(() => {
+    const s = new Set<string>();
+    for (const r of homeRegions) {
+      if (!enabledRegions.has(r.id)) continue;
+      for (const code of r.countryCodes) s.add(code);
+    }
+    return s;
+  }, [enabledRegions]);
   // Camera target. Set when an event is clicked; cleared when the user drags
   // the year scrubber so it doesn't keep snapping back.
   const [focus, setFocus] = useState<
@@ -194,18 +205,24 @@ export default function TimeScrubberView() {
   const countryColors = useMemo(() => {
     const m = new Map<string, string>();
     for (const a of activeEmpires) {
-      for (const code of a.countryCodes) m.set(code, a.empire.color);
+      for (const code of a.countryCodes) {
+        if (!activeCountryCodes.has(code)) continue;
+        m.set(code, a.empire.color);
+      }
     }
     return m;
-  }, [activeEmpires]);
+  }, [activeEmpires, activeCountryCodes]);
 
   const countryLabels = useMemo(() => {
     const m = new Map<string, string>();
     for (const a of activeEmpires) {
-      for (const code of a.countryCodes) m.set(code, a.empire.name);
+      for (const code of a.countryCodes) {
+        if (!activeCountryCodes.has(code)) continue;
+        m.set(code, a.empire.name);
+      }
     }
     return m;
-  }, [activeEmpires]);
+  }, [activeEmpires, activeCountryCodes]);
 
   // Only events explicitly tagged for this AP period AND touching at least
   // one of the user's currently-enabled macro regions.
@@ -449,7 +466,9 @@ function SettingsControl({
           background: "var(--bg-elev)",
           border: "1px solid var(--border-soft)",
           color: "var(--text)",
-          fontSize: 16,
+          fontSize: 24,
+          lineHeight: 1,
+          padding: 0,
           cursor: "pointer",
           transition: "background 150ms ease, border-color 150ms ease",
         }}
@@ -460,7 +479,17 @@ function SettingsControl({
           e.currentTarget.style.borderColor = "var(--border-soft)";
         }}
       >
-        ⚙
+        <span
+          aria-hidden
+          style={{
+            display: "block",
+            // The ⚙ glyph's optical centre sits below its geometric centre in
+            // most system fonts — nudge it up so it sits dead-centre in the circle.
+            transform: "translateY(-2px)",
+          }}
+        >
+          ⚙
+        </span>
       </button>
 
       {open && (
