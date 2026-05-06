@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-type Section = "saq" | "dbq" | "leq" | "hipp" | "prompts";
+type Section = "saq" | "dbq" | "leq" | "hipp";
 
 export default function FormattingGuide() {
   const [section, setSection] = useState<Section>("saq");
@@ -15,7 +15,7 @@ export default function FormattingGuide() {
         </div>
         <h2 className="font-display t-26 md:text-4xl leading-tight">How to format every AP World response.</h2>
         <p className="t-14 mt-3 prose-cap" style={{ color: "var(--text-muted)", maxWidth: 720 }}>
-          SAQ uses <strong style={{ color: "var(--text)" }}>CER</strong> (not TEA). Source documents using
+          SAQ uses <strong style={{ color: "var(--text)" }}>CER</strong>. Source documents using
           <strong style={{ color: "var(--text)" }}> HIPP</strong> — but in practice just lean on{" "}
           <strong style={{ color: "var(--text)" }}>Purpose</strong>. Pick a section.
         </p>
@@ -30,14 +30,12 @@ export default function FormattingGuide() {
         <SectionTab active={section === "dbq"} onClick={() => setSection("dbq")}>DBQ</SectionTab>
         <SectionTab active={section === "leq"} onClick={() => setSection("leq")}>LEQ</SectionTab>
         <SectionTab active={section === "hipp"} onClick={() => setSection("hipp")}>HIPP &amp; Sourcing</SectionTab>
-        <SectionTab active={section === "prompts"} onClick={() => setSection("prompts")}>Common prompts</SectionTab>
       </div>
 
       {section === "saq" && <SAQGuide />}
       {section === "dbq" && <DBQGuide />}
       {section === "leq" && <LEQGuide />}
       {section === "hipp" && <HIPPGuide />}
-      {section === "prompts" && <PromptsGuide />}
     </div>
   );
 }
@@ -69,16 +67,16 @@ function SectionTab({
 }
 
 // ---------------------------------------------------------------------------
-// SAQ — Claim, Evidence, Reasoning (CER, NOT TEA)
+// SAQ — Claim, Evidence, Reasoning (CER)
 // ---------------------------------------------------------------------------
 
 function SAQGuide() {
   return (
-    <div className="grid gap-4 md:grid-cols-3">
+    <div className="grid gap-4 md:grid-cols-2">
       <Card title="Format" eyebrow="STRUCTURE" accent="#fbbf24">
         <p className="t-12 prose-cap" style={{ color: "var(--text-muted)" }}>
-          Three short parts (3 questions: A / B / C). Don&apos;t write a paragraph for each — write 3–5 tight
-          sentences that hit Claim → Evidence → Reasoning.
+          Three short parts (3 questions: A / B / C). Don&apos;t write a paragraph for each — write
+          3–5 tight sentences that hit Claim → Evidence → Reasoning.
         </p>
         <CERStack />
       </Card>
@@ -97,22 +95,10 @@ function SAQGuide() {
             <strong style={{ color: "var(--text)" }}>Reasoning</strong> — connect the evidence back
             to the claim. Why does this prove your point?
           </li>
-          <li>Use CER, not TEA. The College Board wants reasoning to do the heavy lifting.</li>
         </ul>
       </Card>
 
-      <Card title="CER vs TEA" eyebrow="VENN" accent="#fbbf24">
-        <Venn
-          left="CER"
-          right="TEA"
-          leftOnly={["Reasoning is its own step", "Used for SAQ", "Pushes you to explain WHY"]}
-          rightOnly={["Topic sentence emphasis", "Common in 5-paragraph essays", "Less analytic"]}
-          both={["Need a clear claim", "Need specific evidence", "Argument-style writing"]}
-          accent="#fbbf24"
-        />
-      </Card>
-
-      <div className="md:col-span-3">
+      <div className="md:col-span-2">
         <Card title="Worked example" eyebrow="MODEL" accent="#fbbf24">
           <p className="t-14 mb-2 font-display" style={{ color: "var(--text)" }}>
             Prompt: <em style={{ color: "var(--text-muted)" }}>Identify ONE way the Mongol empire facilitated cultural exchange across Afro-Eurasia.</em>
@@ -154,74 +140,134 @@ function Stack({ label, body, color }: { label: string; body: string; color: str
 }
 
 // ---------------------------------------------------------------------------
-// DBQ — 7-point rubric
+// DBQ — 7-point rubric + full model essay at the bottom
 // ---------------------------------------------------------------------------
 
 function DBQGuide() {
   return (
-    <div className="grid gap-4 md:grid-cols-3">
-      <Card title="Rubric (7 pts)" eyebrow="POINTS" accent="#10b981">
-        <ul className="space-y-1.5 t-12" style={{ color: "var(--text-muted)" }}>
-          <Bullet n="1">Thesis (1) — historically defensible, takes a stance.</Bullet>
-          <Bullet n="2">Contextualization (1) — broader background BEFORE the prompt window.</Bullet>
-          <Bullet n="3">Evidence from docs (2) — use 4 docs (1 pt) → 6 docs (2 pts).</Bullet>
-          <Bullet n="5">Outside evidence (1) — 1 specific piece of evidence NOT in the docs.</Bullet>
-          <Bullet n="6">Sourcing (1) — explain HIPP for 2 docs (just use Purpose).</Bullet>
-          <Bullet n="7">Complex understanding (1) — nuance: similarity + difference, change + continuity, etc.</Bullet>
-        </ul>
-      </Card>
+    <div className="grid gap-4">
+      <div className="grid gap-4 md:grid-cols-2">
+        <Card title="Rubric (7 pts)" eyebrow="POINTS" accent="#10b981">
+          <ul className="space-y-1.5 t-12" style={{ color: "var(--text-muted)" }}>
+            <Bullet n="1">Thesis (1) — historically defensible, takes a stance.</Bullet>
+            <Bullet n="2">Contextualization (1) — broader background BEFORE the prompt window.</Bullet>
+            <Bullet n="3">Evidence from docs (2) — use 4 docs (1 pt) → 6 docs (2 pts).</Bullet>
+            <Bullet n="5">Outside evidence (1) — 1 specific piece of evidence NOT in the docs.</Bullet>
+            <Bullet n="6">Sourcing (1) — explain HIPP for 2 docs (just use Purpose).</Bullet>
+            <Bullet n="7">Complex understanding (1) — nuance: similarity + difference, change + continuity, etc.</Bullet>
+          </ul>
+        </Card>
 
-      <Card title="Pacing (60 min)" eyebrow="STRATEGY" accent="#10b981">
-        <ul className="space-y-1.5 t-12 prose-cap" style={{ color: "var(--text-muted)" }}>
-          <li>15 min reading + planning. Annotate every doc with HIPP-Purpose.</li>
-          <li>40 min writing — intro + 3 body paragraphs + conclusion.</li>
-          <li>5 min check — did I cite 6 docs, source 2, add 1 outside fact?</li>
-        </ul>
-        <p className="t-12 mt-3 prose-cap" style={{ color: "var(--text-dim)" }}>
-          You&apos;re not interpreting docs in isolation — you&apos;re using docs as evidence for an argument
-          you already made.
-        </p>
-      </Card>
-
-      <Card title="Sourcing (just Purpose)" eyebrow="SHORTCUT" accent="#10b981">
-        <p className="t-12 prose-cap" style={{ color: "var(--text-muted)" }}>
-          You only need 2 docs sourced. Don&apos;t do 4 separate HIPP attempts — pick the easiest 2 docs and
-          write a clean Purpose explanation:
-        </p>
-        <p
-          className="t-12 mt-3 prose-cap font-display"
-          style={{
-            color: "var(--text)",
-            background: "var(--bg-elev)",
-            border: "1px solid var(--border-soft)",
-            borderLeft: "3px solid #10b981",
-            padding: "8px 10px",
-            borderRadius: 6,
-          }}
-        >
-          &quot;The author wrote this in order to ___, which is significant because ___.&quot;
-        </p>
-        <p className="t-12 mt-2 prose-cap" style={{ color: "var(--text-dim)" }}>
-          That single move usually gets the sourcing point on its own.
-        </p>
-      </Card>
-
-      <div className="md:col-span-3">
-        <Card title="Thesis template" eyebrow="MODEL" accent="#10b981">
-          <p className="t-12 mb-2 prose-cap" style={{ color: "var(--text-muted)" }}>
-            Take a stance, give a reason, name nuance. Don&apos;t restate the prompt.
-          </p>
-          <p
-            className="t-14 mt-2 font-display prose-cap"
-            style={{ color: "var(--text)", borderLeft: "3px solid #10b981", paddingLeft: 10 }}
-          >
-            &quot;Although [counter], [main argument], because [reason 1] and [reason 2].&quot;
-          </p>
+        <Card title="Pacing (60 min)" eyebrow="STRATEGY" accent="#10b981">
+          <ul className="space-y-1.5 t-12 prose-cap" style={{ color: "var(--text-muted)" }}>
+            <li>15 min reading + planning. Annotate every doc with HIPP-Purpose.</li>
+            <li>40 min writing — intro + 3 body paragraphs + conclusion.</li>
+            <li>5 min check — did I cite 6 docs and add 1 outside fact?</li>
+          </ul>
           <p className="t-12 mt-3 prose-cap" style={{ color: "var(--text-dim)" }}>
-            Keep it ONE sentence. Anything more and you&apos;ll bury the claim.
+            You&apos;re not interpreting docs in isolation — you&apos;re using docs as evidence for
+            an argument you already made.
           </p>
         </Card>
       </div>
+
+      <Card title="Thesis: the “Although, ultimately” move" eyebrow="MODEL THESIS" accent="#10b981">
+        <p className="t-12 mb-3 prose-cap" style={{ color: "var(--text-muted)" }}>
+          Take a stance, give a reason, name nuance. Don&apos;t restate the prompt. Keep it ONE
+          sentence — anything more buries the claim.
+        </p>
+        <p
+          className="t-12 mt-2 prose-cap font-display"
+          style={{
+            color: "var(--text)",
+            background: "var(--bg-elev)",
+            border: "1px dashed var(--border-soft)",
+            borderLeft: "3px solid #10b981",
+            padding: "10px 12px",
+            borderRadius: 6,
+          }}
+        >
+          &quot;Although [counter], ultimately [main argument], because [reason 1] and [reason 2].&quot;
+        </p>
+        <div className="eyebrow mt-4 mb-1.5" style={{ color: "#10b981" }}>
+          Real example — prompt: &quot;Evaluate the extent to which industrialization reshaped global trade 1750–1900.&quot;
+        </div>
+        <p
+          className="t-14 leading-snug font-display"
+          style={{
+            color: "var(--text)",
+            borderLeft: "3px solid #10b981",
+            paddingLeft: 12,
+            background: "var(--bg-elev)",
+            padding: "10px 12px",
+            borderRadius: 6,
+          }}
+        >
+          Although older trade circuits like the Indian Ocean spice trade persisted into the 19th
+          century, ultimately industrialization fundamentally restructured global trade by collapsing
+          Asian manufacturing dominance and reorganizing colonized economies around raw-material
+          exports, because British factories outproduced Mughal artisans at a fraction of the cost
+          and steam-powered shipping plus rail collapsed transport times worldwide.
+        </p>
+      </Card>
+
+      <Card title="Full model DBQ" eyebrow="FULL ESSAY" accent="#10b981">
+        <p className="t-12 mb-3 prose-cap" style={{ color: "var(--text-muted)" }}>
+          Same prompt: <em style={{ color: "var(--text)" }}>Evaluate the extent to which industrialization reshaped global trade between 1750 and 1900.</em>
+        </p>
+
+        <ModelParagraph label="Contextualization" body="Before 1750, mercantilism dominated European economic policy and most manufactured goods came from skilled artisans in places like Mughal India, Qing China, and Ottoman cities. India alone produced roughly a quarter of the world's manufactured output. The Industrial Revolution — born in Britain because of its concentrated coal and iron, navigable rivers, and stable financial institutions — would shatter this Asian-led balance of production and reorient world trade around European cores and colonial peripheries." />
+
+        <ModelParagraph label="Thesis" body="Although older trade circuits like the Indian Ocean spice trade persisted into the 19th century, ultimately industrialization fundamentally restructured global trade by collapsing Asian manufacturing dominance and reorganizing colonized economies around raw-material exports, because British factories outproduced Mughal artisans at a fraction of the cost and steam-powered shipping plus rail collapsed transport times worldwide." italic />
+
+        <ModelParagraph label="Body 1 — Manufacturing shifts West" body="The most dramatic effect of industrialization was the relocation of textile production from India to Britain. As Doc 2 (a British MP defending free trade in 1840) shows, Britain framed dismantling protective tariffs as universal benefit while simultaneously imposing tariffs on Indian cloth. Doc 4's mill-output figures confirm the result: by 1850 Manchester produced more cotton textiles annually than all of South Asia combined. Outside the docs, India's share of global manufacturing collapsed from 25% in 1750 to under 2% by 1900. Sourcing — Doc 2's purpose, written by an MP defending British free trade, is to justify dismantling the Corn Laws, which supports my argument that industrial states pursued legal regimes designed to keep raw materials cheap and Asian competitors out." />
+
+        <ModelParagraph label="Body 2 — Colonial economies reorganized" body="Industrialization simultaneously restructured colonized regions around raw-material extraction. Doc 5 (a French colonial planner's memo, 1875) explicitly describes Indochina as an exporter of rice and rubber to feed industrial Europe. Doc 6 shows Belgian Congo rubber tonnage rising 800% under Leopold II's brutal regime. Across the Atlantic, Brazilian coffee exports to Hamburg and Argentine beef shipments to Liverpool created export-monoculture economies whose effects still mark Latin America. Sourcing — Doc 5's purpose, a French colonial official addressing Paris, is to justify continued investment in Indochina, which supports my argument that industrialization drove imperial states to deliberately reshape colonies around raw-material exports." />
+
+        <ModelParagraph label="Body 3 — Transport tech collapsed distance" body="None of this would have worked at scale without 2nd-Industrial-Revolution transport. Steam-powered iron-hulled ships, the Suez Canal (1869), the Trans-Siberian and US Transcontinental railways, and the global telegraph network compressed transport times and information lags by an order of magnitude. Doc 1's freight-rate table shows the price of shipping wheat London-to-Chicago falling 80% between 1860 and 1900. The result was the first truly global commodity market — Egyptian cotton, Argentine beef, and Burmese rice could be priced against each other in real time." />
+
+        <ModelParagraph label="Complex understanding" body="The reshaping was not uniform. Japan's Meiji Restoration (1868) shows that non-European states could selectively adopt industrial methods to RESIST imperial economic pressure rather than be flattened by it; by 1900 Japan was colonizing Korea rather than being colonized. This complicates any simple Europe-imposes-Asia-receives narrative — industrialization was a tool whose effects depended heavily on which state grabbed it first." />
+
+        <ModelParagraph label="Conclusion" body="By 1900, industrialization had remade global trade more thoroughly than any change since the Columbian Exchange. Old trade circuits survived, but the underlying balance — who manufactured, who supplied raw materials, who set the terms — had completely flipped. The 20th-century world economy, with its sharp Global North / Global South split, is built directly on the foundations laid in this period." />
+      </Card>
+    </div>
+  );
+}
+
+function ModelParagraph({
+  label,
+  body,
+  italic,
+}: {
+  label: string;
+  body: string;
+  italic?: boolean;
+}) {
+  return (
+    <div className="mt-3">
+      <div
+        className="eyebrow"
+        style={{
+          color: "var(--bg)",
+          background: "#10b981",
+          display: "inline-block",
+          padding: "1.5px 8px",
+          borderRadius: 4,
+          fontWeight: 700,
+        }}
+      >
+        {label}
+      </div>
+      <p
+        className="t-12 mt-1.5 prose-cap"
+        style={{
+          color: "var(--text-muted)",
+          fontStyle: italic ? "italic" : "normal",
+          maxWidth: "70ch",
+        }}
+      >
+        {body}
+      </p>
     </div>
   );
 }
@@ -258,59 +304,46 @@ function Bullet({ n, children }: { n: string; children: React.ReactNode }) {
 }
 
 // ---------------------------------------------------------------------------
-// LEQ — 6-point rubric
+// LEQ — chill version
 // ---------------------------------------------------------------------------
 
 function LEQGuide() {
   return (
-    <div className="grid gap-4 md:grid-cols-3">
-      <Card title="Rubric (6 pts)" eyebrow="POINTS" accent="#60a5fa">
-        <ul className="space-y-1.5 t-12" style={{ color: "var(--text-muted)" }}>
-          <Bullet n="1">Thesis (1).</Bullet>
-          <Bullet n="2">Contextualization (1).</Bullet>
-          <Bullet n="3">Evidence (2) — 2 specific examples (1 pt) → use them to support the argument (2 pts).</Bullet>
-          <Bullet n="5">Historical reasoning (1) — comparison / causation / CCOT.</Bullet>
-          <Bullet n="6">Complex understanding (1) — multiple POVs, qualifications, comparison + contrast.</Bullet>
-        </ul>
+    <div className="grid gap-4">
+      <Card title="LEQ — just write" eyebrow="DON'T STRESS" accent="#60a5fa">
+        <p className="t-14 prose-cap mb-3" style={{ color: "var(--text)" }}>
+          Honestly? Just write. Don&apos;t worry about it.
+        </p>
+        <p className="t-12 prose-cap" style={{ color: "var(--text-muted)" }}>
+          You don&apos;t have docs to anchor against, so the LEQ is mostly your reading + the same
+          thesis muscle the DBQ uses. Pick a thesis you can actually back up with two specific
+          examples, write a few paragraphs, and move on.
+        </p>
       </Card>
 
-      <Card title="Reasoning skills" eyebrow="PICK ONE" accent="#60a5fa">
-        <ul className="space-y-1.5 t-12 prose-cap" style={{ color: "var(--text-muted)" }}>
-          <li>
-            <strong style={{ color: "var(--text)" }}>Comparison</strong> — similarity + difference between two things.
-          </li>
-          <li>
-            <strong style={{ color: "var(--text)" }}>Causation</strong> — causes / effects of a development.
-          </li>
-          <li>
-            <strong style={{ color: "var(--text)" }}>CCOT</strong> — what changed, what stayed the same.
-          </li>
-        </ul>
-      </Card>
+      <div className="grid gap-4 md:grid-cols-2">
+        <Card title="Rubric (6 pts)" eyebrow="POINTS" accent="#60a5fa">
+          <ul className="space-y-1.5 t-12" style={{ color: "var(--text-muted)" }}>
+            <Bullet n="1">Thesis (1).</Bullet>
+            <Bullet n="2">Contextualization (1).</Bullet>
+            <Bullet n="3">Evidence (2) — 2 specific examples (1 pt) → use them to support the argument (2 pts).</Bullet>
+            <Bullet n="5">Historical reasoning (1) — comparison / causation / CCOT.</Bullet>
+            <Bullet n="6">Complex understanding (1).</Bullet>
+          </ul>
+        </Card>
 
-      <Card title="Pacing (40 min)" eyebrow="STRATEGY" accent="#60a5fa">
-        <ul className="space-y-1.5 t-12 prose-cap" style={{ color: "var(--text-muted)" }}>
-          <li>5 min plan — outline: thesis, 3 body paragraph topics, evidence per body.</li>
-          <li>30 min write.</li>
-          <li>5 min check — did each body para tie back to the thesis with reasoning?</li>
-        </ul>
-      </Card>
-
-      <div className="md:col-span-3">
-        <Card title="LEQ vs DBQ" eyebrow="VENN" accent="#60a5fa">
-          <Venn
-            left="LEQ"
-            right="DBQ"
-            leftOnly={["No documents", "40 min", "6 points", "Need outside evidence only"]}
-            rightOnly={["7 documents", "60 min", "7 points", "Source 2 docs (HIPP / Purpose)"]}
-            both={[
-              "Defensible thesis",
-              "Contextualization point",
-              "Specific evidence supports argument",
-              "Complex-understanding point",
-            ]}
-            accent="#60a5fa"
-          />
+        <Card title="Reasoning skills" eyebrow="PICK ONE" accent="#60a5fa">
+          <ul className="space-y-1.5 t-12 prose-cap" style={{ color: "var(--text-muted)" }}>
+            <li>
+              <strong style={{ color: "var(--text)" }}>Comparison</strong> — similarity + difference between two things.
+            </li>
+            <li>
+              <strong style={{ color: "var(--text)" }}>Causation</strong> — causes / effects of a development.
+            </li>
+            <li>
+              <strong style={{ color: "var(--text)" }}>CCOT</strong> — what changed, what stayed the same.
+            </li>
+          </ul>
         </Card>
       </div>
     </div>
@@ -414,84 +447,6 @@ function HIPPGuide() {
 }
 
 // ---------------------------------------------------------------------------
-// Common College Board prompt patterns
-// ---------------------------------------------------------------------------
-
-function PromptsGuide() {
-  return (
-    <div className="grid gap-4">
-      <Card title="SAQ verb cues" eyebrow="LEARN THE VERBS" accent="#fbbf24">
-        <ul className="space-y-1.5 t-12 prose-cap" style={{ color: "var(--text-muted)" }}>
-          <li>
-            <strong style={{ color: "var(--text)" }}>&quot;Identify ONE …&quot;</strong> — name + 1 sentence of context.
-          </li>
-          <li>
-            <strong style={{ color: "var(--text)" }}>&quot;Explain ONE …&quot;</strong> — name + reasoning. Use full CER.
-          </li>
-          <li>
-            <strong style={{ color: "var(--text)" }}>&quot;Describe ONE similarity / difference&quot;</strong>{" "}
-            — give a comparison fact + why it matters.
-          </li>
-          <li>
-            <strong style={{ color: "var(--text)" }}>&quot;Cause / effect&quot;</strong> — pick ONE clear
-            causal link. Don&apos;t list multiple weak ones.
-          </li>
-        </ul>
-      </Card>
-
-      <div className="grid gap-4 md:grid-cols-2">
-        <Card title="DBQ patterns" eyebrow="REPEAT OFFENDERS" accent="#10b981">
-          <ul className="space-y-2 t-12 prose-cap" style={{ color: "var(--text-muted)" }}>
-            <li>&quot;Causes / effects of [Industrial Rev / WWI / decolonization].&quot;</li>
-            <li>&quot;Continuities / changes in [labor systems / women&apos;s roles].&quot;</li>
-            <li>&quot;Compare two empires / states / responses.&quot;</li>
-            <li>&quot;Effects of [imperialism / globalization / Columbian Exchange].&quot;</li>
-          </ul>
-          <p className="t-12 mt-3 prose-cap" style={{ color: "var(--text-dim)" }}>
-            All of these are CCOT or comparison in disguise. Plan two body paragraphs around two
-            categories (economic + political / cultural + environmental).
-          </p>
-        </Card>
-
-        <Card title="LEQ patterns" eyebrow="REPEAT OFFENDERS" accent="#60a5fa">
-          <ul className="space-y-2 t-12 prose-cap" style={{ color: "var(--text-muted)" }}>
-            <li>&quot;Compare X and Y between [date] and [date].&quot;</li>
-            <li>&quot;Explain causes of [Atlantic Revolutions / Cold War / decolonization].&quot;</li>
-            <li>&quot;Continuities and changes in [trade / state-building / migration] in [region].&quot;</li>
-          </ul>
-        </Card>
-      </div>
-
-      <Card title="DBQ vs LEQ" eyebrow="VENN" accent="#a855f7">
-        <Venn
-          left="DBQ"
-          right="LEQ"
-          leftOnly={[
-            "7 documents provided",
-            "60 min total (15 plan + 40 write + 5 check)",
-            "Sourcing 2 docs (Purpose)",
-            "4 docs = 1pt, 6 docs = 2pts",
-          ]}
-          rightOnly={[
-            "No documents",
-            "40 min total",
-            "Pure outside evidence",
-            "Lean harder on reasoning skill",
-          ]}
-          both={[
-            "Defensible thesis (1pt)",
-            "Contextualization (1pt)",
-            "Specific evidence used in argument",
-            "Complex understanding (1pt)",
-          ]}
-          accent="#a855f7"
-        />
-      </Card>
-    </div>
-  );
-}
-
-// ---------------------------------------------------------------------------
 // Shared
 // ---------------------------------------------------------------------------
 
@@ -520,79 +475,6 @@ function Card({
       <h3 className="font-display t-16 leading-tight mb-2">{title}</h3>
       {children}
     </section>
-  );
-}
-
-function Venn({
-  left,
-  right,
-  leftOnly,
-  rightOnly,
-  both,
-  accent,
-}: {
-  left: string;
-  right: string;
-  leftOnly: string[];
-  rightOnly: string[];
-  both: string[];
-  accent: string;
-}) {
-  return (
-    <div className="grid grid-cols-3 gap-2 mt-2">
-      <VennCol title={`${left} only`} items={leftOnly} color={accent} />
-      <VennCol title="Both" items={both} color="var(--text)" highlight />
-      <VennCol title={`${right} only`} items={rightOnly} color="var(--text-dim)" />
-    </div>
-  );
-}
-
-function VennCol({
-  title,
-  items,
-  color,
-  highlight,
-}: {
-  title: string;
-  items: string[];
-  color: string;
-  highlight?: boolean;
-}) {
-  return (
-    <div
-      style={{
-        background: highlight ? "var(--surface-2)" : "var(--bg-elev)",
-        border: "1px solid var(--border-soft)",
-        borderTop: `3px solid ${color}`,
-        borderRadius: 6,
-        padding: "8px 10px",
-      }}
-    >
-      <div className="eyebrow mb-2" style={{ color }}>{title}</div>
-      <ul className="space-y-1.5">
-        {items.map((it, i) => (
-          <li
-            key={i}
-            className="t-12 prose-cap"
-            style={{ color: "var(--text-muted)", paddingLeft: 12, position: "relative" }}
-          >
-            <span
-              aria-hidden
-              style={{
-                position: "absolute",
-                left: 0,
-                top: 7,
-                width: 4,
-                height: 4,
-                borderRadius: 999,
-                background: color,
-              }}
-            />
-            {it}
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 }
 

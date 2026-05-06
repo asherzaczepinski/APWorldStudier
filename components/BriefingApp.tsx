@@ -2,15 +2,17 @@
 
 import { useMemo, useState } from "react";
 import { briefingUnits, type BigIdea } from "@/lib/data/briefing";
+import AboutPage from "./AboutPage";
 import BriefingHome from "./BriefingHome";
 import BigIdeaView from "./BigIdeaView";
 import FormattingGuide from "./FormattingGuide";
 import StudyDeck from "./StudyDeck";
+import BrainRotTab from "./BrainRotTab";
 
-type Tab = "units" | "formatting" | "study";
+type Tab = "about" | "units" | "formatting" | "study" | "brainrot";
 
 export default function BriefingApp() {
-  const [tab, setTab] = useState<Tab>("units");
+  const [tab, setTab] = useState<Tab>("about");
   const [openIdeaId, setOpenIdeaId] = useState<string | null>(null);
   // Set of big-idea IDs the user marked "I don't remember this" — used by Study Deck.
   const [shaky, setShaky] = useState<Set<string>>(() => new Set());
@@ -56,7 +58,9 @@ export default function BriefingApp() {
           style={{ border: "1px solid var(--border-soft)", background: "var(--bg-elev)" }}
           role="tablist"
         >
+          <TabButton active={tab === "about"} onClick={() => setTab("about")}>About</TabButton>
           <TabButton active={tab === "units"} onClick={() => setTab("units")}>Units</TabButton>
+          <TabButton active={tab === "brainrot"} onClick={() => setTab("brainrot")}>Brain Rot</TabButton>
           <TabButton active={tab === "formatting"} onClick={() => setTab("formatting")}>Formatting</TabButton>
           <TabButton
             active={tab === "study"}
@@ -69,12 +73,16 @@ export default function BriefingApp() {
       </header>
 
       <main className="max-w-6xl mx-auto px-4 md:px-8 py-6 md:py-10">
+        {tab === "about" && <AboutPage onStart={() => setTab("units")} />}
         {tab === "units" && (
           <BriefingHome
             shaky={shaky}
             onToggleShaky={toggleShaky}
             onOpenIdea={(id) => setOpenIdeaId(id)}
           />
+        )}
+        {tab === "brainrot" && (
+          <BrainRotTab onOpenIdea={(id) => setOpenIdeaId(id)} />
         )}
         {tab === "formatting" && <FormattingGuide />}
         {tab === "study" && (

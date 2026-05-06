@@ -314,44 +314,49 @@ const unit2: BriefingUnit = {
         "Trans-Saharan network connected N Africa & Mediterranean with W African interior — Arabian camel + camel saddle made it go.",
       ],
       features: [
-        { id: "silk-road", emoji: "🐫", label: "Silk Road", blurb: "Chang'an → Hexi Corridor → Tarim Basin → Pamirs → Sogdia → Persia → Levant → Constantinople. Luxury goods over land.", color: "#fbbf24", path: [
+        { id: "silk-road", emoji: "🐫", label: "Silk Road", blurb: "Chang'an → Hexi Corridor → southern Tarim oases → Pamir crossing → Sogdia → Persia → Levant → Constantinople. Smooth SW arc — the actual caravan trunk line.", color: "#fbbf24", path: [
           { lat: 34.34, lng: 108.94 }, // Chang'an (Xi'an)
           { lat: 36.06, lng: 103.83 }, // Lanzhou
-          { lat: 37.93, lng: 102.64 }, // Wuwei (Hexi Corridor)
+          { lat: 37.93, lng: 102.64 }, // Wuwei
           { lat: 38.93, lng: 100.45 }, // Zhangye
-          { lat: 39.74, lng: 98.51 },  // Jiuquan
-          { lat: 40.14, lng: 94.66 },  // Dunhuang
-          { lat: 42.94, lng: 89.18 },  // Turpan (northern Tarim route)
-          { lat: 41.70, lng: 82.96 },  // Kucha
-          { lat: 41.17, lng: 80.26 },  // Aksu
+          { lat: 40.14, lng: 94.66 },  // Dunhuang (end of Hexi Corridor)
+          { lat: 39.02, lng: 88.17 },  // Charkhlik (southern Tarim oasis)
+          { lat: 37.05, lng: 82.69 },  // Niya
+          { lat: 37.10, lng: 79.91 },  // Khotan
+          { lat: 38.42, lng: 77.27 },  // Yarkand
           { lat: 39.47, lng: 75.99 },  // Kashgar (Pamir gateway)
-          { lat: 39.77, lng: 64.42 },  // Bukhara
           { lat: 39.65, lng: 66.97 },  // Samarkand
+          { lat: 39.77, lng: 64.42 },  // Bukhara
           { lat: 37.66, lng: 61.83 },  // Merv
           { lat: 36.21, lng: 58.79 },  // Nishapur
           { lat: 35.69, lng: 51.42 },  // Rey (Tehran)
           { lat: 34.80, lng: 48.51 },  // Hamadan
           { lat: 33.31, lng: 44.36 },  // Baghdad
           { lat: 34.55, lng: 38.27 },  // Palmyra
-          { lat: 33.51, lng: 36.27 },  // Damascus
+          { lat: 36.20, lng: 37.16 },  // Aleppo
           { lat: 36.20, lng: 36.16 },  // Antioch
           { lat: 41.01, lng: 28.98 },  // Constantinople
         ] },
-        { id: "indian-ocean-route", emoji: "⛵", label: "Indian Ocean route", blurb: "Guangzhou → Malacca Strait → Sri Lanka → Calicut → Arabian Sea → Aden → Swahili coast. Stays in real ocean, riding monsoon winds.", color: "#06b6d4", path: [
-          { lat: 23.13, lng: 113.27 }, // Guangzhou
-          { lat: 16.06, lng: 110.0 },  // South China Sea (offshore Vietnam)
-          { lat: 8.0, lng: 107.5 },    // S. China Sea south
-          { lat: 1.35, lng: 103.82 },  // Singapore Strait
-          { lat: 2.20, lng: 102.25 },  // Malacca
+        { id: "indian-ocean-route", emoji: "⛵", label: "Indian Ocean route", blurb: "Guangzhou → S. China Sea → Singapore Strait → Bay of Bengal → Sri Lanka → Arabian Sea → Aden → Swahili coast. Hugs real ocean, riding monsoon winds.", color: "#06b6d4", path: [
+          { lat: 23.13, lng: 113.27 }, // Guangzhou (origin)
+          { lat: 21.50, lng: 114.50 }, // Off Pearl River mouth (open ocean)
+          { lat: 17.00, lng: 112.00 }, // South China Sea
+          { lat: 10.00, lng: 109.50 }, // S. China Sea (off Vietnam)
+          { lat: 4.00, lng: 105.50 },  // Approach to Singapore (Gulf of Thailand entry)
+          { lat: 1.27, lng: 103.85 },  // Singapore Strait
+          { lat: 4.00, lng: 99.00 },   // Strait of Malacca midline (offshore both shores)
+          { lat: 6.50, lng: 94.50 },   // Andaman Sea (north of Aceh)
+          { lat: 7.00, lng: 86.00 },   // Open Bay of Bengal
           { lat: 6.03, lng: 80.21 },   // Galle, Sri Lanka
-          { lat: 8.0, lng: 76.9 },     // SW tip of India coast
-          { lat: 11.25, lng: 75.78 },  // Calicut (Malabar Coast)
-          { lat: 14.0, lng: 64.0 },    // mid-Arabian Sea
-          { lat: 12.5, lng: 53.0 },    // Socotra
+          { lat: 7.00, lng: 76.50 },   // South of Cape Comorin (open sea, well offshore)
+          { lat: 10.50, lng: 74.00 },  // Off Malabar coast (Arabian Sea, offshore)
+          { lat: 14.00, lng: 64.00 },  // Mid-Arabian Sea
+          { lat: 12.50, lng: 53.00 },  // Socotra
           { lat: 12.78, lng: 45.04 },  // Aden
-          { lat: 11.5, lng: 43.3 },    // Bab al-Mandeb
-          { lat: 2.05, lng: 45.32 },   // Mogadishu
-          { lat: -4.05, lng: 39.67 },  // Mombasa
+          { lat: 11.50, lng: 43.30 },  // Bab al-Mandeb
+          { lat: 4.00, lng: 47.50 },   // Off the Horn of Africa (open sea)
+          { lat: -2.00, lng: 42.50 },  // Off Lamu (offshore)
+          { lat: -4.50, lng: 40.00 },  // Off Mombasa
           { lat: -8.96, lng: 39.51 },  // Kilwa
         ] },
         { id: "indian-ocean-gulf", emoji: "⛵", label: "Persian Gulf branch", blurb: "Calicut → Hormuz. Branch of Indian Ocean trade into the Persian Gulf.", color: "#22d3ee", path: [
@@ -491,12 +496,14 @@ const unit2: BriefingUnit = {
           { lat: 38.08, lng: 46.29 },   // Tabriz (Ilkhanate)
           { lat: 47.20, lng: 47.92 },   // Sarai (Golden Horde)
         ] },
-        { id: "silk-road-pax", emoji: "🐫", label: "Silk Road (Pax Mongolica)", blurb: "Made the full Silk Road safe for the first time in centuries — Marco Polo travelled this.", color: "#fbbf24", path: [
-          { lat: 39.9, lng: 116.4 },   // Khanbaliq (Beijing)
+        { id: "silk-road-pax", emoji: "🐫", label: "Silk Road (Pax Mongolica)", blurb: "Made the full Silk Road safe for the first time in centuries — Marco Polo travelled this. Same trunk line, restored under Mongol rule.", color: "#fbbf24", path: [
+          { lat: 39.90, lng: 116.40 }, // Khanbaliq (Beijing)
+          { lat: 36.06, lng: 103.83 }, // Lanzhou
           { lat: 38.93, lng: 100.45 }, // Zhangye
           { lat: 40.14, lng: 94.66 },  // Dunhuang
-          { lat: 42.94, lng: 89.18 },  // Turpan
-          { lat: 41.70, lng: 82.96 },  // Kucha
+          { lat: 39.02, lng: 88.17 },  // Charkhlik
+          { lat: 37.10, lng: 79.91 },  // Khotan
+          { lat: 38.42, lng: 77.27 },  // Yarkand
           { lat: 39.47, lng: 75.99 },  // Kashgar
           { lat: 39.65, lng: 66.97 },  // Samarkand
           { lat: 37.66, lng: 61.83 },  // Merv

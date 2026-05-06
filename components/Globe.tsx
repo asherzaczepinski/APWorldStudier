@@ -91,6 +91,8 @@ type GlobeProps = {
   onSelectEvent: (eventId: string) => void;
   onSelectPOI: (poiId: string) => void;
   onSelectFeature?: (featureId: string) => void;
+  /** Called with the FeaturePath id when a path is clicked (deselect = click again). */
+  onSelectPath?: (pathId: string | null) => void;
 };
 
 const ATMOSPHERE = "#9bc7e6";
@@ -128,6 +130,7 @@ export default function Globe({
   onSelectEvent,
   onSelectPOI,
   onSelectFeature,
+  onSelectPath,
 }: GlobeProps) {
   const [countries, setCountries] = useState<CountryFeature[]>([]);
   const [size, setSize] = useState({ w: 800, h: 800 });
@@ -473,15 +476,20 @@ export default function Globe({
         pathStroke={(p: object) => {
           const fp = p as FeaturePath;
           const isFocused = pathHovered || pathSelectedId === fp.id;
-          // Thinner default; bump on hover/select for hitbox + readability.
-          return isFocused ? 3.6 : 1.8;
+          return isFocused ? 3.4 : 2;
         }}
         // Solid, non-animated lines — no dash march.
         pathDashLength={1}
         pathDashGap={0}
         pathDashAnimateTime={0}
-        pathPointAlt={routeFocused ? 0.018 : 0.010}
-        pathTransitionDuration={200}
+        // Constant altitude — toggling on hover was causing every segment to
+        // animate between heights and looked "jumpy".
+        pathPointAlt={0.014}
+        // Lower angular resolution = MORE interpolation points along each
+        // great-circle leg. Default is 2°, which leaves long legs looking like
+        // two stiff line segments. 0.5° = smooth curves.
+        pathResolution={0.5}
+        pathTransitionDuration={0}
         pathLabel={(p: object) => {
           const fp = p as FeaturePath;
           const pinned = pathSelectedId === fp.id;
@@ -493,7 +501,11 @@ export default function Globe({
         onPathHover={(p: object | null) => setPathHovered(!!p)}
         onPathClick={(p: object) => {
           const fp = p as FeaturePath;
-          setPathSelectedId((curr) => (curr === fp.id ? null : fp.id));
+          setPathSelectedId((curr) => {
+            const next = curr === fp.id ? null : fp.id;
+            onSelectPath?.(next);
+            return next;
+          });
         }}
 
         htmlElementsData={htmlElements}

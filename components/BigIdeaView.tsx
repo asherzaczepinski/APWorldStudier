@@ -121,6 +121,63 @@ export default function BigIdeaView({ idea, onBack, onPickNeighbor }: Props) {
     [idea, activeFeatureId]
   );
 
+  // Camera-override: when the user clicks a feature pin or a path on the globe,
+  // we fly the camera to that thing. null = use idea.focus.
+  const [userFocus, setUserFocus] = useState<{ lat: number; lng: number; altitude: number } | null>(null);
+
+  // Reset camera override + selection whenever the user opens a different Big Idea.
+  useEffect(() => {
+    setUserFocus(null);
+    setActiveFeatureId(null);
+  }, [idea.id]);
+
+  function focusOnFeature(featureId: string) {
+    const f = idea.features.find((x) => x.id === featureId);
+    if (!f) return;
+    if (f.lat !== undefined && f.lng !== undefined) {
+      // Single-pin feature → close-in zoom.
+      setUserFocus({ lat: f.lat, lng: f.lng, altitude: 1.35 });
+    } else if (f.path && f.path.length > 0) {
+      // Path-only feature → frame the whole route.
+      focusOnPathPoints(f.path);
+    }
+  }
+
+  function focusOnPathPoints(points: { lat: number; lng: number }[]) {
+    const lats = points.map((p) => p.lat);
+    const lngs = points.map((p) => p.lng);
+    const lat = (Math.min(...lats) + Math.max(...lats)) / 2;
+    const lng = (Math.min(...lngs) + Math.max(...lngs)) / 2;
+    const span = Math.max(
+      Math.max(...lats) - Math.min(...lats),
+      Math.max(...lngs) - Math.min(...lngs)
+    );
+    // Heuristic: longer routes need more altitude to fit on-screen.
+    const altitude = Math.max(1.5, Math.min(2.8, span * 0.04 + 1.4));
+    setUserFocus({ lat, lng, altitude });
+  }
+
+  function handleSelectFeature(id: string) {
+    const next = id === activeFeatureId ? null : id;
+    setActiveFeatureId(next);
+    if (next) focusOnFeature(next);
+    else setUserFocus(null);
+  }
+
+  function handleSelectPath(pathId: string | null) {
+    if (!pathId) {
+      setUserFocus(null);
+      return;
+    }
+    // Globe gives us the path id with our "path-" prefix (see featurePaths
+    // construction below). Strip it back to the original feature id.
+    const featureId = pathId.replace(/^path-/, "");
+    const feature = idea.features.find((f) => f.id === featureId);
+    if (feature?.path && feature.path.length > 0) {
+      focusOnPathPoints(feature.path);
+    }
+  }
+
   void onPickNeighbor;
   return (
     <div className="fixed inset-0 flex flex-col">
@@ -136,12 +193,13 @@ export default function BigIdeaView({ idea, onBack, onPickNeighbor }: Props) {
           features={features}
           featurePaths={featurePaths}
           autoRotate={false}
-          focus={idea.focus}
+          focus={userFocus ?? idea.focus}
           onSelectCountry={() => {}}
           onSelectRoute={() => {}}
           onSelectEvent={() => {}}
           onSelectPOI={() => {}}
-          onSelectFeature={(id) => setActiveFeatureId(id)}
+          onSelectFeature={handleSelectFeature}
+          onSelectPath={handleSelectPath}
         />
 
         <SidePanel
@@ -150,7 +208,7 @@ export default function BigIdeaView({ idea, onBack, onPickNeighbor }: Props) {
           unitNumber={unit?.unitNumber ?? 0}
           unitTitle={unit?.title ?? ""}
           activeFeatureId={activeFeatureId}
-          onPickFeature={(id) => setActiveFeatureId(id === activeFeatureId ? null : id)}
+          onPickFeature={handleSelectFeature}
           onBack={onBack}
         />
 
