@@ -133,7 +133,11 @@ export default function Globe({
   onSelectPath,
 }: GlobeProps) {
   const [countries, setCountries] = useState<CountryFeature[]>([]);
-  const [size, setSize] = useState({ w: 800, h: 800 });
+  // Start at 0×0 so the globe canvas isn't briefly created at a bogus 800×800
+  // (which on mobile lays out off-screen and only appears after a re-render
+  // triggered by the user interacting). The first layout tick below sets the
+  // real container size before ReactGlobe sees it.
+  const [size, setSize] = useState({ w: 0, h: 0 });
   const [altitude, setAltitude] = useState(2.5);
   // Track route hover + click-to-pin. Hover dims the markers; click pins the
   // dim so the user can read the route in peace. Click the same path (or any
@@ -154,14 +158,33 @@ export default function Globe({
   }, []);
 
   useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
     function update() {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      setSize({ w: rect.width, h: rect.height });
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      setSize((prev) =>
+        prev.w === rect.width && prev.h === rect.height
+          ? prev
+          : { w: rect.width, h: rect.height }
+      );
     }
+    // First tick — read layout immediately so the canvas mounts at the right
+    // size on the first paint (instead of waiting for a later interaction).
     update();
+    // Some mobile browsers report 0×0 on the very first synchronous read; rAF
+    // catches it after layout settles.
+    const raf = requestAnimationFrame(update);
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
     window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
+    window.addEventListener("orientationchange", update);
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      window.removeEventListener("resize", update);
+      window.removeEventListener("orientationchange", update);
+    };
   }, []);
 
   // Slow auto-rotate (toggleable via prop)

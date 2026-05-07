@@ -132,6 +132,10 @@ export default function BigIdeaView({ idea, onBack, onPickNeighbor }: Props) {
     setActiveFeatureId(null);
   }, [idea.id]);
 
+  // Phone tab — on narrow screens we show either the overview *or* the globe,
+  // toggled by a small bar at the top. Wider screens see both at once.
+  const [phoneTab, setPhoneTab] = useState<"overview" | "globe">("overview");
+
   function focusOnFeature(featureId: string) {
     const f = idea.features.find((x) => x.id === featureId);
     if (!f) return;
@@ -181,27 +185,30 @@ export default function BigIdeaView({ idea, onBack, onPickNeighbor }: Props) {
 
   void onPickNeighbor;
   return (
-    <div className="fixed inset-0 flex flex-col">
+    <div className="fixed inset-0 flex flex-col" data-phone-tab={phoneTab}>
+      <PhoneTabBar tab={phoneTab} onChange={setPhoneTab} onBack={onBack} />
       <main className="flex-1 relative">
-        <Globe
-          routes={[]}
-          journeyRoutes={journeyRoutes}
-          countryColors={countryColors}
-          countryLabels={countryLabels}
-          events={[]}
-          pois={[]}
-          eventPins={eventPins}
-          features={features}
-          featurePaths={featurePaths}
-          autoRotate={false}
-          focus={userFocus ?? idea.focus}
-          onSelectCountry={() => {}}
-          onSelectRoute={() => {}}
-          onSelectEvent={() => {}}
-          onSelectPOI={() => {}}
-          onSelectFeature={handleSelectFeature}
-          onSelectPath={handleSelectPath}
-        />
+        <div className="bigidea-globe-pane absolute inset-0">
+          <Globe
+            routes={[]}
+            journeyRoutes={journeyRoutes}
+            countryColors={countryColors}
+            countryLabels={countryLabels}
+            events={[]}
+            pois={[]}
+            eventPins={eventPins}
+            features={features}
+            featurePaths={featurePaths}
+            autoRotate={false}
+            focus={userFocus ?? idea.focus}
+            onSelectCountry={() => {}}
+            onSelectRoute={() => {}}
+            onSelectEvent={() => {}}
+            onSelectPOI={() => {}}
+            onSelectFeature={handleSelectFeature}
+            onSelectPath={handleSelectPath}
+          />
+        </div>
 
         <SidePanel
           idea={idea}
@@ -222,6 +229,84 @@ export default function BigIdeaView({ idea, onBack, onPickNeighbor }: Props) {
         )}
       </main>
     </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Phone tab bar — only visible on narrow screens (CSS-driven). Lets the user
+// switch between the overview panel and the globe, since they fill the screen.
+// ---------------------------------------------------------------------------
+
+function PhoneTabBar({
+  tab,
+  onChange,
+  onBack,
+}: {
+  tab: "overview" | "globe";
+  onChange: (t: "overview" | "globe") => void;
+  onBack: () => void;
+}) {
+  return (
+    <div className="bigidea-phone-tabs">
+      <button
+        onClick={onBack}
+        className="t-12 inline-flex items-center gap-1"
+        aria-label="Back to units"
+        style={{
+          color: "var(--text-dim)",
+          background: "transparent",
+          border: "none",
+          cursor: "pointer",
+          padding: "6px 10px",
+        }}
+      >
+        <span aria-hidden>‹</span> Back
+      </button>
+      <div
+        className="inline-flex rounded-full p-0.5"
+        style={{
+          border: "1px solid var(--border-soft)",
+          background: "var(--bg-elev)",
+        }}
+        role="tablist"
+      >
+        <PhoneTab active={tab === "overview"} onClick={() => onChange("overview")}>
+          Overview
+        </PhoneTab>
+        <PhoneTab active={tab === "globe"} onClick={() => onChange("globe")}>
+          Globe
+        </PhoneTab>
+      </div>
+      <div style={{ width: 56 }} aria-hidden />
+    </div>
+  );
+}
+
+function PhoneTab({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      role="tab"
+      aria-selected={active}
+      className="px-4 py-1 t-12 rounded-full transition"
+      style={{
+        background: active ? "var(--text)" : "transparent",
+        color: active ? "var(--bg)" : "var(--text-muted)",
+        fontWeight: active ? 600 : 400,
+        cursor: "pointer",
+        border: "none",
+      }}
+    >
+      {children}
+    </button>
   );
 }
 
@@ -258,17 +343,7 @@ function SidePanel({
 
   return (
     <aside
-      className="surface absolute info-popover"
-      style={{
-        top: 8,
-        left: 8,
-        bottom: 8,
-        width: "clamp(300px, 32vw, 420px)",
-        display: "flex",
-        flexDirection: "column",
-        overflow: "hidden",
-        zIndex: 20,
-      }}
+      className="surface absolute info-popover bigidea-side-panel"
       aria-label={`Big Idea ${idea.ideaNumber}: ${idea.title}`}
     >
       <div
