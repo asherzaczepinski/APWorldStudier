@@ -1,108 +1,306 @@
-// Contextualization paragraphs for each Big Idea — drop-in DBQ contextualization
-// content. Each one sketches the broader background BEFORE the time window
-// of the Big Idea, so a student can paste-and-paraphrase to earn the DBQ
-// contextualization point.
+// Contextualization for each Big Idea — DBQ-ready content. Each entry has:
+//
+//   leadUp:  ONLY the background that comes BEFORE the Big Idea's events.
+//            The events of the Big Idea itself are not described here — that's
+//            what the rest of the side panel is for. This is pure run-up.
+//
+//   thesis:  An "Although [counter], ultimately [main argument], because …"
+//            sentence the student can adapt for the DBQ thesis point.
 //
 // Scoped to Units 3–8 — the AP World periods (1450–1991) where DBQs land
-// most often. Units 1, 2, and 9 are excluded by request: their tab won't
-// render for those Big Ideas.
+// most often. Units 1, 2, and 9 are excluded by request.
 
-export const contextualizations: Record<string, string> = {
+export type Contextualization = {
+  leadUp: string;
+  thesis: string;
+};
+
+export const contextualizations: Record<string, Contextualization> = {
   // =========================================================================
   // UNIT 3 — Land-Based Empires (1450–1750)
   // =========================================================================
-  "u3-bi1": "Gunpowder weaponry originated in Song China and spread along the Silk Roads under Mongol-protected exchange. By 1450, gunpowder had been used militarily for over a century, but it took the consolidation of states with the resources to standardize cannon and small arms — the Ottomans, Safavids, Mughals, and Ming/Qing — to turn it into the foundation of empire. Coming after the collapse of the Mongol world order, these gunpowder empires inherited Mongol tactics, Persian administrative traditions, and Chinese technology. Their rise reshaped Eurasian politics through the early modern era.",
+  "u3-bi1": {
+    leadUp:
+      "Gunpowder weaponry originated in Song China and spread along the Silk Roads under Mongol-protected exchange. By the early 1400s, it had been used militarily for over a century. The Mongol Empire, which had unified much of Eurasia, was fragmenting — leaving Persian administrative traditions, Mongol cavalry tactics, and Chinese technology floating free, available for new state-builders to inherit. Across Eurasia, regional rulers were consolidating territory and centralizing taxation, accumulating the resources needed to organize professional armies.",
+    thesis:
+      "Although gunpowder weapons had existed for centuries before 1450, ultimately the period 1450–1750 transformed Eurasian politics because emerging empires combined gunpowder with bureaucratic capacity, standardizing firearms across whole armies and using them to consolidate vast new territories.",
+  },
 
-  "u3-bi2": "Empires across the early modern world all faced a basic problem: how to project authority across vast distances without modern communications. They drew on long traditions — Roman tax-farming, Chinese bureaucratic exam, Persian provincial administration — to build new institutions. By 1450, the Ottomans were experimenting with the devshirme, the Mughals were adapting Persian + Hindu local-elite networks, and the Tokugawa were stabilizing samurai-based government. European monarchies, having emerged from feudal fragmentation, were experimenting with the absolutism of divine-right kingship. Each system reflected centuries of accumulated state-building.",
+  "u3-bi2": {
+    leadUp:
+      "Empires across the early modern world inherited a long history of state-building. Roman tax-farming, Chinese Confucian bureaucracy, Persian provincial administration, and post-feudal European monarchy each had centuries of institutional development behind them. By 1450 the Mongol Empire had collapsed, leaving its successors with administrative templates but also with the ongoing problem of how to project authority across vast distances without modern communications.",
+    thesis:
+      "Although early modern rulers inherited diverse state-building traditions, ultimately the period 1450–1750 produced increasingly sophisticated systems of imperial control because rulers combined inherited institutions with new tools — sponsored art, centralized taxation, and professional bureaucracies — to legitimize and enforce their power.",
+  },
 
-  "u3-bi3": "Religious belief had been a key tool of state legitimacy across Afro-Eurasia for over a millennium — Constantine's adoption of Christianity, the Caliphate's role as defender of Islam, China's Confucian state ideology. By 1450, that tradition was about to fracture in Europe with the Reformation, while Sunni-Shia tensions were intensifying with Safavid expansion. The interaction of these belief systems was rooted in centuries of theological development. South Asia's Sikh syncretism and Mughal religious tolerance under Akbar both built on the long Indian tradition of religious blending in a multi-religious society.",
+  "u3-bi3": {
+    leadUp:
+      "Religion had been central to state legitimacy across Afro-Eurasia for over a millennium — Constantine's adoption of Christianity, the Caliphate as defender of Islam, China's Confucian state ideology. By 1450, the post-Mongol fragmentation of Dar al-Islam, the rise of new Islamic dynasties, and the long European tradition of papal authority over Latin Christendom had set up a religious map full of unresolved tensions and uneven boundaries.",
+    thesis:
+      "Although religion had long served as a unifying tool for empires, ultimately the period 1450–1750 saw belief systems play a sharply double-edged role because new religious movements (the Reformation, intensifying Sunni-Shia divisions) drove violent conflict, while interaction between traditions also produced syncretic outcomes like Sikhism.",
+  },
 
   // =========================================================================
   // UNIT 4 — Transoceanic Interconnections (1450–1750)
   // =========================================================================
-  "u4-bi1": "European maritime technology before 1450 lagged behind Chinese, Arab, and South Asian shipping traditions. The astrolabe came from Hellenistic Greek and Islamic origins; the magnetic compass from Song China; the lateen sail from Arab dhows. Iberian seafarers — under the patronage of Henry the Navigator and influenced by Genoese sailors — assembled these existing tools into the caravel and later the carrack and fluyt. Behind every 'Age of Exploration' technology stood centuries of cumulative Asian and Islamic innovation that Europeans inherited and synthesized.",
+  "u4-bi1": {
+    leadUp:
+      "European maritime technology before 1450 lagged behind Chinese, Arab, and South Asian shipping traditions. The astrolabe came from Hellenistic Greek and Islamic origins; the magnetic compass from Song China; the lateen sail from Arab dhows. Iberian seafarers under Henry the Navigator's patronage, alongside Genoese and Venetian sailors with Indian Ocean familiarity, had spent decades quietly learning and combining these foreign technologies in their Atlantic exploration of the African coast.",
+    thesis:
+      "Although Europeans inherited their core maritime technologies from outside Europe, ultimately the period 1450–1750 enabled the rise of European sea-based empires because Iberian shipbuilders synthesized those borrowed tools into the caravel, carrack, and fluyt — vessels capable of routine transoceanic voyages with cargo and cannon.",
+  },
 
-  "u4-bi2": "European exploration after 1450 emerged from the convergence of several long-running trends. The Crusades had increased European appetite for Asian goods. The fall of Constantinople in 1453 disrupted older land-based trade routes through Muslim middlemen. The Reconquista in Iberia gave Spain and Portugal restless military classes searching for new outlets. Mercantilism — emerging from late-medieval thinking about state wealth — provided the political-economic theory. State-sponsored exploration was thus not a sudden invention but the political outgrowth of decades of commercial, military, and intellectual change in Atlantic Europe.",
+  "u4-bi2": {
+    leadUp:
+      "Several long-running trends pushed Europe toward exploration by 1450. The Crusades had raised European appetite for Asian luxury goods. The fall of Constantinople in 1453 disrupted older land-based trade through Muslim middlemen. The Reconquista had created restless Iberian military classes searching for new outlets, and emerging mercantilist economic theory framed wealth as a finite pie that empires must accumulate.",
+    thesis:
+      "Although European exploration looks like a sudden invention, ultimately the period 1450–1750 saw rapid state-sponsored expansion because converging political, religious, and economic pressures — combined with new maritime technology — made transatlantic and Indian Ocean voyages feasible and profitable for the first time.",
+  },
 
-  "u4-bi3": "Before 1492, the Americas and Afro-Eurasia had been biologically separated for at least 12,000 years. American crops (potato, maize, tomato, squash, cassava) had been domesticated independently; American populations had no immunity to Eurasian smallpox, measles, or influenza. When Columbus's 1492 voyage opened transatlantic contact, the consequence was the largest biological exchange in human history — and the largest demographic catastrophe, with Indigenous American populations falling by perhaps 90%. The Columbian Exchange should be understood not just as a swap of crops, but as the violent reunification of biospheres separated since the last Ice Age.",
+  "u4-bi3": {
+    leadUp:
+      "Before 1492, the Americas and Afro-Eurasia had been biologically separated for at least 12,000 years. American crops like the potato, maize, and tomato had been domesticated independently. American populations had no exposure to Eurasian crowd diseases — smallpox, measles, influenza — and therefore no built-up immunity. Iberian states were assembling the maritime tools that would, for the first time, allow regular travel between these long-separated biospheres.",
+    thesis:
+      "Although the two biospheres had been long separated, ultimately the post-1492 period reunified them with catastrophic consequences because Eurasian diseases collapsed Indigenous American populations by up to 90% while New World crops fueled population growth across Afro-Eurasia.",
+  },
 
-  "u4-bi4": "Coerced labor systems had ancient precedents — Roman slavery, Han Chinese corvée, the Inca mit'a. After 1492, Spanish colonization built on these traditions, repurposing the Inca mit'a labor draft and inventing the encomienda. As Indigenous populations collapsed under disease, demand for labor created the Atlantic slave trade — building on existing African slave-trade networks but on a scale never before seen. Mercantilism, drawing on centuries of European thinking about state wealth, provided the ideological frame: colonies existed to enrich the metropole, by any labor system necessary.",
+  "u4-bi4": {
+    leadUp:
+      "Coerced labor had ancient precedents — Roman slavery, Han Chinese corvée, the Inca mit'a labor draft. Pre-existing African slave-trade networks moved enslaved people across the Sahara and into the Indian Ocean. By 1450, mercantilist thinking framed colonies as instruments to enrich the metropole, and Spanish and Portuguese rulers had centuries of experience using forced labor in Iberian estates and Atlantic island plantations.",
+    thesis:
+      "Although forced labor was a familiar tool of empire, ultimately the period 1450–1750 industrialized it on an unprecedented scale because mercantilist demand and Indigenous demographic collapse drove a massive Atlantic slave trade that reshaped the economies of Europe, Africa, and the Americas.",
+  },
 
-  "u4-bi5": "Joint-stock corporations had small-scale precedents in Italian Renaissance trade and medieval Hanseatic agreements. After 1600, the Dutch VOC and the British East India Company industrialized the form, raising capital from thousands of investors to fund colonial ventures. The Atlantic triangular trade that emerged in the same period built on existing European-African commercial relationships dating back to the Portuguese 15th-century coast. By 1700, these institutions were reshaping Atlantic and Indian Ocean economies in ways that would set the stage for industrial capitalism in the next century.",
+  "u4-bi5": {
+    leadUp:
+      "Italian Renaissance trading houses, Hanseatic League agreements, and Portuguese coastal trading-post networks had all experimented with shared-risk commercial structures since the late medieval period. Before 1600, however, no European state had attempted to underwrite global colonization with private investor capital at scale.",
+    thesis:
+      "Although precursors of pooled commercial capital existed in the late medieval period, ultimately the post-1600 period transformed Atlantic and Indian Ocean economies because joint-stock corporations like the VOC and EIC let states scale colonization globally — restructuring local economies, religion, and labor wherever they operated.",
+  },
 
-  "u4-bi6": "Resistance to imposed power was as old as imposed power itself — Spartacus's revolt in Rome, Yellow Turban Rebellion in Han China. After 1450, European empires faced resistance from Indigenous peoples (Pueblo Revolt), enslaved Africans (Stono Rebellion), and South Asian populations (Maratha rebellion against the Mughals). These movements built on long traditions of religious + ethnic resistance and were often informed by the very ideologies — Christianity, Islam, Hindu kingship — that the imperial powers themselves used to legitimize rule. Resistance is the rule, not the exception, in periods of conquest.",
+  "u4-bi6": {
+    leadUp:
+      "Resistance to imperial authority was as old as imperial authority itself — Spartacus's revolt in Rome, the Yellow Turban Rebellion in Han China, peasant uprisings across medieval Europe. By 1450 colonized peoples and enslaved Africans had centuries of religious, ethnic, and class-based resistance traditions to draw on.",
+    thesis:
+      "Although resistance to imposed power had ancient precedents, ultimately the period 1450–1750 saw new and far-reaching forms of revolt because European empires imposed labor systems, religions, and political structures on a global scale, generating rebellions that drew on the same religious and political ideologies the colonizers themselves had introduced.",
+  },
 
-  "u4-bi7": "Social hierarchies in colonized societies built on, but transformed, pre-conquest structures. Aztec society had its own tributary hierarchy; Inca society had its own ranked aristocracy. Spanish colonial rule layered a new race-based casta system on top of these, formally categorizing colonial subjects by ancestry. In China, the Qing Manchus continued the Confucian civil-service exam — a thousand-year-old institution — but added their own ethnic distinctions. In both cases, pre-existing hierarchies were modified rather than abolished, often with consequences that persist into modern social structures.",
+  "u4-bi7": {
+    leadUp:
+      "Pre-conquest American societies had their own steep social hierarchies — the Aztec ranked tributary system, Inca aristocratic ranks. China's Confucian civil-service exam had been a fixture of social mobility for over a thousand years. Before 1450, social rank was almost everywhere a function of birth, wealth, or office.",
+    thesis:
+      "Although hierarchical social organization was nothing new, ultimately the period 1450–1750 reshaped social categories worldwide because conquering powers layered new race-based legal hierarchies (like the casta system) on top of existing structures, while continuing earlier institutions like the Confucian exam under new dynasties.",
+  },
 
   // =========================================================================
   // UNIT 5 — Revolutions (1750–1900)
   // =========================================================================
-  "u5-bi1": "Enlightenment thinking grew from over a century of European intellectual ferment. The Scientific Revolution of the 1600s (Newton, Galileo) had already shifted authority from religious tradition toward empirical observation. John Locke's natural-rights theory drew on Aristotelian and Christian political philosophy. Rousseau's social contract built on Hobbes's earlier formulation. By 1750, these ideas were spreading through coffeehouses, pamphlets, and salons across Europe and into colonies. Their political application — abolitionism, women's rights, constitutional government — was a logical outgrowth of centuries of European political and scientific argument.",
+  "u5-bi1": {
+    leadUp:
+      "Enlightenment thinking grew out of more than a century of European intellectual ferment. The Scientific Revolution of the 1600s (Newton, Galileo) had shifted authority from religious tradition toward empirical observation. Hobbes's Leviathan, Aristotelian + Christian political philosophy, and the English constitutional tradition had laid the groundwork for thinking about consent and the basis of government.",
+    thesis:
+      "Although the intellectual roots of Enlightenment political thought stretched back well over a century, ultimately the period 1750–1900 produced sweeping reform and revolution because Enlightenment writers (Locke, Rousseau) translated empirical reasoning into a doctrine of natural rights that could be deployed to justify abolition, suffrage, and the overthrow of monarchies.",
+  },
 
-  "u5-bi2": "The Atlantic revolutions of 1776–1825 were not isolated events but a connected wave. The American Revolution drew on Enlightenment ideas and existing English constitutional tradition (Magna Carta, the Glorious Revolution). The French Revolution was directly inspired by the American example and the writings of Voltaire, Rousseau, and Montesquieu. The Haitian Revolution (1791–1804) was the first to apply 'all men are created equal' to enslaved people. Latin American independence movements under Bolívar drew on all three earlier examples. Each revolution accelerated the next — a transatlantic chain reaction in political ideas.",
+  "u5-bi2": {
+    leadUp:
+      "By 1750, Enlightenment ideas were spreading through coffeehouses, pamphlets, and salons across Europe and into colonies. Britain's Glorious Revolution of 1688 had already established a constitutional monarchy with a Bill of Rights. Atlantic colonies were growing economically integrated but politically subordinate, and rising nationalism among colonized populations was sharpening resentment of repressive metropolitan policies.",
+    thesis:
+      "Although Atlantic colonial grievances had been building for decades, ultimately the period 1750–1825 produced a chain of revolutions because Enlightenment natural-rights theory gave activists a shared ideological framework to challenge colonial and monarchical rule — a framework copied from one revolution to the next, from Philadelphia to Paris to Saint-Domingue.",
+  },
 
-  "u5-bi3": "Britain's industrialization in the late 1700s emerged from a unique combination of factors built up over centuries: enclosure and Agricultural Revolution had freed labor; coal and iron deposits sat near navigable waterways; political stability after 1688 protected property rights; colonial trade networks supplied raw materials and markets. The cotton industry, in particular, depended on Atlantic slave-grown cotton from the American South. Industrial machinery built on long traditions of European craft engineering. Britain's first-mover advantage was the result of a particular, hard-to-replicate set of conditions.",
+  "u5-bi3": {
+    leadUp:
+      "Britain in the mid-18th century enjoyed a uniquely favorable mix of conditions: a previous Agricultural Revolution (enclosure, seed drill, four-field rotation) had freed labor from the land; concentrated coal and iron deposits sat near navigable rivers and canals; political stability after 1688 protected investor property rights; and Atlantic colonial trade networks supplied raw cotton and consumer markets.",
+    thesis:
+      "Although Britain's preconditions had been assembling for over a century, ultimately the period 1750–1900 produced an industrial revolution that began in Britain because the convergence of cheap coal, abundant capital, displaced rural labor, and colonial supply chains made factory-based mass production newly feasible at scale.",
+  },
 
-  "u5-bi4": "Industrialization's spread across the world was deeply uneven. Belgium and France industrialized in the early 19th century; Germany followed by mid-century; the US and Japan late in the century. Russia industrialized under heavy state direction. Ottoman and Qing reform efforts (Tanzimat, Self-Strengthening) produced more limited results. Behind each case sat decades of state-building, capital accumulation, and political response to the threat of British dominance. By the late 1800s, the Industrial Revolution had become a global pressure that no major state could ignore.",
+  "u5-bi4": {
+    leadUp:
+      "Once Britain industrialized, every other major state faced a strategic problem: catch up or be eclipsed. By the mid-19th century, British steam-powered manufacturing was outpricing artisan production in India, the Ottoman Empire, and Qing China, while British and French gunboats were demonstrating military superiority. Russia was still semi-feudal, and Tokugawa Japan had spent two centuries in deliberate isolation.",
+    thesis:
+      "Although industrialization spread very unevenly across the world, ultimately the period 1750–1900 saw global manufacturing shares shift dramatically toward the West because some states (Britain, the US, Japan after Meiji) successfully adopted industrial methods, while others (India, the Ottomans) were partially de-industrialized by tariffs and competition.",
+  },
 
-  "u5-bi5": "The Second Industrial Revolution after 1870 built on the first IR's transportation + manufacturing infrastructure. Bessemer steel processes, internal combustion engines, electrical generation, and chemical-industry innovations all required the capital, scientific institutions, and market scale that the first IR had created. Railroads, the telegraph, and steamships compressed transport and communication times worldwide. Each of these innovations had decades of incremental precedent — the 'revolution' was the synthesis of accumulated knowledge into a new industrial system.",
+  "u5-bi5": {
+    leadUp:
+      "By the 1860s the first Industrial Revolution had laid down a transportation, manufacturing, and scientific infrastructure that the next generation would build on. Coal-fired steam, mechanized textiles, and rail networks were already reshaping daily life, and capital-intensive scientific research was beginning to professionalize in places like Germany and the United States.",
+    thesis:
+      "Although the Second Industrial Revolution built on the first IR's foundations, ultimately the period 1870–1900 fundamentally changed manufacturing because steel, oil, internal combustion, electricity, and the telegraph created national-scale markets and a categorical leap in productive and communicative capacity.",
+  },
 
-  "u5-bi6": "Capitalism's intellectual roots stretched back to Adam Smith's 1776 Wealth of Nations, itself building on Enlightenment political economy. Mercantilism — the dominant theory of the 17th and 18th centuries — was being challenged by Smith and David Ricardo by the early 1800s. The 19th century's transition to free-market thinking happened alongside industrialization, with Britain repealing the Corn Laws in 1846 as a key marker. By 1850 most industrializing states had partly abandoned mercantilism — though tariffs and state intervention remained.",
+  "u5-bi6": {
+    leadUp:
+      "Adam Smith's 1776 Wealth of Nations had argued for free-market capitalism over mercantilism, but for decades most European states continued to enforce protective tariffs and chartered monopolies. By the early 19th century, however, industrialized economies were producing surpluses that mercantilist trade restrictions made it harder to sell, and Ricardo's theories of comparative advantage were sharpening Smith's argument.",
+    thesis:
+      "Although Smith had written nearly a century earlier, ultimately the period 1850–1900 institutionalized free-market capitalism because industrial productivity made trade liberalization more profitable than mercantilism — repealing the Corn Laws, scaling transnational corporations, and producing visibly higher standards of living for an expanding middle class.",
+  },
 
-  "u5-bi7": "Reform movements after 1800 responded to a world transformed by industrialization. Labor unions emerged in Britain in the 1820s, building on earlier guild traditions. Marx and Engels wrote the Communist Manifesto in 1848 — the same year revolutions swept Europe. Tanzimat reforms in the Ottoman Empire (1839 onward) were direct responses to European pressure, drawing on earlier Enlightenment-era political reform efforts. Each reform tradition built on decades of political argument; their explosion across the 19th century reflected the unprecedented social pressures that industrial capitalism produced.",
+  "u5-bi7": {
+    leadUp:
+      "Industrial capitalism by the 1830s had visibly produced both wealth for owners and brutal conditions for workers — long hours, child labor, urban slums. Older guild traditions had collapsed, leaving workers without traditional protections, and the 1848 wave of European revolutions had already demonstrated that industrial-era political pressure was building.",
+    thesis:
+      "Although the costs of industrialization were unmistakable from the start, ultimately the period 1830–1900 produced a wide range of reform responses — labor unions, Marxist socialism, Tanzimat-style modernization — because the contradictions of industrial capitalism forced states and movements alike to invent new institutions to manage them.",
+  },
 
   // =========================================================================
   // UNIT 6 — Consequences of Industrialization (1750–1900)
   // =========================================================================
-  "u6-bi1": "Imperial expansion was nothing new in 1750 — European empires had been growing in the Americas and along Asian coasts for over 250 years. What changed in the late 19th century was the ideological framing and the scale. The Enlightenment idea of universal progress, repurposed through Social Darwinism and 'civilizing mission' rhetoric, made imperialism appear natural and morally justified. The Second Industrial Revolution's appetite for raw materials demanded new colonial territories. Earlier mercantilist colonization had focused on coastal trading posts; new imperialism, by 1880, aimed at deep territorial conquest.",
+  "u6-bi1": {
+    leadUp:
+      "European empires had been growing in the Americas and along Asian coasts for over 250 years before 1750. Mercantilist colonization had focused mostly on coastal trading posts and plantation islands. The Enlightenment had introduced ideas about universal human progress, while pseudo-scientific racial hierarchy was beginning to congeal in late-18th-century European thought.",
+    thesis:
+      "Although imperialism was nothing new in 1750, ultimately the period 1750–1900 saw a categorical wave of new imperialism because Social Darwinism, the 'civilizing mission,' nationalism, and Second Industrial Revolution demand for raw materials combined to fuel territorial conquest at a scale and ideology earlier empires hadn't possessed.",
+  },
 
-  "u6-bi2": "Methods of imperial consolidation varied with the imperial power and the colonized society. The Berlin Conference of 1884–85 represented a new pattern — formalized European cooperation in carving up Africa, replacing earlier rivalries. The British takeover of India after the Sepoy Rebellion of 1857 represented the consolidation of charter-company colonization into direct state rule. Russia's expansion in Central Asia followed older Tsarist patterns. The replacement of Spanish + Portuguese empires by new players (US in the Philippines, Japan in Korea) was the late-stage rebalancing of imperial power that had been in motion for a century.",
+  "u6-bi2": {
+    leadUp:
+      "Older European empires had used a mix of charter companies (the British and Dutch East India Companies), direct crown rule, and trading-post networks. The Spanish and Portuguese empires had peaked in the 17th and early 18th centuries and were in steady decline. Industrialization meanwhile was producing a new generation of imperial powers — Germany, Belgium, the United States, Japan — eager for colonies of their own.",
+    thesis:
+      "Although European powers had long used varied methods of imperial control, ultimately the period 1750–1900 introduced new patterns of consolidation because crises like the Sepoy Rebellion forced state takeovers of charters, while the Berlin Conference and the Spanish-American War showed new imperial powers carving up Africa and Asia in entirely new ways.",
+  },
 
-  "u6-bi3": "Resistance movements after 1750 drew on long traditions. Tupac Amaru II in 1780 Peru drew on a century of Andean uprisings dating back to the Spanish conquest. The Sepoy Mutiny in 1857 reflected accumulated Indian grievances against the British East India Company. Balkan independence movements — Greece in 1821, Serbia, Bulgaria — built on a century of nationalist thought and Ottoman political weakness. Religiously inspired resistance like the Ghost Dance and the Xhosa Cattle Killing followed patterns of millenarian responses to colonization that had appeared throughout history.",
+  "u6-bi3": {
+    leadUp:
+      "Resistance to colonial rule was already old by 1750. The Andes had seen indigenous uprisings since the Spanish conquest; Chinese peasants had rebelled against various dynasties; subjects of the Ottoman Empire had pushed back against centralizing reforms. Each colonized region had decades-old traditions of religious and political resistance to draw on.",
+    thesis:
+      "Although colonial resistance was a long-running pattern, ultimately the period 1750–1900 saw a distinctive new wave of resistance because new imperialism — more invasive economically, racially, and culturally — produced direct rebellions, the creation of new nation-states (Greece, Serbia), and religiously-inspired millenarian movements like the Ghost Dance.",
+  },
 
-  "u6-bi4": "Cash-crop agriculture in colonized regions had precedents in earlier sugar plantations of the Caribbean and Brazil and the spice plantations of the Dutch East Indies. After 1850, Second Industrial Revolution demand for rubber, coffee, tea, and cotton intensified the model. Belgian Congo's rubber, Argentine beef, Peruvian guano, and Indian cotton all served European industrial centers. The pattern of subsistence farmers being converted into cash-crop producers reflected a century-long deepening of European economic control over peripheral regions — a continuity with mercantilist colonization, but at industrial scale.",
+  "u6-bi4": {
+    leadUp:
+      "Cash-crop agriculture in colonized regions had precedents in earlier sugar plantations of the Caribbean and Brazil and the spice plantations of the Dutch East Indies, where local economies were already partly oriented toward European markets. Older plantation economies had long depended on coerced labor; what was changing by 1850 was the scale of European industrial demand.",
+    thesis:
+      "Although cash-crop colonization was nothing new, ultimately the period 1750–1900 transformed the global economy because Second Industrial Revolution demand for rubber, coffee, sugar, and cotton converted subsistence farmers across Latin America, Africa, and Asia into export producers serving Europe's industrial cities.",
+  },
 
-  "u6-bi5": "Economic imperialism — controlling another country's economy without formal annexation — had precedents in the unequal treaties imposed on the Ottoman Empire and on China after the Opium Wars (1839–42, 1856–60). Britain's domination of Indian and Egyptian cotton followed a similar pattern: economic leverage rather than formal annexation. The Open Door Policy in late-19th-century China formalized spheres of influence among Britain, France, Germany, Russia, and the US. This kind of indirect imperial control built on decades of Western economic + military superiority.",
+  "u6-bi5": {
+    leadUp:
+      "Western states had been imposing unequal terms on weaker non-European powers since the 18th century — through the capitulations system in the Ottoman Empire, the British East India Company's manipulations in India, and rising Western military superiority everywhere. By the early 19th century the gap between industrial and non-industrial economies was wide enough that economic leverage could substitute for direct annexation.",
+    thesis:
+      "Although Western economic leverage over weaker states was already a pattern, ultimately the period 1750–1900 perfected economic imperialism as a distinct strategy because industrial powers could now use unequal treaties, opium-fueled trade deficits, and 'spheres of influence' to extract resources from places like China and Latin America without paying the costs of formal colonization.",
+  },
 
-  "u6-bi6": "Mass migration in the 19th century was the largest movement of people in human history before the modern era. After Britain abolished the slave trade (1807) and slavery (1833), industrial economies' demand for cheap labor pulled in indentured workers from China, India, and Japan. Penal colonies (Australia after 1788) and political exile sent further waves. European migration to the Americas accelerated after the 1840s. Discrimination policies (Chinese Exclusion Act, White Australia Policy) were direct responses. Behind these movements stood industrial-era economic pressures and 19th-century imperial reorganization of labor.",
+  "u6-bi6": {
+    leadUp:
+      "Long-distance migration was old — but the slave trade had supplied much of the Atlantic labor force for centuries. After Britain abolished the slave trade in 1807 and slavery in 1833, industrializing economies still needed cheap labor for plantations, mines, and railroads, while accelerating industrialization in places like China and India was disrupting local livelihoods.",
+    thesis:
+      "Although migration is one of the oldest human patterns, ultimately the period 1750–1900 produced unprecedented global labor flows because abolition + industrial demand + colonial reorganization pulled millions of Chinese and Indian indentured workers, European migrants, and convicts across oceans, often to face new racist immigration laws on arrival.",
+  },
 
   // =========================================================================
   // UNIT 7 — Global Conflict (1900–1945)
   // =========================================================================
-  "u7-bi1": "Major states across the world in 1900 faced unprecedented challenges from industrialization, imperial pressure, and political mobilization. Russia entered the 20th century with an autocratic Tsar, a backward economy by Western standards, and growing revolutionary movements stretching back to the 1860s. Qing China was hollowed out by the Taiping (1850–64) and Boxer (1900) rebellions and unequal treaties. Mexico had been ruled for decades by Porfirio Díaz, with deep wealth + land inequality. The revolutions of 1910–1917 in all three were the cumulative result of accumulated grievances meeting industrial-era pressures.",
+  "u7-bi1": {
+    leadUp:
+      "By 1900, several major states were under massive accumulated pressure. Russia was an autocracy with a backward economy, fresh from defeats in the Crimean and Russo-Japanese wars. Qing China had been weakened by the Taiping (1850–64) and Boxer rebellions plus decades of unequal treaties. Mexico had lived under Porfirio Díaz's authoritarian regime for over thirty years, with deep wealth and land inequality.",
+    thesis:
+      "Although these tensions had been building for decades, ultimately the period 1900–1920 produced cascading state changes — the Russian Revolution, the fall of the Qing, the Mexican Revolution — because internal grievances combined with industrial-era external pressures to make existing regimes politically unsustainable.",
+  },
 
-  "u7-bi2": "WWI did not emerge from a single trigger but from decades of European structural tension. The unification of Germany in 1871 had upset the European balance of power. Industrial competition produced an arms race after 1890 (HMS Dreadnought, German naval buildup). The alliance system — Triple Entente (1907) and Triple Alliance — committed every great power to mutual defense. Imperial competition (Morocco crises, Balkan wars) created repeated near-confrontations. Nationalism in Eastern Europe + the Balkans created additional pressure points. By 1914, war was waiting for a trigger; the Sarajevo assassination provided it.",
+  "u7-bi2": {
+    leadUp:
+      "Several long-term tensions had been building in Europe since 1871. German unification had upset the European balance of power. Industrial competition produced an arms race after 1890. Imperial competition created repeated near-confrontations in Morocco and the Balkans. The 1907 Triple Entente and the existing Triple Alliance had locked every great power into mutual-defense commitments. Nationalism across Eastern Europe was sharpening calls for independence.",
+    thesis:
+      "Although war between Europe's great powers had been waiting for a trigger for decades, ultimately the period 1914–1918 turned those structural tensions into world war because the alliance system + militarism + imperial competition + nationalism combined with the Sarajevo assassination to remove every off-ramp.",
+  },
 
-  "u7-bi3": "WWI's character as a 'total war' reflected the maturity of industrial economies. Mid-19th-century industrial wars — the American Civil War, the Crimean War, the Franco-Prussian War — had foreshadowed mass-produced weaponry, mass conscription, and railroad logistics. By 1914, fully industrial economies could mass-produce machine guns, artillery shells, and chemical weapons at unprecedented scale. The trench-warfare stalemate of the Western Front was the consequence: defensive technology had outpaced offensive tactics. The Treaty of Versailles, signed in 1919, would punish Germany severely and seed WWII.",
+  "u7-bi3": {
+    leadUp:
+      "Industrial wars of the mid-19th century — the American Civil War, the Crimean War, the Franco-Prussian War — had foreshadowed mass-produced weapons, mass conscription, and rail-based logistics. By 1914, fully industrial economies could mass-produce machine guns, artillery, and chemical weapons at unprecedented scale, while propaganda techniques and mass-press culture were maturing alongside.",
+    thesis:
+      "Although total-war elements had appeared in earlier industrial conflicts, ultimately the period 1914–1918 produced a categorically new kind of war because every belligerent state mobilized its full economy, deployed propaganda to its civilian population, and unleashed industrial weapons that locked the Western Front into a four-year stalemate.",
+  },
 
-  "u7-bi4": "Government economic intervention after WWI emerged from the failure of unregulated 19th-century capitalism to manage crisis. WWI itself had pulled most belligerent governments into massive state direction of their economies — wage controls, rationing, war-bond drives. The 1929 stock market crash and the Great Depression pushed governments further. FDR's New Deal, Hitler's Nazi economic program, and Stalin's Five-Year Plans were each radically different responses to the same underlying problem: 19th-century laissez-faire couldn't handle 20th-century industrial economies in crisis.",
+  "u7-bi4": {
+    leadUp:
+      "Before 1914, most major economies operated on roughly laissez-faire principles. WWI itself had pulled most belligerent governments into massive temporary state direction of their economies — wage controls, rationing, war-bond drives — but afterward governments largely tried to return to the prewar norm. The 1929 Wall Street crash made that impossible.",
+    thesis:
+      "Although large-scale state intervention had begun temporarily during WWI, ultimately the period after 1929 made government economic management permanent because the Great Depression's severity discredited laissez-faire and forced wildly different responses — the New Deal, Nazi economic policy, Stalin's Five-Year Plans — that all featured the state managing the economy directly.",
+  },
 
-  "u7-bi5": "The unsustainable peace of 1919 created the conditions for WWII. The Treaty of Versailles' war-guilt clause + reparations bankrupted Germany and humiliated its national psyche. The Great Depression of 1929 then crippled the Weimar Republic's already-fragile economy. Hitler's Nazi Party rode on these grievances, promising national restoration + economic recovery. Britain and France, exhausted by WWI, pursued appeasement — a policy with deep roots in 19th-century European balance-of-power thinking. The result was a cascade of German aggression that the Allies failed to stop until Poland in 1939.",
+  "u7-bi5": {
+    leadUp:
+      "By the 1930s, Europe was struggling under the consequences of WWI's unsustainable peace. The Treaty of Versailles had imposed a war-guilt clause, massive reparations, and territorial losses on Germany. Weimar hyperinflation had wiped out middle-class savings, and the Great Depression had then crippled what remained of the German economy. Britain and France, exhausted by WWI, had little appetite for new conflict.",
+    thesis:
+      "Although the conditions for renewed war had been accumulating since 1919, ultimately the period 1933–1939 produced WWII because the unsustainable peace + economic crisis + the rise of fascist regimes combined with British and French appeasement to embolden Hitler's escalating aggression up to and including the invasion of Poland.",
+  },
 
-  "u7-bi6": "WWII as a total war built on the WWI precedent at vastly larger scale. By the 1940s, industrial economies could mass-produce tanks, planes, ships, and (eventually) atomic weapons. The US, geographically protected from invasion and possessing the world's largest industrial base, brought women into factory work and out-produced the Axis decisively. Nazi Germany's reliance on forced concentration-camp labor reflected ideological commitment over efficiency. New tactical and strategic innovations — Blitzkrieg, strategic bombing, atomic weapons — built on decades of industrial-warfare thinking dating back to WWI.",
+  "u7-bi6": {
+    leadUp:
+      "WWI had introduced industrial total-war mobilization, propaganda, civilian targeting, and chemical weapons. The interwar decades saw further refinement of military technology, including airplanes, tanks, and (secretly) atomic physics. By 1939 the major powers had a clearer picture than in 1914 of just how much industrial economies could be repurposed for war.",
+    thesis:
+      "Although WWII built directly on WWI's total-war template, ultimately the period 1939–1945 reached an even greater scale because participants now systematically deployed full industrial economies, mobilized civilian populations including women, and ended the war with new categorical weapons — firebombing of cities and the atomic bomb.",
+  },
 
-  "u7-bi7": "Genocide on industrial scale had precedents — the Armenian Genocide (1915–1923) under the Ottomans foreshadowed the systematic destruction of populations using bureaucratic and industrial methods. The Holocaust represented the application of full industrial capacity to mass murder. The Holodomor (1932–33) reflected Stalin's collectivization of agriculture, which extracted grain from Ukraine to feed urban industrial centers, causing 7–10 million deaths. Both built on 19th-century state capacity to track, move, and control populations on a scale earlier states couldn't have managed.",
+  "u7-bi7": {
+    leadUp:
+      "By the early 20th century, modern states had developed the bureaucratic capacity to track, register, and move populations on an industrial scale — capacity unimaginable before the 19th century. The Armenian Genocide (1915–23) under the Ottomans had already shown how that administrative capacity could be turned to systematic destruction of a population. Pseudo-scientific racial hierarchy and ideological revolutionary movements were maturing across Europe.",
+    thesis:
+      "Although state-sponsored mass killings had earlier precedents, ultimately the period 1915–1945 industrialized genocide because totalitarian regimes — Nazi Germany and Stalin's USSR — combined modern administrative capacity, ideological frameworks, and full state control of communications and transportation to attempt the systematic destruction of entire peoples.",
+  },
 
   // =========================================================================
   // UNIT 8 — Cold War + Decolonization (1945–1991)
   // =========================================================================
-  "u8-bi1": "The Cold War's roots predated WWII. The Bolshevik Revolution of 1917 had created a communist state ideologically opposed to capitalism. Western intervention in the Russian Civil War (1918–22) and Western refusal to recognize the USSR until 1933 generated lasting Soviet mistrust. WWII alliance was a marriage of convenience against Hitler. As soon as Germany was defeated, US-Soviet disagreements over Eastern Europe (which Stalin's Red Army occupied) became visible. Post-war divisions of Germany and Berlin were the immediate consequences — but Cold War tensions had been waiting in the wings since 1917.",
+  "u8-bi1": {
+    leadUp:
+      "Cold War tensions predated WWII. The Bolshevik Revolution of 1917 had created the world's first communist state, ideologically opposed to capitalism. Western intervention in the Russian Civil War (1918–22) and US refusal to recognize the USSR until 1933 had produced deep Soviet mistrust. WWII alliance was a marriage of convenience against Hitler — and as Allied victory approached, disagreements over post-war Eastern Europe were already visible at Yalta and Potsdam.",
+    thesis:
+      "Although the wartime US-USSR alliance had been useful against the Nazis, ultimately the period 1945–1991 produced four decades of Cold War because deep ideological mistrust + disputes over post-war Europe + the rise of nuclear weapons turned the rivalry into a global structural conflict shaping every continent.",
+  },
 
-  "u8-bi2": "Cold War proxy conflicts grew from the strategic logic that direct US-USSR fighting risked nuclear annihilation. The 1949 Soviet atomic test ended the brief American nuclear monopoly; by the early 1960s, both sides had hydrogen bombs and ICBMs. NATO (1949) and Warsaw Pact (1955) formalized the bloc structure. Decolonization, accelerating after 1945, created dozens of new states that became potential Cold War clients. Korea (1950–53), Vietnam (1955–75), Nicaragua, and Angola were thus not isolated conflicts but expressions of a global ideological struggle.",
+  "u8-bi2": {
+    leadUp:
+      "By the 1950s the US and USSR had both built nuclear arsenals capable of destroying each other. The 1949 Soviet atomic test had ended the brief American monopoly; by the early 1960s both sides had hydrogen bombs and intercontinental delivery systems. Decolonization, accelerating after 1945, was creating dozens of new states whose alignment was up for grabs.",
+    thesis:
+      "Although direct US-Soviet conflict was suicidal under Mutually Assured Destruction, ultimately the period 1945–1991 saw rivalry play out through arms races, formal alliances (NATO, Warsaw Pact), and proxy wars from Korea to Vietnam to Nicaragua to Angola, because superpower competition had to find some outlet that didn't risk nuclear annihilation.",
+  },
 
-  "u8-bi3": "Communism in China grew out of decades of revolutionary struggle. The Qing fell in 1911; warlord chaos and civil war followed. Mao's Communist Party emerged in the 1920s and survived Chiang Kai-shek's Nationalist persecution and Japanese invasion. By 1949, the Communist victory was the result of nearly 30 years of organization, peasant mobilization, and military experience. Distinct from Soviet communism — peasant-based rather than urban-worker-based — Chinese communism reflected China's own social structure and the specific revolutionary path Mao had built. The Great Leap Forward and Cultural Revolution would later reveal both the costs of that path and its distinctive character.",
+  "u8-bi3": {
+    leadUp:
+      "Communist organizing in China grew out of decades of revolutionary turmoil. The Qing dynasty had fallen in 1911, replaced by warlord chaos. The Chinese Communist Party, founded in 1921, survived Chiang Kai-shek's Nationalist persecution and the Japanese occupation, building a peasant-based revolutionary tradition through the Long March and rural base-building. By 1945 the CCP had won mass support among the peasantry.",
+    thesis:
+      "Although Mao's path took decades to walk, ultimately the period 1945–1976 made China the most consequential communist state in the world because the CCP's distinct peasant-based revolution and Mao's economic plans (collectivization, Great Leap Forward, Cultural Revolution) reshaped a fifth of humanity along communist lines.",
+  },
 
-  "u8-bi4": "Decolonization built on a century of nationalist thought + organization in colonized societies. The Indian National Congress had been founded in 1885; it took 62 years for India to achieve independence. African nationalist movements emerged in the early 20th century. WWII bankrupted Britain and France economically, while colonial troops + workers had served in Allied armies and demanded political equality afterward. The relative weakness of European powers post-1945 + the ideological pressure of US/Soviet anti-colonialism + the maturity of nationalist movements combined to produce the post-war wave of independence — sometimes negotiated (India), sometimes through armed conflict (Algeria, Vietnam).",
+  "u8-bi4": {
+    leadUp:
+      "Anti-colonial nationalism had been organizing for decades. The Indian National Congress was founded in 1885; African and Vietnamese nationalist movements had emerged before WWI. Colonial troops and workers had served in both world wars, expecting political reward. By 1945 Britain and France emerged from WWII economically and politically depleted, while the US and USSR — both rhetorically anti-colonial — had become the dominant powers.",
+    thesis:
+      "Although nationalist movements had been organizing for many decades, ultimately the period 1945–1975 produced a sweeping wave of decolonization because post-WWII conditions — weakened metropoles, anti-colonial superpower rhetoric, and mature nationalist movements — combined to win independence through both negotiation (India) and armed struggle (Algeria).",
+  },
 
-  "u8-bi5": "Decolonization's borders were often drawn in haste by departing imperial powers, ignoring local realities. The Indian-Pakistani partition (1947) split a religiously mixed subcontinent along Hindu-Muslim lines, triggering massive violence and population displacement. Palestine — Ottoman territory until WWI, then a British Mandate — became the site of escalating Arab-Jewish conflict as Zionist migration accelerated under increasingly difficult Mandate rule. African borders drawn at the Berlin Conference (1884–85) cut across ethnic and political boundaries; their enforcement after independence created decades of conflict. New borders did not always end old conflicts; often they relocated them.",
+  "u8-bi5": {
+    leadUp:
+      "Imperial powers had been drawing arbitrary borders for over a century before decolonization began. The Berlin Conference of 1884–85 had carved up Africa with no African input, ignoring ethnic, linguistic, and political realities. The post-WWI Mandate system had assigned Ottoman Arab territories to Britain and France, including Mandate Palestine. Many of these borders remained intact as decolonization began in 1945.",
+    thesis:
+      "Although bad colonial-era borders had been waiting to fail since the late 19th century, ultimately the period 1945–1991 saw decolonization-era boundary changes produce new violent conflicts and refugee crises, because partitioning along religious or ethnic lines (India/Pakistan, Israel/Palestine) often relocated rather than resolved underlying tensions.",
+  },
 
-  "u8-bi6": "State-led economic development in newly independent states reflected the experience of colonial extraction. Most colonized economies had been organized to serve metropole interests — single-crop exports, low-value manufacturing, weak institutions. Newly independent governments distrusted both the former colonial powers and Western capital, and turned to the state to direct development. Nasser's nationalization of the Suez Canal (1956), Indira Gandhi's adoption of the Green Revolution, and similar policies elsewhere reflected this distrust. Cold War competition gave these states some leverage, with both the US and USSR offering aid + arms.",
+  "u8-bi6": {
+    leadUp:
+      "Most colonized economies had been organized for decades to serve the metropole — single-crop exports, low-value manufacturing, weak local institutions. Newly independent governments inherited that distorted economic structure along with a deep distrust of both former colonizers and Western capital. The Bretton Woods system (1944) had created an international economic framework, but Cold War competition gave new states leverage.",
+    thesis:
+      "Although the post-colonial economic situation was fundamentally constrained by colonial-era structures, ultimately the period 1945–1991 saw newly independent governments take strong directing roles because colonial extraction patterns and Cold War competition pushed them toward state-led models — nationalizations like Nasser's Suez, India's Green Revolution — to assert economic sovereignty.",
+  },
 
-  "u8-bi7": "Resistance + reform movements of the 20th century built on 19th-century traditions. Gandhi's nonviolent civil disobedience drew on both Hindu/Jain ahimsa traditions and Tolstoy's Christian pacifism. MLK's strategies were directly informed by Gandhi. Nelson Mandela's anti-apartheid movement drew on the African National Congress's decades of organizing dating to 1912. Across these movements, mass mobilization + civil disobedience + (sometimes) armed struggle were combined in different ways depending on the colonizer or oppressor. Each built on prior traditions of mass political action — none invented the playbook from scratch.",
+  "u8-bi7": {
+    leadUp:
+      "Mass nonviolent and armed resistance traditions had deep roots. Hindu and Jain ahimsa traditions, Tolstoyan Christian pacifism, and Western suffragette tactics had been combined and re-combined for over a century. Anti-colonial organizations like the African National Congress (founded 1912) had decades of mass-mobilization experience by the time apartheid solidified after WWII.",
+    thesis:
+      "Although traditions of mass political resistance were old, ultimately the period 1945–1991 produced a string of transformative movements because Gandhi, MLK, and Mandela synthesized those traditions into mass civil-disobedience campaigns powerful enough to force British withdrawal from India, end Jim Crow segregation, and dismantle South African apartheid.",
+  },
 
-  "u8-bi8": "The Cold War's end emerged from accumulated economic and political pressure on the Soviet Union. The 1979 Soviet invasion of Afghanistan became a 10-year drain on the Soviet military and economy, with US-Pakistani-Saudi support for the Mujahideen rebels. Reagan-era US defense spending strained Soviet finances. By 1985, Gorbachev's perestroika and glasnost reforms aimed to revive the system but accelerated its unraveling — particularly his 1989 announcement that the USSR would not use force to keep Eastern European satellites in line. The Berlin Wall fell that year; the USSR formally dissolved in 1991.",
+  "u8-bi8": {
+    leadUp:
+      "By the late 1970s the Soviet Union faced mounting economic stagnation. Reagan-era US defense spending was forcing Soviet finances into an unaffordable budget race. The 1979 Soviet invasion of Afghanistan was becoming a long, expensive military quagmire as US, Pakistani, and Saudi support for Mujahideen rebels stretched the war out for years.",
+    thesis:
+      "Although Soviet economic and military weakness had been building for over a decade, ultimately the period 1985–1991 brought the Cold War to a sudden end because Gorbachev's perestroika and glasnost reforms — combined with his refusal to use force to keep Eastern European satellites in line — accelerated the unraveling that culminated in the fall of the Berlin Wall and the dissolution of the USSR.",
+  },
 };
 
-export function contextualizationFor(ideaId: string): string | null {
+export function contextualizationFor(ideaId: string): Contextualization | null {
   return contextualizations[ideaId] ?? null;
 }

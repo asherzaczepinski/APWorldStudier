@@ -311,7 +311,7 @@ function PhoneTab({
 }
 
 // ---------------------------------------------------------------------------
-// Side panel — the meat of each Big Idea (bullets, features, SAQ, Venn)
+// Side panel — the meat of each Big Idea (bullets, features, SAQ)
 // ---------------------------------------------------------------------------
 
 function SidePanel({
@@ -331,13 +331,12 @@ function SidePanel({
   onPickFeature: (id: string) => void;
   onBack: () => void;
 }) {
-  const [tab, setTab] = useState<"context" | "ctx" | "saq" | "venn">("context");
+  const [tab, setTab] = useState<"context" | "ctx" | "saq">("context");
   const ctxParagraph = contextualizationFor(idea.id);
-  // If user lands on a Big Idea without the active tab's data (e.g. previously
-  // on Venn, then opens a Big Idea that has no Venn), fall back to Context.
+  // If the user lands on a Big Idea without the active tab's data, fall back
+  // to Context.
   useEffect(() => {
     if (tab === "saq" && !idea.saq) setTab("context");
-    if (tab === "venn" && !idea.venn) setTab("context");
     if (tab === "ctx" && !ctxParagraph) setTab("context");
   }, [idea, tab, ctxParagraph]);
 
@@ -387,9 +386,6 @@ function SidePanel({
           {idea.saq && (
             <PanelTab active={tab === "saq"} onClick={() => setTab("saq")}>SAQ</PanelTab>
           )}
-          {idea.venn && (
-            <PanelTab active={tab === "venn"} onClick={() => setTab("venn")}>Venn</PanelTab>
-          )}
         </div>
       </div>
 
@@ -408,9 +404,8 @@ function SidePanel({
             onPickFeature={onPickFeature}
           />
         )}
-        {tab === "ctx" && ctxParagraph && <CtxTab body={ctxParagraph} accent={accent} />}
+        {tab === "ctx" && ctxParagraph && <CtxTab ctx={ctxParagraph} accent={accent} />}
         {tab === "saq" && idea.saq && <SAQTab saq={idea.saq} accent={accent} />}
-        {tab === "venn" && idea.venn && <VennTab venn={idea.venn} accent={accent} />}
       </div>
     </aside>
   );
@@ -553,15 +548,21 @@ function ContextTab({
   );
 }
 
-function CtxTab({ body, accent }: { body: string; accent: string }) {
+function CtxTab({
+  ctx,
+  accent,
+}: {
+  ctx: { leadUp: string; thesis: string };
+  accent: string;
+}) {
   return (
     <>
       <div className="eyebrow mb-2" style={{ color: "var(--text-dim)" }}>
-        DBQ contextualization paragraph
+        Lead-up · use as your contextualization paragraph
       </div>
       <p className="t-12 prose-cap mb-3" style={{ color: "var(--text-dim)" }}>
-        Drop this in a DBQ intro to earn the contextualization point. Paraphrase + adjust to fit
-        the prompt — don&apos;t copy verbatim.
+        Pure background — what was happening BEFORE the events of this Big Idea. Paraphrase + adjust
+        to fit the prompt; don&apos;t copy verbatim.
       </p>
       <p
         className="t-14 prose-cap"
@@ -575,7 +576,28 @@ function CtxTab({ body, accent }: { body: string; accent: string }) {
           lineHeight: 1.65,
         }}
       >
-        {body}
+        {ctx.leadUp}
+      </p>
+
+      <div className="eyebrow mb-2 mt-5" style={{ color: "var(--text-dim)" }}>
+        Although, ultimately… · use as your DBQ thesis
+      </div>
+      <p className="t-12 prose-cap mb-3" style={{ color: "var(--text-dim)" }}>
+        One-sentence thesis built off the lead-up. Names a counter, takes a stance, and gives the
+        reasons.
+      </p>
+      <p
+        className="t-14 leading-snug font-display"
+        style={{
+          color: "var(--text)",
+          background: "var(--bg-elev)",
+          border: `1px dashed ${accent}`,
+          padding: "12px 14px",
+          borderRadius: 6,
+          lineHeight: 1.55,
+        }}
+      >
+        {ctx.thesis}
       </p>
     </>
   );
@@ -647,88 +669,6 @@ function CERPart({
   );
 }
 
-function VennTab({
-  venn,
-  accent,
-}: {
-  venn: NonNullable<BigIdea["venn"]>;
-  accent: string;
-}) {
-  return (
-    <>
-      <div className="eyebrow mb-2" style={{ color: "var(--text-dim)" }}>
-        Compare
-      </div>
-      <div className="grid grid-cols-2 gap-2 mb-4 t-12 font-display">
-        <div
-          style={{
-            background: "var(--bg-elev)",
-            border: `1px solid ${accent}`,
-            borderRadius: 6,
-            padding: "6px 8px",
-            color: "var(--text)",
-          }}
-        >
-          {venn.left}
-        </div>
-        <div
-          style={{
-            background: "var(--bg-elev)",
-            border: `1px solid var(--text-dim)`,
-            borderRadius: 6,
-            padding: "6px 8px",
-            color: "var(--text)",
-          }}
-        >
-          {venn.right}
-        </div>
-      </div>
-
-      <VennSection title={venn.left + " only"} items={venn.leftOnly} color={accent} />
-      <VennSection title="Both" items={venn.both} color="var(--text)" />
-      <VennSection title={venn.right + " only"} items={venn.rightOnly} color="var(--text-dim)" />
-    </>
-  );
-}
-
-function VennSection({
-  title,
-  items,
-  color,
-}: {
-  title: string;
-  items: string[];
-  color: string;
-}) {
-  return (
-    <div className="mb-3">
-      <div className="eyebrow mb-1" style={{ color }}>{title}</div>
-      <ul className="space-y-1">
-        {items.map((it, i) => (
-          <li
-            key={i}
-            className="t-12 prose-cap"
-            style={{ color: "var(--text-muted)", paddingLeft: 12, position: "relative" }}
-          >
-            <span
-              aria-hidden
-              style={{
-                position: "absolute",
-                left: 0,
-                top: 7,
-                width: 4,
-                height: 4,
-                borderRadius: 999,
-                background: color,
-              }}
-            />
-            {it}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
 
 // ---------------------------------------------------------------------------
 // Feature popover — appears when the user clicks a feature on the globe

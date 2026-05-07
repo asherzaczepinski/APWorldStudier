@@ -26,8 +26,8 @@ export default function AboutPage({ onStart }: Props) {
         <Card eyebrow="STEP 1" title="Pick a unit on the Units tab" accent="#f59e0b">
           <p className="t-12 prose-cap" style={{ color: "var(--text-muted)" }}>
             All 9 units of AP World Modern (1200–present) live there. Click a unit and it expands into
-            its Big Ideas. Each Big Idea is a single thesis with a side panel of bullets, a sample SAQ
-            in CER format, and (sometimes) a Venn comparison.
+            its Big Ideas. Each Big Idea is a single thesis with a side panel of bullets and a sample
+            SAQ in CER format.
           </p>
         </Card>
 

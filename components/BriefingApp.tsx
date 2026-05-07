@@ -48,10 +48,9 @@ export default function BriefingApp() {
   return (
     <div className="fixed inset-0 overflow-y-auto" style={{ background: "var(--bg)" }}>
       <header
-        className="sticky top-0 z-30 flex items-center justify-between gap-2 px-4 md:px-6 py-2.5"
+        className="sticky top-0 z-30 flex items-center justify-center gap-2 px-4 md:px-6 py-2.5"
         style={{ borderBottom: "1px solid var(--border-soft)", background: "var(--bg)" }}
       >
-        <h1 className="font-display t-20">AP World Studier</h1>
         <nav
           className="inline-flex rounded-full p-1"
           style={{ border: "1px solid var(--border-soft)", background: "var(--bg-elev)" }}

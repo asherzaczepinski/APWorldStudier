@@ -187,13 +187,6 @@ const unit4: BriefingUnit = {
           reasoning: "Mercantilism's logic — colonies exist to enrich the metropole — required cheap, mass labor. When disease wrecked the Indigenous workforce, Spain shifted to the hacienda system and ultimately to enslaved Africans, but the engine was the same: coerce labor → extract wealth → ship it home.",
         },
       },
-      venn: {
-        left: "Encomienda",
-        right: "Hacienda",
-        leftOnly: ["Granted by Crown", "Tied to specific Indigenous community", "Earlier (16th c.)"],
-        rightOnly: ["Private estate", "Wage + debt peonage", "Later (17th–18th c.)"],
-        both: ["Coerced labor", "Spanish colonial agriculture", "Mercantilist enrichment of Spain"],
-      },
     },
     {
       id: "u4-bi5",
@@ -1128,13 +1121,6 @@ const unit8: BriefingUnit = {
           evidence: "Gandhi's Indian National Congress used nonviolent civil disobedience to pressure Britain; Algeria's FLN waged a violent guerrilla war against France.",
           reasoning: "Both paths worked, but they tell different stories. Nonviolence assumed a colonizer with enough domestic moral pressure to budge (post-war Britain); armed struggle was needed when the colonizer (France with deep settler-citizen roots in Algeria) wouldn't.",
         },
-      },
-      venn: {
-        left: "India (negotiated)",
-        right: "Algeria (armed)",
-        leftOnly: ["Gandhi's nonviolence", "Indian National Congress petitions", "Britain weakened by WWII"],
-        rightOnly: ["FLN guerrilla war", "Brutal French retaliation", "Settler-citizen colonizer"],
-        both: ["Decolonized after WWII", "Anti-colonial nationalism", "Major impact on global decolonization"],
       },
     },
     {

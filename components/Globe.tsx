@@ -378,6 +378,11 @@ export default function Globe({
     return staged.map((s) => s.m);
   }, [routes, events, visiblePois, altitude, eventPins, features]);
 
+  // Globe is "loading" until the country geojson has come back AND the
+  // container has been measured. Until both are true, the canvas is either
+  // empty or 0×0 — show a friendly spinner instead of leaving the screen blank.
+  const isLoading = countries.length === 0 || size.w === 0 || size.h === 0;
+
   return (
     <div
       ref={containerRef}
@@ -389,6 +394,7 @@ export default function Globe({
         if (e.target === e.currentTarget) setPathSelectedId(null);
       }}
     >
+      {isLoading && <GlobeLoadingOverlay />}
       <ReactGlobe
         ref={globeRef}
         width={size.w}
@@ -655,4 +661,26 @@ function attachHover(wrap: HTMLElement) {
     const el = wrap.firstElementChild as HTMLElement | null;
     if (el) el.style.transform = "scale(1)";
   });
+}
+
+// Loading overlay shown while the country geojson is fetching + the container
+// size is being measured. A simple orbiting-dot animation reads as "globe
+// loading" without dropping a third-party spinner library.
+function GlobeLoadingOverlay() {
+  return (
+    <div
+      className="globe-loader-overlay"
+      role="status"
+      aria-live="polite"
+      aria-label="Loading globe"
+    >
+      <div className="globe-loader-orbit">
+        <div className="globe-loader-planet" />
+        <div className="globe-loader-ring globe-loader-ring-a" />
+        <div className="globe-loader-ring globe-loader-ring-b" />
+        <div className="globe-loader-dot" />
+      </div>
+      <div className="globe-loader-label">Loading globe…</div>
+    </div>
+  );
 }

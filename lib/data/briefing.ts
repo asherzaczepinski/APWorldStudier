@@ -52,8 +52,6 @@ export type BigIdea = {
   features: BigIdeaFeature[];
   /** Optional sample SAQ in CER format. */
   saq?: BigIdeaSAQ;
-  /** Optional Venn diagram — comparing two of the things in this idea. */
-  venn?: { left: string; right: string; leftOnly: string[]; rightOnly: string[]; both: string[] };
 };
 
 export type BriefingUnit = {
@@ -571,13 +569,6 @@ const unit3: BriefingUnit = {
           evidence: "In 1453, Mehmed II's Ottoman army used massive bronze cannons to breach the Theodosian walls of Constantinople, capturing the city and renaming it Istanbul.",
           reasoning: "Walls that had held off besiegers for 1,000 years collapsed in weeks once enough gunpowder firepower was pointed at them — a single technology rewrote what an empire could conquer.",
         },
-      },
-      venn: {
-        left: "Sunni (Ottoman, Mughal)",
-        right: "Shia (Safavid)",
-        leftOnly: ["Caliph as legitimate successor", "Devshirme / Janissaries (Ottoman)", "Akbar's tolerance (Mughal)"],
-        rightOnly: ["Imam from Ali's bloodline", "Persian carpet-court culture", "Shi'ism the state religion"],
-        both: ["Gunpowder armies", "Land-based empire", "Patronized monumental art / architecture"],
       },
     },
     {
