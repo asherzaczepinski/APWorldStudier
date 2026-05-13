@@ -139,6 +139,15 @@ export default function Globe({
   // real container size before ReactGlobe sees it.
   const [size, setSize] = useState({ w: 0, h: 0 });
   const [altitude, setAltitude] = useState(2.5);
+  // Fires after react-globe.gl finishes downloading earth + bump textures and
+  // performs its first scene render. Used to keep the loader up until the
+  // canvas actually shows a globe (not just until our data is ready).
+  const [globeReady, setGlobeReady] = useState(false);
+  // The textures (earth-blue-marble.jpg / earth-topology.png) load
+  // asynchronously inside three-globe AFTER onGlobeReady fires, so the canvas
+  // still pops in mostly-white for a beat. Decode them ourselves and only
+  // drop the overlay once both have actually decoded.
+  const [texturesReady, setTexturesReady] = useState(false);
   // Track route hover + click-to-pin. Hover dims the markers; click pins the
   // dim so the user can read the route in peace. Click the same path (or any
   // empty area of the globe) again to release.
@@ -155,6 +164,34 @@ export default function Globe({
       .then((r) => r.json())
       .then((data: { features: CountryFeature[] }) => setCountries(data.features))
       .catch(() => setCountries([]));
+  }, []);
+
+  // Pre-decode the two globe textures so the canvas doesn't flash bare when
+  // react-globe.gl is technically "ready" but its image requests are still in
+  // flight. Decoding here primes the browser cache; three-globe then reuses
+  // the same URLs and paints them on its first frame.
+  useEffect(() => {
+    let cancelled = false;
+    const urls = [
+      "//unpkg.com/three-globe/example/img/earth-blue-marble.jpg",
+      "//unpkg.com/three-globe/example/img/earth-topology.png",
+    ];
+    Promise.all(
+      urls.map(
+        (src) =>
+          new Promise<void>((resolve) => {
+            const img = new Image();
+            img.onload = () => resolve();
+            img.onerror = () => resolve();
+            img.src = src;
+          })
+      )
+    ).then(() => {
+      if (!cancelled) setTexturesReady(true);
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -378,10 +415,19 @@ export default function Globe({
     return staged.map((s) => s.m);
   }, [routes, events, visiblePois, altitude, eventPins, features]);
 
-  // Globe is "loading" until the country geojson has come back AND the
-  // container has been measured. Until both are true, the canvas is either
-  // empty or 0×0 — show a friendly spinner instead of leaving the screen blank.
-  const isLoading = countries.length === 0 || size.w === 0 || size.h === 0;
+  // Globe is "loading" until ALL of the following are true:
+  //   1. the country geojson has come back,
+  //   2. the container has been measured (size > 0),
+  //   3. the earth + topology textures have decoded into the browser cache,
+  //   4. react-globe.gl reports onGlobeReady (scene built, first frame rendered).
+  // Until every gate clears, the canvas is either blank, 0×0, or showing a
+  // bare sphere — keep the overlay up so the user never sees a half-baked globe.
+  const isLoading =
+    countries.length === 0 ||
+    size.w === 0 ||
+    size.h === 0 ||
+    !texturesReady ||
+    !globeReady;
 
   return (
     <div
@@ -402,6 +448,7 @@ export default function Globe({
         backgroundColor="rgba(0,0,0,0)"
         globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
         bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
+        onGlobeReady={() => setGlobeReady(true)}
         showAtmosphere
         atmosphereColor={ATMOSPHERE}
         atmosphereAltitude={0.18}
